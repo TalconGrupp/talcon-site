@@ -25,3 +25,12 @@ To use your custom hero image from the design brief:
 - place file as `assets/hero.webp` (preferred) or `assets/hero.jpg`
 - keep a 3:2 ratio for best result (for example 1800x1200)
 - the site automatically falls back to `assets/hero-abstract.svg` if no raster hero is provided
+
+
+## Client hero image from repository root
+If your uploaded file is named exactly `hero-client.jpg.png` in the repository root, the header now uses it automatically as the first-priority hero image.
+Fallback order:
+1. `hero-client.jpg.png`
+2. `assets/hero.webp`
+3. `assets/hero.jpg`
+4. `assets/hero-abstract.svg`
