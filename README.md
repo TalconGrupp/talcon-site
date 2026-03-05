@@ -19,3 +19,9 @@ python3 -m http.server 4173
 - `style.css` — стили.
 - `translations.js` — словари ET/RU/EN.
 - `script.js` — переключение языка и интерактивность.
+
+## Hero image
+To use your custom hero image from the design brief:
+- place file as `assets/hero.webp` (preferred) or `assets/hero.jpg`
+- keep a 3:2 ratio for best result (for example 1800x1200)
+- the site automatically falls back to `assets/hero-abstract.svg` if no raster hero is provided

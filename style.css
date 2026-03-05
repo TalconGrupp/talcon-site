@@ -134,8 +134,14 @@ h1 {
   border-color: #cbd5e1;
 }
 
+.hero-media picture {
+  display: block;
+}
+
 .hero-media img {
   width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
   border-radius: 20px;
   box-shadow: 0 10px 35px rgba(30, 64, 175, 0.15);
   border: 1px solid #dbeafe;

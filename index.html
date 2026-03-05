@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Talcon — бухгалтерские услуги в Эстонии: учет, налоги, зарплаты, регистрация фирм и сопровождение бизнеса.">
   <title data-i18n="site_title">Talcon — Accounting & Company Setup in Estonia</title>
+  <link rel="preload" as="image" href="assets/hero-abstract.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -37,7 +38,11 @@
         </div>
       </div>
       <div class="hero-media">
-        <img src="assets/hero-abstract.svg" alt="Accounting illustration" data-i18n-alt="hero_image_alt">
+        <picture>
+          <source srcset="assets/hero.webp" type="image/webp">
+          <source srcset="assets/hero.jpg" type="image/jpeg">
+          <img src="assets/hero-abstract.svg" alt="Accounting illustration" data-i18n-alt="hero_image_alt" width="1200" height="800" loading="eager" decoding="async">
+        </picture>
       </div>
     </section>
   </header>
