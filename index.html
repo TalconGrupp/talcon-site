@@ -1,68 +1,88 @@
 <!DOCTYPE html>
-<html lang="en" data-i18n="{\"lang\": \"en\"}">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="{\"title\": \"Multilingual Accounting Website\"}"></title>
-    <link rel="stylesheet" href="styles.css">
+    <title data-i18n="site_title">Accounting Services in Estonia</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
+    <header class="header container">
+        <div class="top-row">
+            <h1 class="logo" data-i18n="brand">Talcon Accounting</h1>
+            <div class="language-switcher" aria-label="Language switcher">
+                <button class="language-btn" data-lang="et" type="button">ET</button>
+                <button class="language-btn" data-lang="ru" type="button">RU</button>
+                <button class="language-btn" data-lang="en" type="button">EN</button>
+            </div>
+        </div>
+
         <nav>
-            <ul>
-                <li><a href="#" data-i18n="{\"home\": \"Home\"}">Home</a></li>
-                <li><a href="#services" data-i18n="{\"services\": \"Services\"}">Services</a></li>
-                <li><a href="#pricing" data-i18n="{\"pricing\": \"Pricing\"}">Pricing</a></li>
-                <li><a href="#contact" data-i18n="{\"contact\": \"Contact\"}">Contact</a></li>
+            <ul class="navbar">
+                <li><a href="#home" data-i18n="nav_home">Home</a></li>
+                <li><a href="#services" data-i18n="nav_services">Services</a></li>
+                <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
+                <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
             </ul>
         </nav>
-        <section class="hero">
-            <h1 data-i18n="{\"hero_title\": \"Your Trusted Accounting Partner\"}"></h1>
-            <p data-i18n="{\"hero_description\": \"Providing comprehensive financial services to businesses of all sizes.\"}"></p>
+
+        <section id="home" class="hero">
+            <h2 data-i18n="hero_title">Reliable accounting for your business in Estonia</h2>
+            <p data-i18n="hero_description">Bookkeeping, taxes and financial reports in Estonian, Russian and English.</p>
         </section>
     </header>
-    <main>
+
+    <main class="container">
         <section id="services">
-            <h2 data-i18n="{\"our_services\": \"Our Services\"}"></h2>
+            <h2 data-i18n="services_title">Our Services</h2>
             <ul>
-                <li data-i18n="{\"service1\": \"Tax Preparation\"}"></li>
-                <li data-i18n="{\"service2\": \"Bookkeeping\"}"></li>
-                <li data-i18n="{\"service3\": \"Financial Consulting\"}"></li>
+                <li data-i18n="service_1">Monthly bookkeeping</li>
+                <li data-i18n="service_2">Tax declaration and VAT reporting</li>
+                <li data-i18n="service_3">Payroll and salary accounting</li>
+                <li data-i18n="service_4">Consulting for freelancers and companies</li>
             </ul>
         </section>
+
         <section id="pricing">
-            <h2 data-i18n="{\"pricing_plans\": \"Pricing Plans\"}"></h2>
+            <h2 data-i18n="pricing_title">Pricing Plans</h2>
             <table>
                 <tr>
-                    <th data-i18n="{\"plan\": \"Plan\"}"></th>
-                    <th data-i18n="{\"price\": \"Price\"}"></th>
+                    <th data-i18n="pricing_plan">Plan</th>
+                    <th data-i18n="pricing_price">Price</th>
                 </tr>
                 <tr>
-                    <td data-i18n="{\"basic_plan\": \"Basic Plan\"}"></td>
-                    <td data-i18n="{\"basic_price\": \"$100\"}"></td>
+                    <td data-i18n="pricing_basic">Basic</td>
+                    <td data-i18n="pricing_basic_price">from €80 / month</td>
                 </tr>
                 <tr>
-                    <td data-i18n="{\"premium_plan\": \"Premium Plan\"}"></td>
-                    <td data-i18n="{\"premium_price\": \"$200\"}"></td>
+                    <td data-i18n="pricing_business">Business</td>
+                    <td data-i18n="pricing_business_price">from €150 / month</td>
                 </tr>
             </table>
         </section>
+
         <section id="contact">
-            <h2 data-i18n="{\"contact_us\": \"Contact Us\"}"></h2>
+            <h2 data-i18n="contact_title">Contact us</h2>
             <form>
-                <label for="name" data-i18n="{\"name\": \"Name\"}"></label>
+                <label for="name" data-i18n="form_name">Name</label>
                 <input type="text" id="name" name="name" required>
-                <label for="email" data-i18n="{\"email\": \"Email\"}"></label>
+
+                <label for="email" data-i18n="form_email">Email</label>
                 <input type="email" id="email" name="email" required>
-                <label for="message" data-i18n="{\"message\": \"Message\"}"></label>
+
+                <label for="message" data-i18n="form_message">Message</label>
                 <textarea id="message" name="message" required></textarea>
-                <button type="submit" data-i18n="{\"send\": \"Send\"}"></button>
+
+                <button class="button" type="submit" data-i18n="form_send">Send</button>
             </form>
         </section>
     </main>
-    <footer>
-        <p data-i18n="{\"footer_text\": \"© 2026 Multilingual Accounting. All rights reserved.\"}"></p>
+
+    <footer class="container footer">
+        <p data-i18n="footer_text">© 2026 Talcon Accounting. All rights reserved.</p>
     </footer>
-    <script src="scripts.js"></script>
+
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
