@@ -1,19 +1,21 @@
-# TalconGrupp Project
+# Talcon Accounting Website
 
-## Overview
-This repository contains the initial documentation for the TalconGrupp project.
+Многоязычный лендинг бухгалтерских услуг (эстонский, русский, английский).
 
-## Installation
-Instructions on how to install the project will go here.
+## Публикация
+Сайт автоматически публикуется через **GitHub Pages** workflow `.github/workflows/publish.yml` при пуше в `main` или `master`.
 
-## Usage
-Instructions on how to use the project will go here.
+- Продакшен-домен: `https://talcon.ee`
+- CNAME хранится в файле `CNAME`.
 
-## Contributing
-Guidelines for contributing to the project will go here.
+## Локальный запуск
+```bash
+python3 -m http.server 4173
+```
+Откройте `http://127.0.0.1:4173`.
 
-## License
-Information about the project's license will go here.
-
-## Contact
-For more information, please contact the project maintainers.
+## Структура
+- `index.html` — разметка лендинга.
+- `style.css` — стили.
+- `translations.js` — словари ET/RU/EN.
+- `script.js` — переключение языка и интерактивность.

@@ -1,68 +1,125 @@
 <!DOCTYPE html>
-<html lang="en" data-i18n="{\"lang\": \"en\"}">
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="{\"title\": \"Multilingual Accounting Website\"}"></title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Talcon — бухгалтерские услуги в Эстонии: учет, налоги, зарплаты, регистрация фирм и сопровождение бизнеса.">
+  <title data-i18n="site_title">Talcon — Accounting & Company Setup in Estonia</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#" data-i18n="{\"home\": \"Home\"}">Home</a></li>
-                <li><a href="#services" data-i18n="{\"services\": \"Services\"}">Services</a></li>
-                <li><a href="#pricing" data-i18n="{\"pricing\": \"Pricing\"}">Pricing</a></li>
-                <li><a href="#contact" data-i18n="{\"contact\": \"Contact\"}">Contact</a></li>
-            </ul>
-        </nav>
-        <section class="hero">
-            <h1 data-i18n="{\"hero_title\": \"Your Trusted Accounting Partner\"}"></h1>
-            <p data-i18n="{\"hero_description\": \"Providing comprehensive financial services to businesses of all sizes.\"}"></p>
-        </section>
-    </header>
-    <main>
-        <section id="services">
-            <h2 data-i18n="{\"our_services\": \"Our Services\"}"></h2>
-            <ul>
-                <li data-i18n="{\"service1\": \"Tax Preparation\"}"></li>
-                <li data-i18n="{\"service2\": \"Bookkeeping\"}"></li>
-                <li data-i18n="{\"service3\": \"Financial Consulting\"}"></li>
-            </ul>
-        </section>
-        <section id="pricing">
-            <h2 data-i18n="{\"pricing_plans\": \"Pricing Plans\"}"></h2>
-            <table>
-                <tr>
-                    <th data-i18n="{\"plan\": \"Plan\"}"></th>
-                    <th data-i18n="{\"price\": \"Price\"}"></th>
-                </tr>
-                <tr>
-                    <td data-i18n="{\"basic_plan\": \"Basic Plan\"}"></td>
-                    <td data-i18n="{\"basic_price\": \"$100\"}"></td>
-                </tr>
-                <tr>
-                    <td data-i18n="{\"premium_plan\": \"Premium Plan\"}"></td>
-                    <td data-i18n="{\"premium_price\": \"$200\"}"></td>
-                </tr>
-            </table>
-        </section>
-        <section id="contact">
-            <h2 data-i18n="{\"contact_us\": \"Contact Us\"}"></h2>
-            <form>
-                <label for="name" data-i18n="{\"name\": \"Name\"}"></label>
-                <input type="text" id="name" name="name" required>
-                <label for="email" data-i18n="{\"email\": \"Email\"}"></label>
-                <input type="email" id="email" name="email" required>
-                <label for="message" data-i18n="{\"message\": \"Message\"}"></label>
-                <textarea id="message" name="message" required></textarea>
-                <button type="submit" data-i18n="{\"send\": \"Send\"}"></button>
-            </form>
-        </section>
-    </main>
-    <footer>
-        <p data-i18n="{\"footer_text\": \"© 2026 Multilingual Accounting. All rights reserved.\"}"></p>
-    </footer>
-    <script src="scripts.js"></script>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#home" class="brand" data-i18n="brand">Talcon</a>
+      <nav>
+        <ul class="navbar">
+          <li><a href="#services" data-i18n="nav_services">Услуги</a></li>
+          <li><a href="#about" data-i18n="nav_about">О нас</a></li>
+          <li><a href="#process" data-i18n="nav_process">Как работаем</a></li>
+          <li><a href="#contact" data-i18n="nav_contact">Контакты</a></li>
+        </ul>
+      </nav>
+      <div class="language-switcher" aria-label="Language switcher">
+        <button class="language-btn" data-lang="et" type="button">ET</button>
+        <button class="language-btn" data-lang="ru" type="button">RU</button>
+        <button class="language-btn" data-lang="en" type="button">EN</button>
+      </div>
+    </div>
+
+    <section id="home" class="hero container">
+      <div class="hero-text">
+        <p class="eyebrow" data-i18n="hero_eyebrow">Accounting partner in Estonia</p>
+        <h1 data-i18n="hero_title">Профессиональная бухгалтерия и запуск компаний под ключ</h1>
+        <p class="hero-description" data-i18n="hero_description">Берем на себя учет, налоги, зарплаты и открытие фирмы, чтобы вы сфокусировались на росте бизнеса.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#contact" data-i18n="hero_cta_primary">Получить консультацию</a>
+          <a class="button secondary" href="#services" data-i18n="hero_cta_secondary">Посмотреть услуги</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="assets/hero-abstract.svg" alt="Accounting illustration" data-i18n-alt="hero_image_alt">
+      </div>
+    </section>
+  </header>
+
+  <main>
+    <section id="services" class="container section">
+      <h2 data-i18n="services_title">Наши услуги</h2>
+      <div class="cards">
+        <article class="card">
+          <h3 data-i18n="service_1_title">Бухгалтерское сопровождение</h3>
+          <p data-i18n="service_1_desc">Полный бухгалтерский учет, первичные документы, ежемесячные и годовые отчеты.</p>
+        </article>
+        <article class="card">
+          <h3 data-i18n="service_2_title">Налоги и отчетность</h3>
+          <p data-i18n="service_2_desc">KMD/TSD, подготовка отчетности, коммуникация с MTA и минимизация налоговых рисков.</p>
+        </article>
+        <article class="card">
+          <h3 data-i18n="service_3_title">Расчет зарплат</h3>
+          <p data-i18n="service_3_desc">Payroll, отпускные, больничные, договоры и отчеты по персоналу.</p>
+        </article>
+        <article class="card">
+          <h3 data-i18n="service_4_title">Открытие компаний в Эстонии</h3>
+          <p data-i18n="service_4_desc">Регистрация OÜ, выбор структуры, запуск учета и сопровождение с первого дня.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="container section split">
+      <div>
+        <h2 data-i18n="about_title">Почему выбирают Talcon</h2>
+        <ul class="checklist">
+          <li data-i18n="about_1">Опыт работы с локальными и международными компаниями.</li>
+          <li data-i18n="about_2">Прозрачные тарифы и фиксированные сроки.</li>
+          <li data-i18n="about_3">Команда говорит на эстонском, русском и английском.</li>
+          <li data-i18n="about_4">Цифровой документооборот и быстрый ответ в рабочие часы.</li>
+        </ul>
+      </div>
+      <aside class="stats">
+        <div><strong>10+</strong><span data-i18n="stat_1">лет практики</span></div>
+        <div><strong>250+</strong><span data-i18n="stat_2">клиентов в Эстонии</span></div>
+        <div><strong>3</strong><span data-i18n="stat_3">рабочих языка</span></div>
+      </aside>
+    </section>
+
+    <section id="process" class="container section">
+      <h2 data-i18n="process_title">Как мы работаем</h2>
+      <div class="steps">
+        <article><span>01</span><p data-i18n="process_1">Аудит текущей ситуации и задач бизнеса.</p></article>
+        <article><span>02</span><p data-i18n="process_2">Формируем понятный план и ежемесячный пакет услуг.</p></article>
+        <article><span>03</span><p data-i18n="process_3">Берем учет в работу и держим вас в курсе ключевых сроков.</p></article>
+      </div>
+    </section>
+
+    <section id="contact" class="container section contact">
+      <div>
+        <h2 data-i18n="contact_title">Свяжитесь с нами</h2>
+        <p data-i18n="contact_text">Напишите нам, и мы предложим оптимальное решение под ваш бизнес в Эстонии.</p>
+        <p class="contact-details" data-i18n="contact_details">Email: info@talcon.ee · Телефон: +372 5555 5555</p>
+      </div>
+      <form>
+        <label for="name" data-i18n="form_name">Имя</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email" data-i18n="form_email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message" data-i18n="form_message">Сообщение</label>
+        <textarea id="message" name="message" required></textarea>
+
+        <button class="button primary" type="submit" data-i18n="form_send">Отправить</button>
+        <p id="form-status" class="form-status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p data-i18n="footer_text">© 2026 Talcon. Accounting & Business Services in Estonia.</p>
+    </div>
+  </footer>
+
+  <script src="translations.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
