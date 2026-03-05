@@ -1,4 +1,4 @@
-.body {
+body {
   background-color: #f3f4f6;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   color: #333;
@@ -11,35 +11,73 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 10px;
 }
 
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
 .header {
   background-color: #ffffff;
-  padding: 20px;
   border-bottom: 1px solid #e1e1e1;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.logo {
+  margin: 0;
 }
 
 .navbar {
   list-style: none;
   padding: 0;
+  margin: 16px 0 0;
   display: flex;
-  justify-content: space-around;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
 .navbar li a {
   text-decoration: none;
   color: #2b2b2b;
-  padding: 10px 15px;
-  transition: color 0.3s;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: color 0.2s, background-color 0.2s;
 }
 
 .navbar li a:hover {
   color: #007bff;
+  background-color: #eef5ff;
 }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
+.hero {
+  margin-top: 24px;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 8px;
+}
+
+.language-btn {
+  border: 1px solid #cbd5e1;
+  background: white;
+  color: #334155;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.language-btn.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
 }
 
 .button {
@@ -54,4 +92,36 @@ h1, h2, h3, h4, h5, h6 {
 
 .button:hover {
   background-color: #0056b3;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 450px;
+}
+
+input,
+textarea {
+  padding: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+}
+
+table {
+  width: 100%;
+  max-width: 500px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #dbe1e8;
+  padding: 10px;
+  text-align: left;
+}
+
+.footer {
+  padding-top: 0;
+  color: #64748b;
 }
