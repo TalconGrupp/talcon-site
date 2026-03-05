@@ -1,51 +1,60 @@
-const DEFAULT_LANGUAGE = "ru";
+// Mobile menu (если есть)
+const burgerBtn = document.getElementById('burgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+burgerBtn?.addEventListener('click', () => {
+  const isHidden = mobileMenu?.hasAttribute('hidden');
+  if (!mobileMenu) return;
+  if (isHidden) mobileMenu.removeAttribute('hidden');
+  else mobileMenu.setAttribute('hidden', '');
+});
 
-function applyLanguage(lang) {
-    const dictionary = TRANSLATIONS[lang] || TRANSLATIONS[DEFAULT_LANGUAGE];
+// Year
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 
-    document.documentElement.lang = lang;
+// i18n
+const LANG_KEY = 'talcon_lang';
+let currentLang = localStorage.getItem(LANG_KEY) || (navigator.language || 'en').slice(0, 2);
+if (!['et', 'ru', 'en'].includes(currentLang)) currentLang = 'en';
 
-    document.querySelectorAll("[data-i18n]").forEach((node) => {
-        const key = node.dataset.i18n;
-        if (dictionary[key]) {
-            node.textContent = dictionary[key];
-        }
-    });
+function applyTranslations(lang) {
+  const dict = window.I18N?.[lang] || window.I18N?.en || {};
+  document.documentElement.lang = lang;
 
-    if (dictionary.site_title) {
-        document.title = dictionary.site_title;
-    }
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.getAttribute('data-i18n');
+    const val = dict[key];
+    if (typeof val === 'string') el.textContent = val;
+  });
 
-    document.querySelectorAll(".language-btn").forEach((button) => {
-        const isActive = button.dataset.lang === lang;
-        button.classList.toggle("active", isActive);
-        button.setAttribute("aria-pressed", String(isActive));
-    });
+  // Highlight active lang button
+  document.querySelectorAll('.lang__btn').forEach((b) => {
+    b.classList.toggle('is-active', b.dataset.lang === lang);
+  });
 
-    localStorage.setItem("preferredLanguage", lang);
+  localStorage.setItem(LANG_KEY, lang);
 }
 
-function handleFormSubmission(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    console.log("Form submitted:", Object.fromEntries(formData));
-    event.target.reset();
-}
+document.querySelectorAll('.lang__btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    currentLang = btn.dataset.lang;
+    applyTranslations(currentLang);
+  });
+});
 
-function initInteractivity() {
-    const savedLanguage = localStorage.getItem("preferredLanguage");
-    const language = savedLanguage && TRANSLATIONS[savedLanguage] ? savedLanguage : DEFAULT_LANGUAGE;
+applyTranslations(currentLang);
 
-    document.querySelectorAll(".language-btn").forEach((button) => {
-        button.addEventListener("click", () => applyLanguage(button.dataset.lang));
-    });
+// Contact form (demo)
+const form = document.getElementById('contactForm');
+const hint = document.getElementById('formHint');
 
-    const form = document.querySelector("form");
-    if (form) {
-        form.addEventListener("submit", handleFormSubmission);
-    }
+form?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (hint) hint.textContent = window.I18N?.[currentLang]?.formSending || 'Sending…';
 
-    applyLanguage(language);
-}
+  // Demo: imitate success
+  await new Promise((r) => setTimeout(r, 500));
 
-document.addEventListener("DOMContentLoaded", initInteractivity);
+  if (hint) hint.textContent = window.I18N?.[currentLang]?.formSent || 'Sent! We will contact you soon.';
+  form.reset();
+});

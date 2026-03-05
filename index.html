@@ -1,88 +1,150 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="site_title">Accounting Services in Estonia</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="title">Talcon — Accounting in Estonia</title>
+  <meta name="description" content="Accounting, payroll, VAT & annual reports in Estonia. ET / RU / EN." />
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-    <header class="header container">
-        <div class="top-row">
-            <h1 class="logo" data-i18n="brand">Talcon Accounting</h1>
-            <div class="language-switcher" aria-label="Language switcher">
-                <button class="language-btn" data-lang="et" type="button">ET</button>
-                <button class="language-btn" data-lang="ru" type="button">RU</button>
-                <button class="language-btn" data-lang="en" type="button">EN</button>
-            </div>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a class="brand" href="#top">
+        <span class="brand__mark">Talcon</span>
+        <span class="brand__tag" data-i18n="brandTag">Accounting</span>
+      </a>
+
+      <nav class="nav">
+        <a href="#services" data-i18n="navServices">Services</a>
+        <a href="#pricing" data-i18n="navPricing">Pricing</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
+      </nav>
+
+      <div class="lang">
+        <button class="lang__btn" data-lang="et">ET</button>
+        <button class="lang__btn" data-lang="ru">RU</button>
+        <button class="lang__btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <div class="pill" data-i18n="heroPill">Accounting partner in Estonia</div>
+          <h1 class="hero__title" data-i18n="heroTitle">Your Trusted Accounting Partner</h1>
+          <p class="hero__subtitle" data-i18n="heroSubtitle">
+            Bookkeeping, payroll, VAT and annual reports — done right.
+          </p>
+
+          <div class="hero__cta">
+            <a class="btn" href="#contact" data-i18n="ctaConsult">Get a consultation</a>
+            <a class="btn btn--ghost" href="#services" data-i18n="ctaServices">View services</a>
+          </div>
         </div>
 
-        <nav>
-            <ul class="navbar">
-                <li><a href="#home" data-i18n="nav_home">Home</a></li>
-                <li><a href="#services" data-i18n="nav_services">Services</a></li>
-                <li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
-                <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-            </ul>
-        </nav>
+        <div class="hero__visual">
+          <div class="hero__overlay"></div>
+          <img class="hero__img"
+               src="assets/hero/hero.png"
+               alt="Talcon hero"
+               loading="eager"
+               onerror="this.style.display='none';" />
+        </div>
+      </div>
+    </section>
 
-        <section id="home" class="hero">
-            <h2 data-i18n="hero_title">Reliable accounting for your business in Estonia</h2>
-            <p data-i18n="hero_description">Bookkeeping, taxes and financial reports in Estonian, Russian and English.</p>
-        </section>
-    </header>
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section__head">
+          <h2 data-i18n="servicesTitle">Services</h2>
+          <p data-i18n="servicesSubtitle">Choose what you need — we’ll build a plan and price that fits.</p>
+        </div>
 
-    <main class="container">
-        <section id="services">
-            <h2 data-i18n="services_title">Our Services</h2>
-            <ul>
-                <li data-i18n="service_1">Monthly bookkeeping</li>
-                <li data-i18n="service_2">Tax declaration and VAT reporting</li>
-                <li data-i18n="service_3">Payroll and salary accounting</li>
-                <li data-i18n="service_4">Consulting for freelancers and companies</li>
-            </ul>
-        </section>
+        <div class="cards">
+          <article class="card">
+            <h3 data-i18n="srv1Title">Accounting (monthly)</h3>
+            <p data-i18n="srv1Text">Bookkeeping, documents, sales/purchases, reconciliations.</p>
+          </article>
+          <article class="card">
+            <h3 data-i18n="srv2Title">Payroll</h3>
+            <p data-i18n="srv2Text">Salary calculations, payslips, taxes, reporting.</p>
+          </article>
+          <article class="card">
+            <h3 data-i18n="srv3Title">VAT & declarations</h3>
+            <p data-i18n="srv3Text">KMD, TSD and deadline control.</p>
+          </article>
+          <article class="card">
+            <h3 data-i18n="srv4Title">Annual report</h3>
+            <p data-i18n="srv4Text">Preparation and submission of annual accounts.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-        <section id="pricing">
-            <h2 data-i18n="pricing_title">Pricing Plans</h2>
-            <table>
-                <tr>
-                    <th data-i18n="pricing_plan">Plan</th>
-                    <th data-i18n="pricing_price">Price</th>
-                </tr>
-                <tr>
-                    <td data-i18n="pricing_basic">Basic</td>
-                    <td data-i18n="pricing_basic_price">from €80 / month</td>
-                </tr>
-                <tr>
-                    <td data-i18n="pricing_business">Business</td>
-                    <td data-i18n="pricing_business_price">from €150 / month</td>
-                </tr>
-            </table>
-        </section>
+    <section class="section section--alt" id="pricing">
+      <div class="container">
+        <div class="section__head">
+          <h2 data-i18n="pricingTitle">Pricing</h2>
+          <p data-i18n="pricingSubtitle">Transparent packages — final offer depends on volume and complexity.</p>
+        </div>
 
-        <section id="contact">
-            <h2 data-i18n="contact_title">Contact us</h2>
-            <form>
-                <label for="name" data-i18n="form_name">Name</label>
-                <input type="text" id="name" name="name" required>
+        <div class="pricing">
+          <article class="price">
+            <h3 data-i18n="pr1Title">Starter</h3>
+            <p class="muted" data-i18n="pr1Text">For small businesses with low document volume.</p>
+          </article>
+          <article class="price price--best">
+            <h3 data-i18n="pr2Title">Business</h3>
+            <p class="muted" data-i18n="pr2Text">For active companies with VAT and regular operations.</p>
+          </article>
+          <article class="price">
+            <h3 data-i18n="pr3Title">Company setup</h3>
+            <p class="muted" data-i18n="pr3Text">Registration guidance and next steps.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-                <label for="email" data-i18n="form_email">Email</label>
-                <input type="email" id="email" name="email" required>
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact">
+          <div class="contact__copy">
+            <h2 data-i18n="contactTitle">Contact</h2>
+            <p data-i18n="contactSubtitle">Tell us what you need — we’ll reply with a clear plan and price.</p>
+          </div>
 
-                <label for="message" data-i18n="form_message">Message</label>
-                <textarea id="message" name="message" required></textarea>
+          <form class="form" id="contactForm">
+            <label>
+              <span data-i18n="formName">Name</span>
+              <input name="name" required />
+            </label>
+            <label>
+              <span data-i18n="formEmail">Email</span>
+              <input name="email" type="email" required />
+            </label>
+            <label class="full">
+              <span data-i18n="formMsg">Message</span>
+              <textarea name="message" rows="5" required></textarea>
+            </label>
+            <button class="btn full" type="submit" data-i18n="formSend">Send</button>
+            <p class="form__hint" id="formHint" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
 
-                <button class="button" type="submit" data-i18n="form_send">Send</button>
-            </form>
-        </section>
-    </main>
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>© <span id="year"></span> Talcon</div>
+    </div>
+  </footer>
 
-    <footer class="container footer">
-        <p data-i18n="footer_text">© 2026 Talcon Accounting. All rights reserved.</p>
-    </footer>
-
-    <script src="translations.js"></script>
-    <script src="script.js"></script>
+  <script src="translations.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
