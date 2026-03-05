@@ -1,0 +1,1 @@
+{"estonian": {"welcome": "Tere tulemast!","about": "Teave meie kohta"},"english": {"welcome": "Welcome!","about": "About us"},"russian": {"welcome": "Добро пожаловать!","about": "О нас"}}
