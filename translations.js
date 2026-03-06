@@ -96,6 +96,7 @@ window.I18N = {
     formSending: 'Saadan...',
     formSent: 'Teie sõnum on saadetud.',
     formError: 'Saatmine ebaõnnestus. Proovige uuesti.',
+    mailActivationNeeded: 'Esmakordsel saatmisel avage FormSubmiti aktiveerimislink oma e-postkastis.',
 
     payrollOpenAria: 'Ava palgakalkulaator',
     payrollOpenBtn: 'Palgakalkulaator',
@@ -223,6 +224,7 @@ window.I18N = {
     formSending: 'Отправка...',
     formSent: 'Сообщение отправлено.',
     formError: 'Ошибка отправки. Попробуйте снова.',
+    mailActivationNeeded: 'Для первой отправки откройте в почте письмо FormSubmit и нажмите ссылку активации.',
 
     payrollOpenAria: 'Открыть калькулятор зарплаты',
     payrollOpenBtn: 'Palgakalkulaator',
@@ -350,6 +352,7 @@ window.I18N = {
     formSending: 'Sending...',
     formSent: 'Your message has been sent.',
     formError: 'Sending failed. Please try again.',
+    mailActivationNeeded: 'For first-time sending, open the FormSubmit activation link from your email inbox.',
 
     payrollOpenAria: 'Open payroll calculator',
     payrollOpenBtn: 'Palgakalkulaator',

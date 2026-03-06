@@ -1121,7 +1121,11 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     renderServiceConfigurator();
   } catch (error) {
     console.error(error);
-    setOrderHint(t('orderError', 'Request sending failed. Please try again.'), true);
+    const activationNeeded = /activation/i.test(String(error?.message || ''));
+    const message = activationNeeded
+      ? t('mailActivationNeeded', 'For first-time sending, open the FormSubmit activation link from your email inbox.')
+      : t('orderError', 'Request sending failed. Please try again.');
+    setOrderHint(message, true);
   } finally {
     submitBtn?.removeAttribute('disabled');
     submitBtn?.removeAttribute('aria-busy');
@@ -1504,7 +1508,11 @@ form?.addEventListener('submit', async (e) => {
     updateFileHint();
   } catch (err) {
     console.error(err);
-    setHint(t('formError', 'Something went wrong. Please try again.'), true, false);
+    const activationNeeded = /activation/i.test(String(err?.message || ''));
+    const message = activationNeeded
+      ? t('mailActivationNeeded', 'For first-time sending, open the FormSubmit activation link from your email inbox.')
+      : t('formError', 'Something went wrong. Please try again.');
+    setHint(message, true, false);
   } finally {
     submitBtn?.removeAttribute('disabled');
     submitBtn?.removeAttribute('aria-busy');
