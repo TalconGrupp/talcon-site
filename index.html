@@ -1,160 +1,539 @@
 <!doctype html>
-<html lang="en">
+<html lang="et">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title data-i18n="title">Talcon — Accounting in Estonia</title>
-  <meta name="description" content="Accounting, payroll, VAT & annual reports in Estonia. ET / RU / EN." />
+  <title data-i18n="title">TalconGrupp - Raamatupidamisteenused Eestis</title>
+  <meta name="description" content="Raamatupidamisteenused ja ettevõtlusteenused Eestis." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <header class="topbar">
-    <div class="container topbar__inner">
-      <a class="brand" href="#top">
-        <span class="brand__mark">Talcon</span>
-        <span class="brand__tag" data-i18n="brandTag">Accounting</span>
+  <div class="page-bg" aria-hidden="true"></div>
+
+  <header class="header" id="top">
+    <div class="container header__inner">
+      <a class="brand" href="#top" aria-label="TalconGrupp">
+        <span class="brand__name">
+          <span class="brand__name-main">Talcon</span><span class="brand__name-accent">Grupp</span>
+        </span>
+        <span class="brand__tag" data-i18n="brandTagline">RAAMATUPIDAMISTEENUSED EESTIS</span>
       </a>
 
       <nav class="nav">
-        <a href="#services" data-i18n="navServices">Services</a>
-        <a href="#pricing" data-i18n="navPricing">Pricing</a>
-        <a href="#contact" data-i18n="navContact">Contact</a>
+        <a href="#services" data-i18n="navServices">Teenused</a>
+        <a href="#pricing" data-i18n="navPricing">Hinnad</a>
+        <a href="#contact" data-i18n="navContact">Kontakt</a>
       </nav>
 
-      <div class="lang">
-        <button class="lang__btn" data-lang="et">ET</button>
-        <button class="lang__btn" data-lang="ru">RU</button>
-        <button class="lang__btn" data-lang="en">EN</button>
+      <a class="btn btn--small" href="#contact" data-i18n="navCta">Küsi pakkumist</a>
+
+      <div class="lang-switch" id="langSwitch">
+        <span class="lang-switch__globe" aria-hidden="true">🌐</span>
+        <select
+          class="lang-switch__select"
+          id="langSelect"
+          data-i18n-aria="langMenuAria"
+          aria-label="Select language"
+        >
+          <option value="et">Eesti</option>
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <button
+        class="burger"
+        id="burgerBtn"
+        type="button"
+        data-i18n-aria="menuToggle"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+    </div>
+
+    <div class="mobile-nav" id="mobileMenu" hidden>
+      <div class="container mobile-nav__inner">
+        <a href="#services" data-i18n="navServices">Teenused</a>
+        <a href="#pricing" data-i18n="navPricing">Hinnad</a>
+        <a href="#contact" data-i18n="navContact">Kontakt</a>
+        <a class="btn btn--small" href="#contact" data-i18n="navCta">Küsi pakkumist</a>
       </div>
     </div>
   </header>
 
-  <main id="top">
-    <section class="hero">
-      <div class="container hero__grid">
-        <div class="hero__copy">
-          <div class="pill" data-i18n="heroPill">Accounting partner in Estonia</div>
-
-          <h1 class="hero__title" data-i18n="heroTitle">Your Trusted Accounting Partner</h1>
-
-          <p class="hero__subtitle" data-i18n="heroSubtitle">
-            Bookkeeping, payroll, VAT declarations and annual reports — accurate and on time.
+  <main>
+    <section class="hero section">
+      <div class="container hero__layout">
+        <aside class="trust-badges" aria-label="Authorities and software integrations">
+          <a
+            class="trust-badge trust-badge--mta"
+            href="https://www.emta.ee/en"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Maksu- ja Tolliamet portal"
+          >
+            <img src="assets/badges/maksuamet.png" alt="Maksu- ja Tolliamet" />
+          </a>
+          <a
+            class="trust-badge trust-badge--ria"
+            href="https://www.ria.ee/en"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Riigi Infosüsteemi Amet portal"
+          >
+            <img src="assets/badges/ria.png" alt="Riigi Infosüsteemi Amet" />
+          </a>
+          <a
+            class="trust-badge trust-badge--riigiportaal"
+            href="https://www.eesti.ee/en"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Riigiportaal Eesti.ee"
+          >
+            <img src="assets/badges/riigiportaal-eesti-ee.png" alt="Riigiportaal Eesti.ee" />
+          </a>
+          <a
+            class="trust-badge trust-badge--eariregister"
+            href="https://ariregister.rik.ee/eng"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open E-Äriregister"
+          >
+            <img src="assets/badges/e-ariregister.png" alt="E-Äriregister" />
+          </a>
+          <a
+            class="trust-badge trust-badge--merit"
+            href="https://www.merit.ee/en/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Merit Aktiva"
+          >
+            <img src="assets/badges/merit-aktiva.png" alt="Merit Aktiva" />
+          </a>
+          <button
+            class="trust-badge trust-badge--calculator"
+            type="button"
+            data-open-payroll
+            data-i18n-aria="payrollOpenAria"
+            aria-label="Open payroll calculator"
+            data-i18n="payrollOpenBtn"
+          >
+            Palgakalkulaator
+          </button>
+        </aside>
+        <div class="hero__content">
+          <h1 class="hero__title">
+            <span data-i18n="heroTitleMain">Raamatupidamis-
+teenused</span>
+            <span class="hero__title-accent" data-i18n="heroTitleAccent">Eestis</span>
+          </h1>
+          <p class="hero__text" data-i18n="heroSubtitle">
+            Usaldusväärsed raamatupidamis- ja ettevõtlusteenused Eestis. Aitame teil asutada ettevõtet,
+            pidada raamatupidamist ning esitada maksuaruandeid.
           </p>
+          <a class="btn" href="#contact" data-i18n="heroCta">Küsi tasuta konsultatsiooni</a>
+        </div>
+      </div>
+    </section>
 
-          <div class="hero__cta">
-            <a class="btn" href="#contact" data-i18n="ctaConsult">Get a consultation</a>
-            <a class="btn btn--ghost" href="#services" data-i18n="ctaServices">View services</a>
+    <section class="services section" id="services">
+      <div class="container">
+        <h2 class="section__title" data-i18n="servicesHeading">Наши услуги</h2>
+
+        <div class="pricing-cards" id="pricing">
+          <article class="price-card price-card--interactive" data-service-id="registration" tabindex="0">
+            <img class="price-card__icon" src="assets/icons/service-1.png" alt="" aria-hidden="true" />
+            <h3>Регистрация бизнеса</h3>
+            <p>Помощь с регистрацией разных форм бизнеса в Эстонии.</p>
+            <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
+            <div class="price"><span>от 99€</span><small>разово</small></div>
+            <ul>
+              <li>Консультация и выбор формы</li>
+              <li>Подготовка документов</li>
+              <li>Сопровождение подачи</li>
+              <li>Помощь с регистрацией</li>
+            </ul>
+            <button class="btn btn--card js-service-open" type="button">Смотреть</button>
+          </article>
+
+          <article class="price-card price-card--interactive" data-service-id="accounting" tabindex="0">
+            <img class="price-card__icon" src="assets/icons/service-2.png" alt="" aria-hidden="true" />
+            <h3>Бухгалтерское сопровождение</h3>
+            <p>Ежемесячная бухгалтерия и отчётность для компаний в Эстонии.</p>
+            <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
+            <div class="price"><span>159€</span><small>/месяц</small></div>
+            <ul>
+              <li>Ежемесячная бухгалтерия</li>
+              <li>Подача налоговых деклараций</li>
+              <li>Расчёт зарплаты</li>
+              <li>Декларации по НДС</li>
+            </ul>
+            <button class="btn btn--card js-service-open" type="button">Смотреть</button>
+          </article>
+
+          <article class="price-card price-card--interactive" data-service-id="taxes" tabindex="0">
+            <img class="price-card__icon" src="assets/icons/service-3.png" alt="" aria-hidden="true" />
+            <h3>Налоги и отчётность</h3>
+            <p>Налоговое сопровождение с контролем сроков и консультацией.</p>
+            <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
+            <div class="price"><span>249€</span><small>/месяц</small></div>
+            <ul>
+              <li>Налоговые декларации</li>
+              <li>Контроль сроков</li>
+              <li>Базовая консультация</li>
+              <li>Поддержка по отчётности</li>
+            </ul>
+            <button class="btn btn--card js-service-open" type="button">Смотреть</button>
+          </article>
+        </div>
+
+        <section class="service-configurator" id="service-configurator" hidden>
+          <div class="service-configurator__layout">
+            <div class="service-configurator__panel">
+              <h3 class="service-configurator__title" id="configServiceTitle" data-i18n="configDefaultTitle">Выберите услугу</h3>
+              <p class="service-configurator__text" id="configServiceText" data-i18n="configDefaultText">Нажмите на карточку выше, чтобы настроить услугу.</p>
+
+              <div class="service-configurator__block" id="businessTypeBlock" hidden>
+                <h4 data-i18n="configBusinessType">Форма бизнеса</h4>
+                <div class="service-types" id="businessTypeOptions"></div>
+              </div>
+
+              <div class="service-configurator__block" id="servicePeriodBlock">
+                <h4 data-i18n="configPeriodTitle">Срок обслуживания</h4>
+                <div class="service-period">
+                  <label for="servicePeriodSelect" data-i18n="configPeriodLabel">Период (месяцев)</label>
+                  <select id="servicePeriodSelect" name="service_period_months">
+                    <option value="" selected data-i18n="configPeriodPlaceholder">Выберите период</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                  </select>
+                  <p class="service-period__hint" id="servicePeriodHint" data-i18n="configPeriodHintRequired">
+                    Выбор периода обязателен для ежемесячного обслуживания.
+                  </p>
+                </div>
+              </div>
+
+              <div class="service-configurator__block service-regfee" id="registrationFeeBlock" hidden>
+                <h4 data-i18n="configRegFeeTitle">Госпошлина за внесение в регистр</h4>
+                <ul class="service-list service-regfee__list" id="registrationFeeList"></ul>
+                <p class="service-regfee__note" id="registrationFeeNote" data-i18n="configRegFeeNote">
+                  Госпошлина оплачивается отдельно в государственном регистре и добавляется к стоимости услуги.
+                </p>
+              </div>
+
+              <div class="service-configurator__block">
+                <h4 data-i18n="configIncludedTitle">Что входит</h4>
+                <ul class="service-list" id="serviceIncludedList"></ul>
+              </div>
+
+              <div class="service-configurator__block">
+                <h4 data-i18n="configExtrasTitle">Дополнительные услуги</h4>
+                <div class="service-extras" id="serviceExtras"></div>
+              </div>
+            </div>
+
+            <aside class="service-order">
+              <h3 data-i18n="orderTitle">Ваш заказ</h3>
+              <div class="service-order__line">
+                <span data-i18n="orderServiceLabel">Услуга</span>
+                <strong id="orderService">-</strong>
+              </div>
+              <div class="service-order__line" id="orderBusinessRow" hidden>
+                <span data-i18n="orderBusinessLabel">Форма бизнеса</span>
+                <strong id="orderBusinessType">-</strong>
+              </div>
+              <div class="service-order__line">
+                <span data-i18n="orderBaseLabel">Базовая цена</span>
+                <strong id="orderBasePrice">-</strong>
+              </div>
+              <div class="service-order__line" id="orderRegFeeRow" hidden>
+                <span data-i18n="orderRegFeeLabel">Госпошлина</span>
+                <strong id="orderRegFee">-</strong>
+              </div>
+              <div class="service-order__line">
+                <span data-i18n="orderPeriodLabel">Период</span>
+                <strong id="orderPeriod">Не выбран</strong>
+              </div>
+              <div class="service-order__line" id="orderMonthlyRow" hidden>
+                <span data-i18n="orderMonthlyLabel">Обслуживание за период</span>
+                <strong id="orderMonthlyTotal">0€</strong>
+              </div>
+              <div class="service-order__extras">
+                <p data-i18n="orderExtrasLabel">Дополнительные услуги</p>
+                <ul id="orderExtrasList">
+                  <li data-i18n="orderNoExtras">Без дополнительных услуг</li>
+                </ul>
+              </div>
+              <div class="service-order__total">
+                <span data-i18n="orderTotalLabel">Итоговая сумма</span>
+                <strong id="orderTotalPrice">0€</strong>
+              </div>
+              <button class="btn service-order__btn" type="button" id="openOrderForm" data-i18n="orderApplyBtn">Оформить заявку</button>
+            </aside>
           </div>
-        </div>
 
-        <div class="hero__visual">
-          <div class="hero__overlay"></div>
-          <img
-            class="hero__img"
-            src="assets/hero/hero.png"
-            alt="Talcon accounting"
-            loading="eager"
-            onerror="this.style.display='none';"
-          />
-        </div>
+          <form class="service-order-form" id="serviceOrderForm" autocomplete="off" novalidate hidden>
+            <h3 data-i18n="orderFormTitle">Заявка на услугу</h3>
+            <div class="service-order-form__grid">
+              <input
+                type="text"
+                name="order_company"
+                required
+                data-i18n-placeholder="orderCompanyPlaceholder"
+                placeholder="Название фирмы"
+              />
+              <input
+                type="text"
+                name="order_name"
+                required
+                data-i18n-placeholder="orderPersonPlaceholder"
+                placeholder="Имя"
+              />
+              <input
+                type="text"
+                name="order_email"
+                inputmode="email"
+                required
+                autocapitalize="off"
+                spellcheck="false"
+                data-i18n-placeholder="orderEmailPlaceholder"
+                placeholder="Email"
+              />
+              <input
+                type="tel"
+                name="order_phone"
+                data-i18n-placeholder="orderPhonePlaceholder"
+                placeholder="Телефон"
+              />
+              <textarea
+                name="order_comment"
+                rows="4"
+                data-i18n-placeholder="orderCommentPlaceholder"
+                placeholder="Комментарий"
+              ></textarea>
+            </div>
+            <button class="btn service-order-form__submit" type="submit" data-i18n="orderSubmitBtn">Отправить заявку</button>
+            <p class="form__hint" id="serviceOrderHint" aria-live="polite"></p>
+          </form>
+        </section>
       </div>
     </section>
 
-    <section class="section" id="services">
-      <div class="container">
-        <div class="section__head">
-          <h2 data-i18n="servicesTitle">Services</h2>
-          <p data-i18n="servicesSubtitle">Choose what you need — we’ll build a plan and price that fits.</p>
-        </div>
+    <section class="bottom section" id="contact">
+      <div class="container bottom__grid">
+        <section class="company-card">
+          <h2 class="section__title" data-i18n="companyHeading">Данные компании</h2>
 
-        <div class="cards">
-          <article class="card">
-            <h3 data-i18n="srv1Title">Accounting (monthly)</h3>
-            <p data-i18n="srv1Text">Bookkeeping, documents, sales/purchases, reconciliations.</p>
+          <article class="company-info">
+            <h3 class="company-info__name" data-i18n="companyName">TalconGrupp OÜ</h3>
+            <div class="company-info__rows">
+              <div class="company-info__row">
+                <span data-i18n="companyRegLabel">Регистрационный номер</span>
+                <strong>11967047</strong>
+              </div>
+              <div class="company-info__row">
+                <span data-i18n="companyVatLabel">KMKR / VAT</span>
+                <strong>EE101923109</strong>
+              </div>
+              <div class="company-info__row">
+                <span data-i18n="companyAddressLabel">Юридический адрес</span>
+                <strong data-i18n="companyAddressValue">Harju maakond, Tallinn, Lasnamäe linnaosa, Punane tn 14a-504, 13619</strong>
+              </div>
+              <div class="company-info__row">
+                <span data-i18n="companyEmailLabel">E-mail</span>
+                <a href="mailto:[email protected]">[email protected]</a>
+              </div>
+              <div class="company-info__row company-info__row--phone">
+                <span data-i18n="companyPhoneLabel">Телефон</span>
+                <div class="company-info__phone-wrap">
+                  <a class="company-info__phone" href="tel:+37256963434">+372 56963434</a>
+                  <a class="btn btn--small company-info__call" href="tel:+37256963434" data-i18n="companyCallBtn">Позвонить</a>
+                </div>
+              </div>
+            </div>
+            <a class="company-info__site" href="https://talcon.ee" target="_blank" rel="noopener noreferrer">talcon.ee</a>
+            <p class="company-info__note" data-i18n="companySourceNote">Данные по e-Äriregister.</p>
           </article>
+        </section>
 
-          <article class="card">
-            <h3 data-i18n="srv2Title">Payroll</h3>
-            <p data-i18n="srv2Text">Salary calculations, payslips, taxes, reporting.</p>
-          </article>
+        <aside class="quick-contact">
+          <h2 data-i18n="quickContactTitle">Kiire kontakt</h2>
+          <p data-i18n="quickContactText">Täida vorm ja võtame teiega ühendust 24 tunni jooksul.</p>
 
-          <article class="card">
-            <h3 data-i18n="srv3Title">VAT & declarations</h3>
-            <p data-i18n="srv3Text">KMD, TSD and deadline control.</p>
-          </article>
-
-          <article class="card">
-            <h3 data-i18n="srv4Title">Annual report</h3>
-            <p data-i18n="srv4Text">Preparation and submission of annual accounts.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--alt" id="pricing">
-      <div class="container">
-        <div class="section__head">
-          <h2 data-i18n="pricingTitle">Pricing</h2>
-          <p data-i18n="pricingSubtitle">Transparent packages — final offer depends on volume and complexity.</p>
-        </div>
-
-        <div class="pricing">
-          <article class="price">
-            <h3 data-i18n="pr1Title">Starter</h3>
-            <p class="muted" data-i18n="pr1Text">For small businesses with low document volume.</p>
-          </article>
-
-          <article class="price price--best">
-            <h3 data-i18n="pr2Title">Business</h3>
-            <p class="muted" data-i18n="pr2Text">For active companies with VAT and regular operations.</p>
-          </article>
-
-          <article class="price">
-            <h3 data-i18n="pr3Title">Company setup</h3>
-            <p class="muted" data-i18n="pr3Text">Registration guidance and next steps.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="contact">
-      <div class="container">
-        <div class="contact">
-          <div class="contact__copy">
-            <h2 data-i18n="contactTitle">Contact</h2>
-            <p data-i18n="contactSubtitle">Tell us what you need — we’ll reply with a clear plan and price.</p>
-          </div>
-
-          <form class="form" id="contactForm">
-            <label>
-              <span data-i18n="formName">Name</span>
-              <input name="name" required />
-            </label>
-
-            <label>
-              <span data-i18n="formEmail">Email</span>
-              <input name="email" type="email" required />
-            </label>
-
-            <label class="full">
-              <span data-i18n="formMsg">Message</span>
-              <textarea name="message" rows="5" required></textarea>
-            </label>
-
-            <button class="btn full" type="submit" data-i18n="formSend">Send</button>
+          <form id="contactForm" class="quick-contact__form" autocomplete="off">
+            <input
+              name="client_name"
+              required
+              autocomplete="organization"
+              data-i18n-placeholder="formName"
+              placeholder="Teie nimi või ettevõtte nimi"
+            />
+            <input
+              name="contact_email"
+              type="text"
+              inputmode="email"
+              required
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+              data-i18n-placeholder="formEmail"
+              placeholder="Teie e-post"
+            />
+            <textarea
+              name="message"
+              rows="4"
+              data-i18n-placeholder="formMsg"
+              placeholder="Teie sõnum (või lisa fail allpool)"
+            ></textarea>
+            <div class="file-field">
+              <label class="file-field__label" for="formFile" data-i18n="formAttach">Lisa fail (tšekk või arve)</label>
+              <div class="file-field__picker">
+                <button class="file-field__choose" id="formFileChoose" type="button" data-i18n="formChooseFile">
+                  Choose file
+                </button>
+                <span class="file-field__hint" id="fileHint"></span>
+              </div>
+              <input
+                class="file-field__input"
+                id="formFile"
+                name="attachment"
+                type="file"
+                accept=".pdf,.png,.jpg,.jpeg,.webp,.heic,.doc,.docx,.xls,.xlsx"
+                tabindex="-1"
+                aria-hidden="true"
+              />
+            </div>
+            <button class="btn" type="submit" data-i18n="formSend">Saada teade</button>
             <p class="form__hint" id="formHint" aria-live="polite"></p>
           </form>
+        </aside>
+      </div>
+    </section>
+
+    <section class="banks section" aria-label="Partner banks and payment systems">
+      <div class="container">
+        <div class="banks__row">
+          <figure class="banks__item">
+            <img class="banks__logo banks__logo--swedbank" src="assets/banks/swedbank.png" alt="Swedbank logo" />
+          </figure>
+          <figure class="banks__item">
+            <img class="banks__logo banks__logo--seb" src="assets/banks/seb.png" alt="SEB logo" />
+          </figure>
+          <figure class="banks__item">
+            <img class="banks__logo banks__logo--lhv" src="assets/banks/lhv-pank.png" alt="LHV Pank logo" />
+          </figure>
+          <figure class="banks__item">
+            <img class="banks__logo banks__logo--revolut" src="assets/banks/revolut-business.png" alt="Revolut Business logo" />
+          </figure>
+          <figure class="banks__item">
+            <img class="banks__logo banks__logo--paypal" src="assets/banks/paypal.png" alt="PayPal logo" />
+          </figure>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container footer__inner">
-      <div>© <span id="year"></span> Talcon</div>
-    </div>
+    <div class="container">© <span id="year"></span> TalconGrupp</div>
   </footer>
+
+  <div class="payroll-modal" id="payrollModal" hidden>
+    <div class="payroll-modal__backdrop" data-payroll-close></div>
+    <section
+      class="payroll-modal__panel"
+      id="payrollPanel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="payrollTitle"
+    >
+      <button
+        class="payroll-modal__close"
+        type="button"
+        id="closePayrollModal"
+        data-i18n-aria="payrollCloseAria"
+        aria-label="Close payroll calculator"
+      >
+        ×
+      </button>
+      <h3 class="payroll-modal__title" id="payrollTitle" data-i18n="payrollTitle">Palgakalkulaator</h3>
+      <p class="payroll-modal__subtitle" data-i18n="payrollSubtitle">Arvuta töötasu kiiresti ja mugavalt</p>
+
+      <form class="payroll-form" id="payrollForm" autocomplete="off">
+        <div class="payroll-mode" role="radiogroup" data-i18n-aria="payrollModeAria" aria-label="Calculation direction">
+          <label class="payroll-mode__item">
+            <input type="radio" name="payroll_mode" value="grossToNet" checked />
+            <span data-i18n="payrollModeGrossToNet">Bruto → Neto</span>
+          </label>
+          <label class="payroll-mode__item">
+            <input type="radio" name="payroll_mode" value="netToGross" />
+            <span data-i18n="payrollModeNetToGross">Neto → Bruto</span>
+          </label>
+        </div>
+
+        <label class="payroll-form__field">
+          <span data-i18n="payrollAmountLabel">Sisesta summa</span>
+          <input
+            type="number"
+            name="payroll_amount"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="0.00"
+            required
+          />
+        </label>
+
+        <label class="payroll-check payroll-check--taxfree">
+          <input type="checkbox" name="payroll_taxfree" checked />
+          <span data-i18n="payrollTaxFreeLabel">Rakenda maksuvaba tulu (700 €)</span>
+        </label>
+        <p class="payroll-check__help" data-i18n="payrollTaxFreeHelp">Rakendub töötaja avalduse alusel.</p>
+
+        <label class="payroll-form__field">
+          <span data-i18n="payrollPensionLabel">Kogumispension</span>
+          <select name="payroll_pension_rate">
+            <option value="0" selected>0%</option>
+            <option value="2">2%</option>
+            <option value="4">4%</option>
+            <option value="6">6%</option>
+          </select>
+        </label>
+
+        <label class="payroll-check">
+          <input type="checkbox" name="payroll_unemployment" checked />
+          <span data-i18n="payrollUnemploymentLabel">Töötuskindlustus</span>
+        </label>
+
+        <button class="btn payroll-form__submit" type="submit" data-i18n="payrollCalculateBtn">Arvuta</button>
+        <p class="payroll-form__hint" id="payrollHint" aria-live="polite"></p>
+      </form>
+
+      <div class="payroll-result" id="payrollResult" hidden>
+        <h4 data-i18n="payrollResultTitle">Tulemus</h4>
+        <ul id="payrollResultList"></ul>
+      </div>
+
+      <p class="payroll-modal__note" data-i18n="payrollNote">Tegemist on ligikaudse arvutusega.</p>
+    </section>
+  </div>
 
   <script src="translations.js"></script>
   <script src="script.js"></script>
