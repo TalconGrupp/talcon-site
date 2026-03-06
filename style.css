@@ -13,6 +13,11 @@
   box-sizing: border-box;
 }
 
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
   max-width: 100%;
@@ -27,6 +32,14 @@ body {
   background: #030d24;
   max-width: 100%;
   overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
 }
 
 a {
@@ -46,6 +59,7 @@ a {
   width: min(var(--max), 100%);
   margin: 0 auto;
   padding: 0 20px;
+  min-width: 0;
 }
 
 .section {
@@ -56,6 +70,8 @@ a {
   position: relative;
   z-index: 20;
   background: transparent;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .header__inner {
@@ -65,6 +81,7 @@ a {
   min-height: 108px;
   min-width: 0;
   flex-wrap: nowrap;
+  max-width: 100%;
 }
 
 .brand {
@@ -76,11 +93,13 @@ a {
   line-height: 1;
   flex-shrink: 0;
   min-width: 0;
+  overflow: hidden;
 }
 
 .brand__name {
   display: block;
   white-space: nowrap;
+  overflow: hidden;
   font-size: clamp(30px, 4.5vw, 62px);
   font-weight: 600;
   letter-spacing: -0.028em;
@@ -97,6 +116,7 @@ a {
 .brand__tag {
   display: block;
   white-space: nowrap;
+  overflow: hidden;
   font-size: clamp(11px, 1.06vw, 15px);
   letter-spacing: 0.055em;
   color: #78cde8;
@@ -252,6 +272,8 @@ a {
   grid-template-columns: minmax(0, 1fr) 206px;
   align-items: start;
   gap: 16px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .trust-badges {
@@ -263,6 +285,8 @@ a {
   gap: 8px;
   margin-top: 0;
   margin-right: 6px;
+  min-width: 0;
+  max-width: 100%;
 }
 
 @media (min-width: 1280px) {
@@ -297,6 +321,7 @@ a {
   display: grid;
   place-items: center;
   transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  min-width: 0;
 }
 
 .trust-badge::before {
@@ -387,6 +412,7 @@ a {
   grid-column: 1;
   grid-row: 1;
   max-width: 660px;
+  min-width: 0;
 }
 
 .payroll-modal {
@@ -414,7 +440,7 @@ a {
   position: fixed;
   left: 50%;
   top: 50%;
-  width: min(390px, calc(100vw - 24px));
+  width: min(390px, calc(100% - 24px));
   max-height: calc(100dvh - 24px);
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -675,12 +701,14 @@ a {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
+  min-width: 0;
 }
 
 .price-card {
   display: flex;
   flex-direction: column;
   min-height: 526px;
+  min-width: 0;
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
   padding: 24px 22px 18px;
@@ -1451,12 +1479,20 @@ a {
   outline-offset: 2px;
 }
 
-.file-field__input {
+.quick-contact__form input.file-field__input {
   position: absolute;
+  left: 0;
+  top: 0;
   width: 1px;
+  min-width: 1px;
+  max-width: 1px;
   height: 1px;
+  min-height: 1px;
+  max-height: 1px;
   opacity: 0;
   pointer-events: none;
+  overflow: hidden;
+  clip-path: inset(50%);
 }
 
 .file-field__hint {
@@ -1591,6 +1627,12 @@ a {
     margin-top: 0;
     margin-right: 0;
     padding: 2px 2px 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .trust-badges::-webkit-scrollbar {
+    display: none;
   }
 
   .trust-badge {
@@ -1627,7 +1669,11 @@ a {
 @media (max-width: 760px) {
   .header__inner {
     min-height: 76px;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: center;
+    column-gap: 6px;
+    gap: 0;
   }
 
   .brand {
@@ -1636,11 +1682,12 @@ a {
   }
 
   .brand__name {
-    font-size: clamp(28px, 8.8vw, 36px);
+    font-size: clamp(20px, 7.2vw, 28px);
+    line-height: 1.02;
   }
 
   .brand__tag {
-    font-size: 9px;
+    font-size: 8px;
     letter-spacing: 0.03em;
   }
 
@@ -1651,20 +1698,20 @@ a {
 
   .lang-switch {
     margin-left: auto;
-    padding: 5px 7px;
-    gap: 5px;
+    padding: 4px 6px;
+    gap: 4px;
     border-radius: 9px;
-    max-width: 76px;
-    min-width: 76px;
-    flex: 0 0 76px;
+    max-width: 62px;
+    min-width: 62px;
+    flex: 0 0 62px;
   }
 
   .lang-switch__select {
-    min-width: 36px;
-    width: 36px;
-    font-size: 12px;
+    min-width: 26px;
+    width: 26px;
+    font-size: 11px;
     font-weight: 700;
-    padding-right: 10px;
+    padding-right: 8px;
     text-align: center;
     text-align-last: center;
   }
@@ -1673,20 +1720,20 @@ a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: 4px;
-    width: 36px;
-    height: 36px;
-    flex: 0 0 36px;
-    font-size: 20px;
+    margin-left: 2px;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    font-size: 18px;
   }
 
   .lang-switch::after {
-    right: 7px;
-    font-size: 9px;
+    right: 5px;
+    font-size: 8px;
   }
 
   .lang-switch__globe {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .hero {
@@ -1701,12 +1748,20 @@ a {
 
   .trust-badges {
     gap: 7px;
-    padding: 1px 1px 4px;
+    padding: 1px 1px 4px 1px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
   }
 
   .trust-badge {
-    flex: 0 0 136px;
+    flex: 0 0 118px;
     min-height: 48px;
+  }
+
+  .trust-badge::before {
+    inset: -5px;
   }
 
   .trust-badge--mta img {
@@ -1737,6 +1792,7 @@ a {
   .hero .btn {
     min-width: 0;
     width: 100%;
+    max-width: 100%;
   }
 
   .section__title,
@@ -1796,11 +1852,11 @@ a {
   }
 
   .brand__name {
-    font-size: clamp(25px, 8.4vw, 32px);
+    font-size: clamp(18px, 7.1vw, 24px);
   }
 
   .brand__tag {
-    font-size: 9px;
+    font-size: 7px;
     letter-spacing: 0.03em;
   }
 
@@ -1809,16 +1865,16 @@ a {
   }
 
   .lang-switch {
-    min-width: 70px;
-    flex-basis: 70px;
-    padding: 4px 6px;
-    gap: 4px;
+    min-width: 58px;
+    flex-basis: 58px;
+    padding: 4px 5px;
+    gap: 3px;
   }
 
   .lang-switch__select {
-    width: 32px;
-    min-width: 32px;
-    font-size: 11px;
+    width: 24px;
+    min-width: 24px;
+    font-size: 10px;
   }
 
   .trust-badges {
@@ -1826,7 +1882,7 @@ a {
   }
 
   .trust-badge {
-    flex-basis: 124px;
+    flex-basis: 108px;
     min-height: 46px;
     padding: 7px;
   }
