@@ -29,6 +29,7 @@ mobileMenu?.querySelectorAll('a').forEach((link) => {
 
 window.addEventListener('resize', () => {
   if (window.innerWidth > 860) closeMobileMenu();
+  updateLangSelectLabels();
 });
 
 // Year
@@ -72,6 +73,18 @@ function t(key, fallback) {
 
 const langSelect = document.getElementById('langSelect');
 const MAILBOX_ENDPOINT = 'https://formsubmit.co/ajax/talcon.grupp@gmail.com';
+
+function updateLangSelectLabels() {
+  if (!langSelect) return;
+  const isMobile = window.matchMedia('(max-width: 760px)').matches;
+  langSelect.querySelectorAll('option').forEach((option) => {
+    if (!(option instanceof HTMLOptionElement)) return;
+    const shortLabel = option.dataset.short;
+    const longLabel = option.dataset.long;
+    if (!shortLabel || !longLabel) return;
+    option.textContent = isMobile ? shortLabel : longLabel;
+  });
+}
 
 function updateLangSwitchCurrent(lang) {
   if (!langSelect) return;
@@ -1622,6 +1635,7 @@ function applyTranslations(lang) {
   });
 
   updateLangSwitchCurrent(lang);
+  updateLangSelectLabels();
 
   renderServiceCards();
   if (serviceState.serviceId) {
@@ -1654,5 +1668,6 @@ document.addEventListener('keydown', (event) => {
 });
 
 applyTranslations(currentLang);
+updateLangSelectLabels();
 updateFileHint();
 renderServiceCards();
