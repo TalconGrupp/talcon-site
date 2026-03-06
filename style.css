@@ -1410,6 +1410,11 @@ a {
   padding: 8px 10px;
 }
 
+.file-field__picker.is-error {
+  border-color: rgba(255, 122, 137, 0.95);
+  box-shadow: 0 0 0 3px rgba(255, 94, 116, 0.18);
+}
+
 .file-field__label {
   color: #d8e9fb;
   font-size: clamp(13px, 1.12vw, 16px);

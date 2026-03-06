@@ -1389,8 +1389,20 @@ const hint = document.getElementById('formHint');
 const fileInput = document.getElementById('formFile');
 const fileChooseBtn = document.getElementById('formFileChoose');
 const fileHint = document.getElementById('fileHint');
+const filePicker = form?.querySelector('.file-field__picker');
 const nameInput = form?.querySelector('input[name="client_name"]');
 const emailInput = form?.querySelector('input[name="contact_email"]');
+const ALLOWED_ATTACHMENT_EXTENSIONS = new Set(['jpg', 'jpeg', 'png', 'pdf', 'xls']);
+const ALLOWED_ATTACHMENT_MIME_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'application/pdf',
+  'application/vnd.ms-excel',
+  'application/xls',
+  'application/x-excel'
+]);
+
+let hasInvalidAttachment = false;
 
 let hintTimer = null;
 
@@ -1418,8 +1430,55 @@ function updateFileHint() {
   fileHint.textContent = t('formNoFile', 'No file selected');
 }
 
-fileInput?.addEventListener('change', () => {
+function markFileError() {
+  filePicker?.classList.add('is-error');
+}
+
+function clearFileError() {
+  filePicker?.classList.remove('is-error');
+}
+
+function getExtension(filename) {
+  const name = String(filename || '').trim().toLowerCase();
+  const dotIndex = name.lastIndexOf('.');
+  if (dotIndex < 0 || dotIndex === name.length - 1) return '';
+  return name.slice(dotIndex + 1);
+}
+
+function isAllowedAttachment(file) {
+  if (!file) return true;
+  const ext = getExtension(file.name);
+  if (ext && ALLOWED_ATTACHMENT_EXTENSIONS.has(ext)) return true;
+  const mimeType = String(file.type || '').toLowerCase();
+  if (mimeType && ALLOWED_ATTACHMENT_MIME_TYPES.has(mimeType)) return true;
+  return false;
+}
+
+function validateAttachmentSelection() {
+  const selectedFile = fileInput?.files?.[0];
+  if (!selectedFile) {
+    hasInvalidAttachment = false;
+    clearFileError();
+    updateFileHint();
+    return true;
+  }
+
+  if (!isAllowedAttachment(selectedFile)) {
+    hasInvalidAttachment = true;
+    markFileError();
+    if (fileInput) fileInput.value = '';
+    updateFileHint();
+    return false;
+  }
+
+  hasInvalidAttachment = false;
+  clearFileError();
   updateFileHint();
+  return true;
+}
+
+fileInput?.addEventListener('change', () => {
+  validateAttachmentSelection();
 });
 
 fileChooseBtn?.addEventListener('click', () => {
@@ -1445,6 +1504,13 @@ form?.addEventListener('submit', async (e) => {
 
   const nameValue = nameInput?.value.trim() || '';
   const emailValue = emailInput?.value.trim() || '';
+
+  if (hasInvalidAttachment || !validateAttachmentSelection()) {
+    markFileError();
+    setHint('', false, false);
+    fileChooseBtn?.focus();
+    return;
+  }
 
   if (!nameValue) {
     markFieldError(nameInput);
@@ -1505,6 +1571,8 @@ form?.addEventListener('submit', async (e) => {
 
     setHint(t('formSent', 'Sent! We will contact you soon.'));
     form.reset();
+    hasInvalidAttachment = false;
+    clearFileError();
     updateFileHint();
   } catch (err) {
     console.error(err);
