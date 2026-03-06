@@ -284,21 +284,9 @@ a {
   display: grid;
   gap: 8px;
   margin-top: 0;
-  margin-right: 6px;
+  margin-right: 0;
   min-width: 0;
   max-width: 100%;
-}
-
-@media (min-width: 1280px) {
-  .trust-badges {
-    margin-right: -48px;
-  }
-}
-
-@media (min-width: 1500px) {
-  .trust-badges {
-    margin-right: -64px;
-  }
 }
 
 .trust-badge {
@@ -1530,7 +1518,10 @@ a {
 }
 
 .banks__item {
+  position: relative;
+  isolation: isolate;
   margin: 0;
+  text-decoration: none;
   border: 1px solid rgba(112, 187, 233, 0.24);
   border-radius: 12px;
   background: linear-gradient(180deg, rgba(247, 252, 255, 0.95), rgba(232, 243, 252, 0.92));
@@ -1538,7 +1529,48 @@ a {
   padding: 14px 10px;
   display: grid;
   place-items: center;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.84),
+    inset 0 -2px 0 rgba(76, 120, 156, 0.26),
+    0 10px 24px rgba(0, 0, 0, 0.2),
+    0 0 14px rgba(79, 200, 246, 0.1);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease, border-color 0.18s ease;
+}
+
+.banks__item::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 16px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(84, 209, 253, 0.2) 0%, rgba(84, 209, 253, 0) 74%);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.banks__item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(112, 187, 233, 0.44);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.88),
+    inset 0 -2px 0 rgba(76, 120, 156, 0.24),
+    0 14px 28px rgba(0, 0, 0, 0.24),
+    0 0 18px rgba(79, 200, 246, 0.18);
+  filter: brightness(1.01);
+}
+
+.banks__item:hover::before {
+  opacity: 1;
+}
+
+.banks__item:active {
+  transform: translateY(1px);
+}
+
+.banks__item:focus-visible {
+  outline: 2px solid rgba(108, 221, 255, 0.82);
+  outline-offset: 2px;
 }
 
 .banks__logo {
@@ -1570,9 +1602,26 @@ a {
 
 .footer {
   padding: 16px 0 30px;
-  text-align: center;
   color: #a5c8ea;
   font-size: clamp(13px, 1.02vw, 16px);
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.footer__copy {
+  color: #a5c8ea;
+}
+
+.footer__credit {
+  color: #7edfff;
+  font-weight: 500;
+  text-shadow: 0 0 10px rgba(90, 210, 255, 0.25);
+  text-align: right;
 }
 
 @media (max-width: 980px) {
@@ -1843,6 +1892,12 @@ a {
   .banks__row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
   }
 }
 

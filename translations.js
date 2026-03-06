@@ -75,6 +75,7 @@ window.I18N = {
     companyPhoneLabel: 'Telefon',
     companyCallBtn: 'Helista',
     companySourceNote: 'Andmed: e-Äriregister.',
+    footerCredit: 'Veebilehe teostas Arides IT Lab',
 
     reviewsHeading: 'Klientide tagasiside',
     review1Text: 'Väga professionaalne teenus ja kiire suhtlus. Kõik deklaratsioonid esitatud tähtaegselt.',
@@ -203,6 +204,7 @@ window.I18N = {
     companyPhoneLabel: 'Телефон',
     companyCallBtn: 'Позвонить',
     companySourceNote: 'Данные: e-Äriregister.',
+    footerCredit: 'Сайт сделан в Arides IT Lab',
 
     reviewsHeading: 'Отзывы клиентов',
     review1Text: 'Очень профессиональный сервис и быстрая коммуникация. Все декларации подаются вовремя.',
@@ -331,6 +333,7 @@ window.I18N = {
     companyPhoneLabel: 'Phone',
     companyCallBtn: 'Call',
     companySourceNote: 'Data source: e-Business Register.',
+    footerCredit: 'Site made in Arides IT Lab',
 
     reviewsHeading: 'Client Feedback',
     review1Text: 'Very professional service and fast communication. All declarations are submitted on time.',

@@ -448,28 +448,31 @@ teenused</span>
     <section class="banks section" aria-label="Partner banks and payment systems">
       <div class="container">
         <div class="banks__row">
-          <figure class="banks__item">
+          <a class="banks__item" href="https://www.swedbank.ee/business" target="_blank" rel="noopener noreferrer" aria-label="Open Swedbank">
             <img class="banks__logo banks__logo--swedbank" src="assets/banks/swedbank.png" alt="Swedbank logo" />
-          </figure>
-          <figure class="banks__item">
+          </a>
+          <a class="banks__item" href="https://www.seb.ee/en/business" target="_blank" rel="noopener noreferrer" aria-label="Open SEB">
             <img class="banks__logo banks__logo--seb" src="assets/banks/seb.png" alt="SEB logo" />
-          </figure>
-          <figure class="banks__item">
+          </a>
+          <a class="banks__item" href="https://www.lhv.ee/en" target="_blank" rel="noopener noreferrer" aria-label="Open LHV">
             <img class="banks__logo banks__logo--lhv" src="assets/banks/lhv-pank.png" alt="LHV Pank logo" />
-          </figure>
-          <figure class="banks__item">
+          </a>
+          <a class="banks__item" href="https://www.revolut.com/business/" target="_blank" rel="noopener noreferrer" aria-label="Open Revolut Business">
             <img class="banks__logo banks__logo--revolut" src="assets/banks/revolut-business.png" alt="Revolut Business logo" />
-          </figure>
-          <figure class="banks__item">
+          </a>
+          <a class="banks__item" href="https://www.paypal.com/business" target="_blank" rel="noopener noreferrer" aria-label="Open PayPal">
             <img class="banks__logo banks__logo--paypal" src="assets/banks/paypal.png" alt="PayPal logo" />
-          </figure>
+          </a>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container">© <span id="year"></span> TalconGrupp</div>
+    <div class="container footer__inner">
+      <span class="footer__copy">© <span id="year"></span> TalconGrupp</span>
+      <span class="footer__credit" data-i18n="footerCredit">Site made in Arides IT Lab</span>
+    </div>
   </footer>
 
   <div class="payroll-modal" id="payrollModal" hidden>
@@ -493,7 +496,7 @@ teenused</span>
       <h3 class="payroll-modal__title" id="payrollTitle" data-i18n="payrollTitle">Palgakalkulaator</h3>
       <p class="payroll-modal__subtitle" data-i18n="payrollSubtitle">Arvuta töötasu kiiresti ja mugavalt</p>
 
-      <form class="payroll-form" id="payrollForm" autocomplete="off">
+      <form class="payroll-form" id="payrollForm" autocomplete="off" novalidate>
         <div class="payroll-mode" role="radiogroup" data-i18n-aria="payrollModeAria" aria-label="Calculation direction">
           <label class="payroll-mode__item">
             <input type="radio" name="payroll_mode" value="grossToNet" checked />
