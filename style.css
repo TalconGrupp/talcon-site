@@ -404,8 +404,10 @@ a {
 
 .payroll-modal__panel {
   position: fixed;
+  left: 50%;
+  top: 50%;
   width: min(390px, calc(100vw - 24px));
-  max-height: calc(100vh - 28px);
+  max-height: calc(100dvh - 24px);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
@@ -419,22 +421,14 @@ a {
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 0 22px rgba(81, 215, 255, 0.18),
     0 26px 44px rgba(0, 0, 0, 0.44);
-  transform: translateY(8px) scale(0.96);
+  transform: translate(-50%, -50%) scale(0.96);
   opacity: 0;
   transition: transform 0.22s ease, opacity 0.22s ease;
 }
 
 .payroll-modal.is-open .payroll-modal__panel {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-}
-
-.payroll-modal__panel.is-centered {
-  transform: translate(-50%, -50%) scale(0.96);
-}
-
-.payroll-modal.is-open .payroll-modal__panel.is-centered {
   transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
 }
 
 .payroll-modal__close {
@@ -619,7 +613,7 @@ a {
 
 @media (max-height: 760px) {
   .payroll-modal__panel {
-    max-height: calc(100vh - 20px);
+    max-height: calc(100dvh - 14px);
     padding: 14px 14px 12px;
   }
 }
@@ -1562,35 +1556,50 @@ a {
   }
 
   .hero__layout {
-    grid-template-columns: minmax(0, 1fr) 160px;
+    grid-template-columns: 1fr;
     gap: 14px;
   }
 
+  .hero__content {
+    order: 1;
+  }
+
   .trust-badges {
-    width: 160px;
-    margin-top: 10px;
-    margin-right: 2px;
+    grid-column: 1;
+    grid-row: auto;
+    order: 2;
+    justify-self: stretch;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    margin-top: 0;
+    margin-right: 0;
+    padding: 2px 2px 4px;
   }
 
   .trust-badge {
-    min-height: 52px;
+    flex: 0 0 150px;
+    min-height: 50px;
     padding: 8px;
   }
 
   .trust-badge--mta img {
-    max-height: 28px;
+    max-height: 26px;
   }
 
   .trust-badge--ria img {
-    max-height: 30px;
+    max-height: 27px;
   }
 
   .trust-badge--riigiportaal img {
-    max-height: 28px;
+    max-height: 25px;
   }
 
   .trust-badge--eariregister img {
-    max-height: 26px;
+    max-height: 24px;
   }
 
   .trust-badge--merit img {
@@ -1641,18 +1650,13 @@ a {
   }
 
   .trust-badges {
-    grid-column: 1;
-    order: 2;
-    justify-self: end;
-    width: min(330px, 100%);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    margin-top: 0;
-    margin-right: 0;
+    gap: 7px;
+    padding: 1px 1px 4px;
   }
 
   .trust-badge {
-    min-height: 50px;
+    flex: 0 0 136px;
+    min-height: 48px;
   }
 
   .trust-badge--mta img {
@@ -1747,6 +1751,16 @@ a {
   .brand__tag {
     font-size: 11px;
     letter-spacing: 0.04em;
+  }
+
+  .trust-badges {
+    gap: 6px;
+  }
+
+  .trust-badge {
+    flex-basis: 124px;
+    min-height: 46px;
+    padding: 7px;
   }
 
   .hero__text {

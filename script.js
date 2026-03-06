@@ -71,6 +71,7 @@ function t(key, fallback) {
 }
 
 const langSelect = document.getElementById('langSelect');
+const MAILBOX_ENDPOINT = 'https://formsubmit.co/ajax/talcon.grupp@gmail.com';
 
 function updateLangSwitchCurrent(lang) {
   if (!langSelect) return;
@@ -399,6 +400,41 @@ function formatEuro(value) {
 
 function isEmailValue(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+}
+
+function appendSubmissionMeta(formData, subject, replyTo = '') {
+  formData.append('_subject', subject);
+  formData.append('_captcha', 'false');
+  formData.append('_template', 'table');
+  formData.append('site', 'talcon.ee');
+  formData.append('page_url', window.location.href);
+  formData.append('language', currentLang);
+  formData.append('submitted_at', new Date().toISOString());
+  if (replyTo) formData.append('_replyto', replyTo);
+}
+
+async function sendSubmission(formData) {
+  const response = await fetch(MAILBOX_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json'
+    },
+    body: formData
+  });
+
+  let payload = null;
+  try {
+    payload = await response.json();
+  } catch {
+    payload = null;
+  }
+
+  const isSuccess = payload?.success === true || payload?.success === 'true';
+  if (!response.ok || !isSuccess) {
+    throw new Error(payload?.message || `Submission failed with status ${response.status}`);
+  }
+
+  return payload;
 }
 
 function getSelectedService() {
@@ -828,6 +864,41 @@ function renderServiceOrder() {
   }
 }
 
+function getOrderSummaryText(service) {
+  const lines = [];
+  const extras = orderExtrasList
+    ? [...orderExtrasList.querySelectorAll('li')].map((item) => item.textContent?.trim()).filter(Boolean)
+    : [];
+
+  lines.push(`${t('orderServiceLabel', 'Service')}: ${orderService?.textContent?.trim() || service?.title || '-'}`);
+
+  if (orderBusinessRow && !orderBusinessRow.hasAttribute('hidden')) {
+    lines.push(`${t('orderBusinessLabel', 'Business form')}: ${orderBusinessType?.textContent?.trim() || '-'}`);
+  }
+
+  lines.push(`${t('orderBaseLabel', 'Base price')}: ${orderBasePrice?.textContent?.trim() || '-'}`);
+
+  if (orderRegFeeRow && !orderRegFeeRow.hasAttribute('hidden')) {
+    lines.push(`${t('orderRegFeeLabel', 'State fee')}: ${orderRegFee?.textContent?.trim() || '-'}`);
+  }
+
+  lines.push(`${t('orderPeriodLabel', 'Period')}: ${orderPeriod?.textContent?.trim() || '-'}`);
+
+  if (orderMonthlyRow && !orderMonthlyRow.hasAttribute('hidden')) {
+    lines.push(`${t('orderMonthlyLabel', 'Service for period')}: ${orderMonthlyTotal?.textContent?.trim() || '-'}`);
+  }
+
+  lines.push(`${t('orderExtrasLabel', 'Additional services')}:`);
+  if (extras.length > 0) {
+    extras.forEach((extra) => lines.push(`- ${extra}`));
+  } else {
+    lines.push(`- ${t('orderNoExtras', 'No extra services')}`);
+  }
+
+  lines.push(`${t('orderTotalLabel', 'Total amount')}: ${orderTotalPrice?.textContent?.trim() || '-'}`);
+  return lines.join('\n');
+}
+
 function renderServiceConfigurator() {
   const service = getSelectedService();
   if (!service) return;
@@ -973,6 +1044,8 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
   const companyInput = serviceOrderForm.querySelector('input[name="order_company"]');
   const personInput = serviceOrderForm.querySelector('input[name="order_name"]');
   const emailInput = serviceOrderForm.querySelector('input[name="order_email"]');
+  const phoneInput = serviceOrderForm.querySelector('input[name="order_phone"]');
+  const commentInput = serviceOrderForm.querySelector('textarea[name="order_comment"]');
 
   clearOrderFieldError(companyInput);
   clearOrderFieldError(personInput);
@@ -1017,9 +1090,35 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
   setOrderHint(t('orderSending', 'Sending request...'));
 
   try {
-    await new Promise((resolve) => setTimeout(resolve, 650));
+    const selectedForm = getSelectedForm(service);
+    const periodMonths = getPeriodMonths();
+    const formData = new FormData();
+    appendSubmissionMeta(
+      formData,
+      `Talcon.ee | ${service.title} | ${company}`,
+      email
+    );
+
+    formData.append('request_type', 'service_order');
+    formData.append('name', person);
+    formData.append('email', email);
+    formData.append('service', service.title);
+    formData.append('business_form', selectedForm?.title || '-');
+    formData.append('period_months', Number.isFinite(periodMonths) ? String(periodMonths) : '-');
+    formData.append('company_name', company);
+    formData.append('contact_name', person);
+    formData.append('contact_email', email);
+    formData.append('contact_phone', phoneInput?.value.trim() || '-');
+    formData.append('comment', commentInput?.value.trim() || '-');
+    formData.append('order_summary', getOrderSummaryText(service));
+
+    await sendSubmission(formData);
     setOrderHint(t('orderSent', 'Request sent. We will contact you soon.'));
     serviceOrderForm.reset();
+    serviceState.periodMonths = null;
+    serviceState.selectedExtras = new Set();
+    serviceState.extraQuantities = {};
+    renderServiceConfigurator();
   } catch (error) {
     console.error(error);
     setOrderHint(t('orderError', 'Request sending failed. Please try again.'), true);
@@ -1034,7 +1133,6 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
 // =======================
 const payrollOpenBtn = document.querySelector('[data-open-payroll]');
 const payrollModal = document.getElementById('payrollModal');
-const payrollPanel = document.getElementById('payrollPanel');
 const closePayrollModalBtn = document.getElementById('closePayrollModal');
 const payrollForm = document.getElementById('payrollForm');
 const payrollHint = document.getElementById('payrollHint');
@@ -1050,7 +1148,6 @@ const PAYROLL_RATES = {
 };
 
 let payrollCloseTimer = null;
-let payrollPositionRaf = null;
 let payrollLastResult = null;
 
 function formatPayrollEuro(value) {
@@ -1090,58 +1187,6 @@ function resetPayrollCalculator() {
   clearPayrollResult();
 }
 
-function positionPayrollPanel() {
-  if (!payrollPanel || !payrollOpenBtn || payrollModal?.hasAttribute('hidden')) return;
-
-  const margin = 14;
-  const gap = 12;
-  const isMobile = window.innerWidth <= 760;
-
-  if (isMobile) {
-    payrollPanel.classList.add('is-centered');
-    payrollPanel.style.left = '50%';
-    payrollPanel.style.top = '50%';
-    return;
-  }
-
-  payrollPanel.classList.remove('is-centered');
-
-  const triggerRect = payrollOpenBtn.getBoundingClientRect();
-  const panelRect = payrollPanel.getBoundingClientRect();
-
-  let left = triggerRect.left - panelRect.width - gap;
-  let top = triggerRect.top;
-
-  if (left < margin) {
-    left = triggerRect.left;
-    top = triggerRect.bottom + gap;
-  }
-
-  if (left + panelRect.width > window.innerWidth - margin) {
-    left = window.innerWidth - panelRect.width - margin;
-  }
-
-  if (top + panelRect.height > window.innerHeight - margin) {
-    top = window.innerHeight - panelRect.height - margin;
-  }
-
-  if (left < margin) left = margin;
-  if (top < margin) top = margin;
-
-  payrollPanel.style.left = `${left}px`;
-  payrollPanel.style.top = `${top}px`;
-}
-
-function schedulePayrollPanelPosition() {
-  if (payrollModal?.hasAttribute('hidden')) return;
-  if (payrollPositionRaf) return;
-
-  payrollPositionRaf = requestAnimationFrame(() => {
-    payrollPositionRaf = null;
-    positionPayrollPanel();
-  });
-}
-
 function openPayrollCalculator() {
   if (!payrollModal) return;
   if (!payrollModal.hasAttribute('hidden')) return;
@@ -1152,7 +1197,6 @@ function openPayrollCalculator() {
   }
 
   payrollModal.removeAttribute('hidden');
-  schedulePayrollPanelPosition();
   requestAnimationFrame(() => payrollModal.classList.add('is-open'));
 }
 
@@ -1161,11 +1205,6 @@ function closePayrollCalculator() {
   if (payrollModal.hasAttribute('hidden')) return;
 
   payrollModal.classList.remove('is-open');
-
-  if (payrollPositionRaf) {
-    cancelAnimationFrame(payrollPositionRaf);
-    payrollPositionRaf = null;
-  }
 
   if (payrollCloseTimer) clearTimeout(payrollCloseTimer);
   payrollCloseTimer = setTimeout(() => {
@@ -1275,6 +1314,7 @@ function renderPayrollRows(mode, data, useTaxFree) {
 
   payrollResult.removeAttribute('hidden');
   payrollLastResult = { mode, data, useTaxFree };
+  payrollResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 payrollOpenBtn?.addEventListener('click', (event) => {
@@ -1293,16 +1333,6 @@ payrollModal?.addEventListener('click', (event) => {
     closePayrollCalculator();
   }
 });
-
-window.addEventListener('resize', () => {
-  if (payrollModal?.hasAttribute('hidden')) return;
-  schedulePayrollPanelPosition();
-});
-
-window.addEventListener('scroll', () => {
-  if (payrollModal?.hasAttribute('hidden')) return;
-  schedulePayrollPanelPosition();
-}, { passive: true });
 
 payrollForm?.querySelector('input[name="payroll_amount"]')?.addEventListener('input', () => {
   clearPayrollAmountError();
@@ -1450,7 +1480,24 @@ form?.addEventListener('submit', async (e) => {
   setHint(t('formSending', 'Sending…'), false, false);
 
   try {
-    await new Promise((r) => setTimeout(r, 650));
+    const payload = new FormData();
+    appendSubmissionMeta(
+      payload,
+      `Talcon.ee | Quick contact | ${nameValue}`,
+      emailValue
+    );
+    payload.append('request_type', 'quick_contact');
+    payload.append('name', nameValue);
+    payload.append('email', emailValue);
+    payload.append('name_or_company', nameValue);
+    payload.append('contact_email', emailValue);
+    payload.append('message', messageField?.value.trim() || '-');
+
+    if (fileInput?.files && fileInput.files.length > 0) {
+      payload.append('attachment', fileInput.files[0]);
+    }
+
+    await sendSubmission(payload);
 
     setHint(t('formSent', 'Sent! We will contact you soon.'));
     form.reset();
