@@ -7,6 +7,7 @@
   --card-border: rgba(108, 187, 236, 0.3);
   --btn-1: #0b6f99;
   --btn-2: #0a5a84;
+  --trust-desktop-shift: 0px;
 }
 
 * {
@@ -285,6 +286,8 @@ a {
   gap: 8px;
   margin-top: 0;
   margin-right: 0;
+  transform: translateX(var(--trust-desktop-shift));
+  will-change: transform;
   min-width: 0;
   max-width: 100%;
 }
@@ -1675,6 +1678,7 @@ a {
     overscroll-behavior-x: contain;
     margin-top: 0;
     margin-right: 0;
+    transform: none;
     padding: 2px 2px 4px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;

@@ -30,6 +30,7 @@ mobileMenu?.querySelectorAll('a').forEach((link) => {
 window.addEventListener('resize', () => {
   if (window.innerWidth > 860) closeMobileMenu();
   updateLangSelectLabels();
+  updateTrustBadgesAlignment();
 });
 
 // Year
@@ -72,6 +73,8 @@ function t(key, fallback) {
 }
 
 const langSelect = document.getElementById('langSelect');
+const langSwitch = document.getElementById('langSwitch');
+const trustBadgesPanel = document.querySelector('.trust-badges');
 const MAILBOX_ENDPOINT = 'https://formsubmit.co/ajax/talcon.grupp@gmail.com';
 
 function updateLangSelectLabels() {
@@ -84,6 +87,24 @@ function updateLangSelectLabels() {
     if (!shortLabel || !longLabel) return;
     option.textContent = isMobile ? shortLabel : longLabel;
   });
+}
+
+function updateTrustBadgesAlignment() {
+  const root = document.documentElement;
+  if (!root) return;
+
+  if (window.innerWidth <= 980 || !langSwitch || !trustBadgesPanel) {
+    root.style.setProperty('--trust-desktop-shift', '0px');
+    return;
+  }
+
+  // Reset before measuring so each pass compares natural positions.
+  root.style.setProperty('--trust-desktop-shift', '0px');
+  const langRight = langSwitch.getBoundingClientRect().right;
+  const trustRight = trustBadgesPanel.getBoundingClientRect().right;
+  const diff = langRight - trustRight;
+  const shift = Math.max(-360, Math.min(360, diff));
+  root.style.setProperty('--trust-desktop-shift', `${shift.toFixed(2)}px`);
 }
 
 function updateLangSwitchCurrent(lang) {
@@ -1636,6 +1657,7 @@ function applyTranslations(lang) {
 
   updateLangSwitchCurrent(lang);
   updateLangSelectLabels();
+  requestAnimationFrame(updateTrustBadgesAlignment);
 
   renderServiceCards();
   if (serviceState.serviceId) {
@@ -1669,5 +1691,21 @@ document.addEventListener('keydown', (event) => {
 
 applyTranslations(currentLang);
 updateLangSelectLabels();
+updateTrustBadgesAlignment();
 updateFileHint();
 renderServiceCards();
+
+window.addEventListener('load', () => {
+  updateTrustBadgesAlignment();
+  setTimeout(updateTrustBadgesAlignment, 250);
+  setTimeout(updateTrustBadgesAlignment, 900);
+  setTimeout(updateTrustBadgesAlignment, 1600);
+});
+
+if (document.fonts?.ready) {
+  document.fonts.ready.then(() => {
+    updateTrustBadgesAlignment();
+  }).catch(() => {
+    // ignore font-loading errors
+  });
+}
