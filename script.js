@@ -190,16 +190,17 @@ const SERVICE_CATALOG_I18N = {
       kind: 'monthly',
       defaultFormId: 'ou',
       title: 'Raamatupidamise tugi',
-      cardText: 'Igakuine raamatupidamine hinnapaketiga vastavalt dokumentide mahule.',
+      badgeLabel: 'Täielik arvestus',
+      cardText: 'Täielik igakuine teenus: dokumendid, jooksev raamatupidamine, deklaratsioonid ja palgaarvestus.',
       cardPriceText: 'alates 119€',
       cardPriceSuffix: '/kuu',
       cardFeatures: [
-        'Paketid dokumentide mahu järgi',
-        'Igakuine raamatupidamine',
+        'Täielik igakuine arvestus',
+        'Algdokumentide töötlemine',
         'Maksudeklaratsioonide esitamine',
-        'Palgaarvestuse tugi'
+        'Palgaarvestus'
       ],
-      description: 'Valige ärivorm, hinnake dokumentide mahtu kuus ja märkige teenuse periood. Hinnang muutub automaatselt.',
+      description: 'Sobib siis, kui vajate täielikku igakuist raamatupidamisteenust. Hind sõltub ärivormist, dokumendipaketist ja teenuse perioodist.',
       forms: [
         {
           id: 'fie',
@@ -242,10 +243,10 @@ const SERVICE_CATALOG_I18N = {
       },
       baseBilling: 'monthly',
       includes: [
+        'algdokumentide töötlemine',
         'igakuine raamatupidamine',
         'maksudeklaratsioonide esitamine',
-        'palgaarvestus',
-        'käibedeklaratsioonid'
+        'palgaarvestus'
       ],
       extras: [
         { id: 'annual-report', title: 'Aastaaruanne', price: 150, billing: 'one-time' },
@@ -257,17 +258,18 @@ const SERVICE_CATALOG_I18N = {
     taxes: {
       kind: 'monthly',
       defaultFormId: 'ou',
-      title: 'Maksud ja aruandlus',
-      cardText: 'Maksu- ja aruandlustugi hinnapaketiga vastavalt dokumentide mahule.',
+      title: 'Maksutugi ja aruandlus',
+      badgeLabel: 'Maksuplokk',
+      cardText: 'Eraldi teenus deklaratsioonide, tähtaegade ja kohustusliku aruandluse jaoks.',
       cardPriceText: 'alates 149€',
       cardPriceSuffix: '/kuu',
       cardFeatures: [
-        'Paketid dokumentide mahu järgi',
         'Maksudeklaratsioonid',
-        'Tähtaegade kontroll',
-        'Aruandluse tugi'
+        'Tähtaegade ja kohustuste kontroll',
+        'Kohustuslik aruandlus',
+        'Maksuküsimuste tugi'
       ],
-      description: 'Sobib siis, kui vajate maksudeklaratsioone, aruandlust ja tähtpäevade jälgimist. Hind sõltub dokumentide mahust ja ettevõtte vormist.',
+      description: 'Sobib siis, kui jooksev raamatupidamine on korraldatud, kuid vajate eraldi maksudeklaratsioonide, tähtaegade ja aruandluse tuge. Hind sõltub ärivormist, dokumendipaketist ja teenuse perioodist.',
       forms: [
         {
           id: 'fie',
@@ -311,8 +313,9 @@ const SERVICE_CATALOG_I18N = {
       baseBilling: 'monthly',
       includes: [
         'maksudeklaratsioonid',
-        'tähtaegade kontroll',
-        'baaskonsultatsioon'
+        'tähtaegade ja kohustuste kontroll',
+        'kohustuslik aruandlus',
+        'maksuküsimuste tugi'
       ],
       extras: [
         { id: 'vat', title: 'VAT', price: 80, billing: 'monthly' },
@@ -392,16 +395,17 @@ const SERVICE_CATALOG_I18N = {
       kind: 'monthly',
       defaultFormId: 'ou',
       title: 'Бухгалтерское сопровождение',
-      cardText: 'Ежемесячная бухгалтерия с пакетной ценой по количеству документов.',
+      badgeLabel: 'Полный учёт',
+      cardText: 'Полное ежемесячное ведение: документы, бухгалтерия, декларации и зарплата.',
       cardPriceText: 'от 119€',
       cardPriceSuffix: '/месяц',
       cardFeatures: [
-        'Пакеты по объёму документов',
-        'Ежемесячная бухгалтерия',
-        'Подача деклараций',
-        'Поддержка по зарплате'
+        'Полный ежемесячный учёт',
+        'Обработка первичных документов',
+        'Налоговые декларации',
+        'Расчёт зарплаты'
       ],
-      description: 'Выберите форму предприятия, примерное количество документов в месяц и период обслуживания. Стоимость пересчитывается автоматически.',
+      description: 'Подходит, если нужен полный цикл ежемесячной бухгалтерии. Цена зависит от формы предприятия, выбранного пакета и периода обслуживания.',
       forms: [
         {
           id: 'fie',
@@ -444,10 +448,10 @@ const SERVICE_CATALOG_I18N = {
       },
       baseBilling: 'monthly',
       includes: [
+        'обработка первичных документов',
         'ежемесячная бухгалтерия',
         'подача налоговых деклараций',
-        'расчёт зарплаты',
-        'декларации по НДС'
+        'расчёт зарплаты'
       ],
       extras: [
         { id: 'annual-report', title: 'Годовой отчёт', price: 150, billing: 'one-time' },
@@ -459,17 +463,18 @@ const SERVICE_CATALOG_I18N = {
     taxes: {
       kind: 'monthly',
       defaultFormId: 'ou',
-      title: 'Налоги и отчётность',
-      cardText: 'Налоговое сопровождение и отчётность с расчётом по количеству документов.',
+      title: 'Налоговое сопровождение',
+      badgeLabel: 'Налоговый блок',
+      cardText: 'Отдельный блок деклараций, сроков и обязательной отчётности для компании.',
       cardPriceText: 'от 149€',
       cardPriceSuffix: '/месяц',
       cardFeatures: [
-        'Пакеты по объёму документов',
         'Налоговые декларации',
-        'Контроль сроков',
-        'Поддержка по отчётности'
+        'Контроль сроков и обязательств',
+        'Обязательная отчётность',
+        'Налоговые вопросы и ответы'
       ],
-      description: 'Подходит, если вам нужны декларации, контроль сроков и сопровождение отчётности. Цена зависит от формы предприятия и количества документов.',
+      description: 'Подходит, если текущий учёт уже организован, но нужен отдельный налоговый блок: декларации, сроки, обязательная отчётность и ответы по налоговым вопросам. Цена зависит от формы предприятия, пакета и периода.',
       forms: [
         {
           id: 'fie',
@@ -513,8 +518,9 @@ const SERVICE_CATALOG_I18N = {
       baseBilling: 'monthly',
       includes: [
         'налоговые декларации',
-        'контроль сроков',
-        'базовая консультация'
+        'контроль сроков и обязательств',
+        'обязательная отчётность',
+        'ответы по налоговым вопросам'
       ],
       extras: [
         { id: 'vat', title: 'VAT', price: 80, billing: 'monthly' },
@@ -594,16 +600,17 @@ const SERVICE_CATALOG_I18N = {
       kind: 'monthly',
       defaultFormId: 'ou',
       title: 'Accounting Support',
-      cardText: 'Monthly bookkeeping with package pricing based on document volume.',
+      badgeLabel: 'Full bookkeeping',
+      cardText: 'Complete monthly service: documents, daily bookkeeping, filings, and payroll.',
       cardPriceText: 'from 119€',
       cardPriceSuffix: '/month',
       cardFeatures: [
-        'Packages by document volume',
-        'Monthly bookkeeping',
+        'Full monthly bookkeeping',
+        'Source document processing',
         'Tax declaration filing',
-        'Payroll support'
+        'Payroll calculation'
       ],
-      description: 'Choose the business form, estimate how many documents are processed each month, and select the service period. The estimate updates automatically.',
+      description: 'Best when you need full monthly bookkeeping support. Pricing depends on the business form, selected document package, and service period.',
       forms: [
         {
           id: 'fie',
@@ -646,10 +653,10 @@ const SERVICE_CATALOG_I18N = {
       },
       baseBilling: 'monthly',
       includes: [
+        'source document processing',
         'monthly bookkeeping',
         'tax declaration filing',
-        'payroll calculation',
-        'VAT declarations'
+        'payroll calculation'
       ],
       extras: [
         { id: 'annual-report', title: 'Annual report', price: 150, billing: 'one-time' },
@@ -661,17 +668,18 @@ const SERVICE_CATALOG_I18N = {
     taxes: {
       kind: 'monthly',
       defaultFormId: 'ou',
-      title: 'Taxes and Reporting',
-      cardText: 'Tax support and reporting with pricing based on document volume.',
+      title: 'Tax Support',
+      badgeLabel: 'Tax layer',
+      cardText: 'A separate service for declarations, deadlines, and mandatory reporting.',
       cardPriceText: 'from 149€',
       cardPriceSuffix: '/month',
       cardFeatures: [
-        'Packages by document volume',
         'Tax declarations',
-        'Deadline control',
-        'Reporting support'
+        'Deadline and obligation control',
+        'Mandatory reporting',
+        'Tax question support'
       ],
-      description: 'Best if you need tax returns, deadline control, and reporting support. Pricing depends on business form and monthly document volume.',
+      description: 'Best when bookkeeping is already organised but you need a separate tax layer for filings, deadlines, mandatory reporting, and tax questions. Pricing depends on the business form, package, and service period.',
       forms: [
         {
           id: 'fie',
@@ -715,8 +723,9 @@ const SERVICE_CATALOG_I18N = {
       baseBilling: 'monthly',
       includes: [
         'tax declarations',
-        'deadline control',
-        'basic consultation'
+        'deadline and obligation control',
+        'mandatory reporting',
+        'tax question support'
       ],
       extras: [
         { id: 'vat', title: 'VAT', price: 80, billing: 'monthly' },
@@ -741,7 +750,6 @@ const businessTypeOptions = document.getElementById('businessTypeOptions');
 const businessTypeHint = document.getElementById('businessTypeHint');
 const workloadBlock = document.getElementById('workloadBlock');
 const workloadIntro = document.getElementById('workloadIntro');
-const serviceDocumentsInput = document.getElementById('serviceDocumentsInput');
 const servicePackageTitle = document.getElementById('servicePackageTitle');
 const servicePackageHint = document.getElementById('servicePackageHint');
 const servicePackageList = document.getElementById('servicePackageList');
@@ -758,8 +766,6 @@ const orderBusinessRow = document.getElementById('orderBusinessRow');
 const orderBusinessType = document.getElementById('orderBusinessType');
 const orderPackageRow = document.getElementById('orderPackageRow');
 const orderPackage = document.getElementById('orderPackage');
-const orderDocumentsRow = document.getElementById('orderDocumentsRow');
-const orderDocuments = document.getElementById('orderDocuments');
 const orderBasePrice = document.getElementById('orderBasePrice');
 const orderRegFeeRow = document.getElementById('orderRegFeeRow');
 const orderRegFee = document.getElementById('orderRegFee');
@@ -789,7 +795,7 @@ const serviceState = {
   selectedExtras: new Set(),
   extraQuantities: {},
   periodMonths: null,
-  documentCount: null
+  selectedPackageId: null
 };
 
 function formatEuro(value) {
@@ -857,21 +863,39 @@ function hasWorkloadPricing(service) {
   return Boolean(service?.workloadPricing?.packages?.length);
 }
 
-function getDocumentCount(service = getSelectedService()) {
-  const fallback = service?.workloadPricing?.defaultDocuments || 20;
-  const value = Number.parseInt(String(serviceState.documentCount || ''), 10);
-  if (!Number.isFinite(value) || value < 1) return fallback;
-  return Math.min(1000, value);
+function getPackageByDocuments(service, documents) {
+  if (!hasWorkloadPricing(service)) return null;
+  const normalizedDocuments = Number.isFinite(Number(documents))
+    ? Math.max(1, Number(documents))
+    : (service.workloadPricing.defaultDocuments || 20);
+
+  return service.workloadPricing.packages.find((pkg) => {
+    const min = Number.isFinite(pkg.min) ? pkg.min : 1;
+    const max = Number.isFinite(pkg.max) ? pkg.max : Number.POSITIVE_INFINITY;
+    return normalizedDocuments >= min && normalizedDocuments <= max;
+  }) || service.workloadPricing.packages[service.workloadPricing.packages.length - 1] || null;
+}
+
+function getDefaultPackageId(service = getSelectedService()) {
+  return getPackageByDocuments(service, service?.workloadPricing?.defaultDocuments || 20)?.id
+    || service?.workloadPricing?.packages?.[0]?.id
+    || null;
 }
 
 function getSelectedPackage(service = getSelectedService()) {
   if (!hasWorkloadPricing(service)) return null;
-  const documents = getDocumentCount(service);
-  return service.workloadPricing.packages.find((pkg) => {
-    const min = Number.isFinite(pkg.min) ? pkg.min : 1;
-    const max = Number.isFinite(pkg.max) ? pkg.max : Number.POSITIVE_INFINITY;
-    return documents >= min && documents <= max;
-  }) || service.workloadPricing.packages[service.workloadPricing.packages.length - 1];
+  const selectedPackage = service.workloadPricing.packages.find((pkg) => pkg.id === serviceState.selectedPackageId);
+  if (selectedPackage) return selectedPackage;
+
+  const fallbackPackage = service.workloadPricing.packages.find((pkg) => pkg.id === getDefaultPackageId(service))
+    || service.workloadPricing.packages[0]
+    || null;
+
+  if (fallbackPackage) {
+    serviceState.selectedPackageId = fallbackPackage.id;
+  }
+
+  return fallbackPackage;
 }
 
 function getPeriodMonths() {
@@ -925,7 +949,6 @@ function getBasePriceSummary(service) {
       label: `${formatEuro(monthly)}${t('perMonthService', '/month')}`,
       packageTitle: selectedPackage?.title || '-',
       packageRangeLabel: selectedPackage?.rangeLabel || '',
-      documents: getDocumentCount(service),
       formAdjustment: adjustment
     };
   }
@@ -1062,12 +1085,22 @@ function renderServiceCards() {
     const subtitle = card.querySelector('p');
     const link = card.querySelector('.price-card__link');
     const btn = card.querySelector('.btn--card');
+    const badge = card.querySelector('.price-card__badge');
     const priceValue = card.querySelector('.price span');
     const priceSuffix = card.querySelector('.price small');
     const list = card.querySelector('ul');
 
     if (title) title.textContent = service.title;
     if (subtitle) subtitle.textContent = service.cardText;
+    if (badge) {
+      if (service.badgeLabel) {
+        badge.textContent = service.badgeLabel;
+        badge.removeAttribute('hidden');
+      } else {
+        badge.textContent = '';
+        badge.setAttribute('hidden', '');
+      }
+    }
     if (link) link.textContent = t('serviceView', 'View');
     if (btn) btn.textContent = t('serviceView', 'View');
     if (priceValue) {
@@ -1159,7 +1192,6 @@ function renderWorkloadPricing(service) {
   if (
     !workloadBlock
     || !workloadIntro
-    || !serviceDocumentsInput
     || !servicePackageTitle
     || !servicePackageHint
     || !servicePackageList
@@ -1177,16 +1209,14 @@ function renderWorkloadPricing(service) {
 
   workloadBlock.removeAttribute('hidden');
 
-  const documents = getDocumentCount(service);
   const selectedPackage = getSelectedPackage(service);
   const selectedForm = getSelectedForm(service);
   const adjustment = Number(selectedForm?.monthlyAdjustment || 0);
   const selectedPrice = Math.max(0, Number(selectedPackage?.price || 0) + adjustment);
 
-  serviceDocumentsInput.value = String(documents);
   workloadIntro.textContent = t(
     'configWorkloadText',
-    'Monthly service pricing depends on how many documents are processed each month.'
+    'Choose a package based on your expected monthly document volume.'
   );
   servicePackageTitle.textContent = `${selectedPackage?.title || '-'} · ${formatEuro(selectedPrice)}${t('perMonthService', '/month')}`;
 
@@ -1200,6 +1230,9 @@ function renderWorkloadPricing(service) {
   service.workloadPricing.packages.forEach((pkg) => {
     const item = document.createElement('li');
     item.className = `service-package-item${pkg.id === selectedPackage?.id ? ' is-active' : ''}`;
+    item.tabIndex = 0;
+    item.setAttribute('role', 'button');
+    item.setAttribute('aria-pressed', pkg.id === selectedPackage?.id ? 'true' : 'false');
 
     const info = document.createElement('div');
     info.className = 'service-package-item__info';
@@ -1216,6 +1249,18 @@ function renderWorkloadPricing(service) {
 
     info.append(title, range);
     item.append(info, price);
+    item.addEventListener('click', () => {
+      if (serviceState.selectedPackageId === pkg.id) return;
+      serviceState.selectedPackageId = pkg.id;
+      renderServiceConfigurator();
+    });
+    item.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      if (serviceState.selectedPackageId === pkg.id) return;
+      serviceState.selectedPackageId = pkg.id;
+      renderServiceConfigurator();
+    });
     servicePackageList.append(item);
   });
 }
@@ -1337,14 +1382,10 @@ function renderServiceOrder() {
 
   if (hasWorkloadPricing(service) && selectedPackage) {
     orderPackageRow?.removeAttribute('hidden');
-    orderDocumentsRow?.removeAttribute('hidden');
     if (orderPackage) orderPackage.textContent = `${selectedPackage.title} · ${selectedPackage.rangeLabel}`;
-    if (orderDocuments) orderDocuments.textContent = `${getDocumentCount(service)}`;
   } else {
     orderPackageRow?.setAttribute('hidden', '');
-    orderDocumentsRow?.setAttribute('hidden', '');
     if (orderPackage) orderPackage.textContent = '-';
-    if (orderDocuments) orderDocuments.textContent = '-';
   }
 
   if (!orderExtrasList || !orderTotalPrice) return;
@@ -1442,10 +1483,6 @@ function getOrderSummaryText(service) {
     lines.push(`${t('orderPackageLabel', 'Package')}: ${orderPackage?.textContent?.trim() || '-'}`);
   }
 
-  if (orderDocumentsRow && !orderDocumentsRow.hasAttribute('hidden')) {
-    lines.push(`${t('orderDocumentsLabel', 'Documents per month')}: ${orderDocuments?.textContent?.trim() || '-'}`);
-  }
-
   lines.push(`${t('orderBaseLabel', 'Base price')}: ${orderBasePrice?.textContent?.trim() || '-'}`);
 
   if (orderRegFeeRow && !orderRegFeeRow.hasAttribute('hidden')) {
@@ -1478,10 +1515,6 @@ function renderServiceConfigurator() {
     servicePeriodSelect.value = Number.isFinite(periodMonths) ? String(periodMonths) : '';
   }
 
-  if (serviceDocumentsInput && hasWorkloadPricing(service)) {
-    serviceDocumentsInput.value = String(getDocumentCount(service));
-  }
-
   if (configServiceTitle) configServiceTitle.textContent = service.title;
   if (configServiceText) configServiceText.textContent = service.description;
 
@@ -1504,7 +1537,7 @@ function selectService(serviceId, shouldScroll = false) {
     serviceState.extraQuantities = {};
     serviceState.businessFormId = service.defaultFormId || service.forms?.[0]?.id || null;
     serviceState.periodMonths = null;
-    serviceState.documentCount = service.workloadPricing?.defaultDocuments || null;
+    serviceState.selectedPackageId = getDefaultPackageId(service);
   }
 
   if (serviceConfigurator?.hasAttribute('hidden')) {
@@ -1569,15 +1602,6 @@ servicePeriodSelect?.addEventListener('change', () => {
   serviceState.periodMonths = Number.isFinite(value) && value >= 1 && value <= 12 ? value : null;
   if (hasValidPeriod()) clearPeriodError();
   renderServiceOrder();
-});
-
-serviceDocumentsInput?.addEventListener('input', () => {
-  const service = getSelectedService();
-  if (!service || !hasWorkloadPricing(service)) return;
-  const value = Number.parseInt(serviceDocumentsInput.value, 10);
-  serviceState.documentCount = Number.isFinite(value) && value >= 1 ? Math.min(1000, value) : service.workloadPricing.defaultDocuments || 20;
-  serviceDocumentsInput.value = String(serviceState.documentCount);
-  renderServiceConfigurator();
 });
 
 openOrderFormBtn?.addEventListener('click', () => {
@@ -1678,7 +1702,6 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     const selectedForm = getSelectedForm(service);
     const periodMonths = getPeriodMonths();
     const selectedPackage = getSelectedPackage(service);
-    const documentCount = hasWorkloadPricing(service) ? getDocumentCount(service) : null;
     const formData = new FormData();
     appendSubmissionMeta(
       formData,
@@ -1693,7 +1716,7 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     formData.append('business_form', selectedForm?.title || '-');
     formData.append('business_form_full', selectedForm?.fullTitle || selectedForm?.title || '-');
     formData.append('service_package', selectedPackage?.title || '-');
-    formData.append('documents_monthly', Number.isFinite(documentCount) ? String(documentCount) : '-');
+    formData.append('service_package_range', selectedPackage?.rangeLabel || '-');
     formData.append('period_months', Number.isFinite(periodMonths) ? String(periodMonths) : '-');
     formData.append('company_name', company);
     formData.append('contact_name', person);
@@ -1708,7 +1731,7 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     serviceState.periodMonths = null;
     serviceState.selectedExtras = new Set();
     serviceState.extraQuantities = {};
-    serviceState.documentCount = service.workloadPricing?.defaultDocuments || null;
+    serviceState.selectedPackageId = getDefaultPackageId(service);
     renderServiceConfigurator();
   } catch (error) {
     console.error(error);

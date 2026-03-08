@@ -276,9 +276,28 @@ teenused</span>
             <h3 data-i18n="businessPricingTitle">Калькулятор для бизнес-клиентов</h3>
           </div>
 
+          <div class="pricing-compare">
+            <p class="pricing-compare__title" data-i18n="pricingCompareTitle">Как выбрать услугу</p>
+            <div class="pricing-compare__grid">
+              <article class="pricing-compare__item">
+                <strong data-i18n="pricingCompareAccountingTitle">Бухгалтерское сопровождение</strong>
+                <p data-i18n="pricingCompareAccountingText">
+                  Выбирайте этот вариант, если нужен полный ежемесячный учёт: документы, текущая бухгалтерия, декларации и зарплата.
+                </p>
+              </article>
+              <article class="pricing-compare__item">
+                <strong data-i18n="pricingCompareTaxesTitle">Налоговое сопровождение</strong>
+                <p data-i18n="pricingCompareTaxesText">
+                  Выбирайте этот вариант, если учёт уже организован, но нужен отдельный контроль деклараций, сроков, обязательной отчётности и налоговых вопросов.
+                </p>
+              </article>
+            </div>
+          </div>
+
           <div class="pricing-cards">
             <article class="price-card price-card--interactive" data-service-id="registration" tabindex="0">
               <img class="price-card__icon" src="assets/icons/service-1.png" alt="" aria-hidden="true" />
+              <span class="price-card__badge" hidden></span>
               <h3>Регистрация бизнеса</h3>
               <p>Помощь с регистрацией разных форм бизнеса в Эстонии.</p>
               <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
@@ -294,30 +313,32 @@ teenused</span>
 
             <article class="price-card price-card--interactive" data-service-id="accounting" tabindex="0">
               <img class="price-card__icon" src="assets/icons/service-2.png" alt="" aria-hidden="true" />
+              <span class="price-card__badge">Полный учёт</span>
               <h3>Бухгалтерское сопровождение</h3>
-              <p>Ежемесячная бухгалтерия и отчётность для компаний в Эстонии.</p>
+              <p>Полное ежемесячное ведение: документы, бухгалтерия, декларации и зарплата.</p>
               <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
-              <div class="price"><span>159€</span><small>/месяц</small></div>
+              <div class="price"><span>от 119€</span><small>/месяц</small></div>
               <ul>
-                <li>Ежемесячная бухгалтерия</li>
-                <li>Подача налоговых деклараций</li>
+                <li>Полный ежемесячный учёт</li>
+                <li>Обработка первичных документов</li>
+                <li>Налоговые декларации</li>
                 <li>Расчёт зарплаты</li>
-                <li>Декларации по НДС</li>
               </ul>
               <button class="btn btn--card js-service-open" type="button">Смотреть</button>
             </article>
 
             <article class="price-card price-card--interactive" data-service-id="taxes" tabindex="0">
               <img class="price-card__icon" src="assets/icons/service-3.png" alt="" aria-hidden="true" />
-              <h3>Налоги и отчётность</h3>
-              <p>Налоговое сопровождение с контролем сроков и консультацией.</p>
+              <span class="price-card__badge">Налоговый блок</span>
+              <h3>Налоговое сопровождение</h3>
+              <p>Отдельный блок деклараций, сроков и обязательной отчётности для компании.</p>
               <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
-              <div class="price"><span>249€</span><small>/месяц</small></div>
+              <div class="price"><span>от 149€</span><small>/месяц</small></div>
               <ul>
                 <li>Налоговые декларации</li>
-                <li>Контроль сроков</li>
-                <li>Базовая консультация</li>
-                <li>Поддержка по отчётности</li>
+                <li>Контроль сроков и обязательств</li>
+                <li>Обязательная отчётность</li>
+                <li>Налоговые вопросы и ответы</li>
               </ul>
               <button class="btn btn--card js-service-open" type="button">Смотреть</button>
             </article>
@@ -338,22 +359,9 @@ teenused</span>
                 <div class="service-configurator__block service-workload" id="workloadBlock" hidden>
                   <h4 data-i18n="configWorkloadTitle">Пакет по документам</h4>
                   <p class="service-workload__text" id="workloadIntro" data-i18n="configWorkloadText">
-                    Стоимость ежемесячного обслуживания зависит от количества обрабатываемых документов в месяц.
+                    Выберите пакет по ожидаемому количеству документов в месяц.
                   </p>
                   <div class="service-workload__grid">
-                    <label class="service-workload__field" for="serviceDocumentsInput">
-                      <span data-i18n="configDocumentsLabel">Документы в месяц</span>
-                      <input
-                        type="number"
-                        id="serviceDocumentsInput"
-                        name="service_documents_monthly"
-                        min="1"
-                        max="1000"
-                        step="1"
-                        value="20"
-                      />
-                    </label>
-
                     <div class="service-workload__selected">
                       <span data-i18n="configPackageLabel">Выбранный пакет</span>
                       <strong id="servicePackageTitle">-</strong>
@@ -420,10 +428,6 @@ teenused</span>
                 <div class="service-order__line" id="orderPackageRow" hidden>
                   <span data-i18n="orderPackageLabel">Пакет</span>
                   <strong id="orderPackage">-</strong>
-                </div>
-                <div class="service-order__line" id="orderDocumentsRow" hidden>
-                  <span data-i18n="orderDocumentsLabel">Документы в месяц</span>
-                  <strong id="orderDocuments">-</strong>
                 </div>
                 <div class="service-order__line">
                   <span data-i18n="orderBaseLabel">Базовая цена</span>
