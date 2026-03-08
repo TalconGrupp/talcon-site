@@ -2030,6 +2030,13 @@ a {
   font-size: clamp(17px, 1.65vw, 24px);
 }
 
+.quick-contact__note {
+  margin: -4px 0 15px;
+  color: #8defff;
+  line-height: 1.42;
+  font-size: clamp(12px, 0.98vw, 14px);
+}
+
 .quote-context {
   margin: 0 0 16px;
   border: 1px solid rgba(118, 208, 248, 0.3);

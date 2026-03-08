@@ -177,6 +177,7 @@ window.I18N = {
 
     quickContactTitle: 'Kiire kontakt',
     quickContactText: 'Võite kirjutada meile või olemasoleva kliendina lisada faili (tšekk/arve). Vastame 24 tunni jooksul.',
+    quickContactDeliveryNote: 'Sõnum saadetakse raamatupidaja e-postile talcon.grupp@gmail.com.',
     formName: 'Teie nimi või ettevõtte nimi',
     formEmail: 'Teie e-post',
     formMsg: 'Teie sõnum (valikuline, kui lisate faili)',
@@ -400,6 +401,7 @@ window.I18N = {
 
     quickContactTitle: 'Быстрый контакт',
     quickContactText: 'Вы можете написать нам или, если вы действующий клиент, указать фирму, e-mail и прикрепить файл (чек/счёт).',
+    quickContactDeliveryNote: 'Сообщение будет отправлено на email бухгалтера talcon.grupp@gmail.com.',
     formName: 'Ваше имя или название фирмы',
     formEmail: 'Ваш e-mail',
     formMsg: 'Ваше сообщение (необязательно, если прикрепляете файл)',
@@ -623,6 +625,7 @@ window.I18N = {
 
     quickContactTitle: 'Quick Contact',
     quickContactText: 'You can write us a message, or as an existing client provide your company name, email, and attach a file (receipt/invoice).',
+    quickContactDeliveryNote: 'The message will be sent to the accountant at talcon.grupp@gmail.com.',
     formName: 'Your name or company name',
     formEmail: 'Your email',
     formMsg: 'Your message (optional if file is attached)',

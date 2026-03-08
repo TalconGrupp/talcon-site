@@ -962,21 +962,133 @@ async function sendSubmission(formData) {
 }
 
 async function sendSubmissionNoCorsFallback(formData) {
-  const fallbackBody = new URLSearchParams();
-
+  const fallbackBody = new FormData();
   formData.forEach((value, key) => {
-    if (value instanceof File) return;
-    fallbackBody.append(key, String(value));
+    fallbackBody.append(key, value);
   });
 
   await fetch(MAILBOX_FALLBACK_ENDPOINT, {
     method: 'POST',
     mode: 'no-cors',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-    },
     body: fallbackBody
   });
+}
+
+function appendHiddenFallbackFields(formElement, formData) {
+  const existingNames = new Set(
+    [...(formElement?.elements || [])]
+      .map((field) => String(field?.name || '').trim())
+      .filter(Boolean)
+  );
+
+  const appendedFields = [];
+  formData.forEach((value, key) => {
+    if (value instanceof File || existingNames.has(key)) return;
+    const hiddenField = document.createElement('input');
+    hiddenField.type = 'hidden';
+    hiddenField.name = key;
+    hiddenField.value = String(value);
+    hiddenField.dataset.fallbackField = 'true';
+    formElement.appendChild(hiddenField);
+    appendedFields.push(hiddenField);
+  });
+
+  return appendedFields;
+}
+
+async function sendSubmissionIframeFallback(formElement, formData) {
+  if (!formElement) {
+    throw new Error('Missing form element for iframe fallback.');
+  }
+
+  const iframe = document.createElement('iframe');
+  iframe.name = `submission_fallback_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+  iframe.hidden = true;
+  iframe.setAttribute('aria-hidden', 'true');
+  iframe.setAttribute('tabindex', '-1');
+
+  const appendedFields = appendHiddenFallbackFields(formElement, formData);
+  const originalAttrs = {
+    action: formElement.getAttribute('action'),
+    method: formElement.getAttribute('method'),
+    enctype: formElement.getAttribute('enctype'),
+    target: formElement.getAttribute('target'),
+    acceptCharset: formElement.getAttribute('accept-charset')
+  };
+
+  const cleanup = () => {
+    appendedFields.forEach((field) => field.remove());
+
+    if (originalAttrs.action === null) formElement.removeAttribute('action');
+    else formElement.setAttribute('action', originalAttrs.action);
+
+    if (originalAttrs.method === null) formElement.removeAttribute('method');
+    else formElement.setAttribute('method', originalAttrs.method);
+
+    if (originalAttrs.enctype === null) formElement.removeAttribute('enctype');
+    else formElement.setAttribute('enctype', originalAttrs.enctype);
+
+    if (originalAttrs.target === null) formElement.removeAttribute('target');
+    else formElement.setAttribute('target', originalAttrs.target);
+
+    if (originalAttrs.acceptCharset === null) formElement.removeAttribute('accept-charset');
+    else formElement.setAttribute('accept-charset', originalAttrs.acceptCharset);
+
+    iframe.remove();
+  };
+
+  document.body.appendChild(iframe);
+
+  formElement.setAttribute('action', MAILBOX_FALLBACK_ENDPOINT);
+  formElement.setAttribute('method', 'POST');
+  formElement.setAttribute('enctype', 'multipart/form-data');
+  formElement.setAttribute('target', iframe.name);
+  formElement.setAttribute('accept-charset', 'UTF-8');
+
+  return new Promise((resolve) => {
+    let settled = false;
+    let hasSubmitted = false;
+
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      cleanup();
+      resolve();
+    };
+
+    const timeoutId = window.setTimeout(finish, 2500);
+
+    iframe.addEventListener('load', () => {
+      if (!hasSubmitted) return;
+      window.clearTimeout(timeoutId);
+      window.setTimeout(finish, 150);
+    });
+
+    hasSubmitted = true;
+    formElement.submit();
+  });
+}
+
+async function sendSubmissionWithFallback(formData, formElement = null) {
+  try {
+    await sendSubmission(formData);
+    return { usedFallback: false };
+  } catch (error) {
+    const activationNeeded = /activation/i.test(String(error?.message || ''));
+    if (activationNeeded) throw error;
+
+    try {
+      if (formElement) {
+        await sendSubmissionIframeFallback(formElement, formData);
+      } else {
+        await sendSubmissionNoCorsFallback(formData);
+      }
+    } catch {
+      await sendSubmissionNoCorsFallback(formData);
+    }
+
+    return { usedFallback: true };
+  }
 }
 
 function getSelectedService() {
@@ -1855,16 +1967,7 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     formData.append('message', `${comment === '-' ? '' : `${comment}\n\n`}${orderSummary}`.trim() || orderSummary);
     formData.append('order_summary', orderSummary);
 
-    let usedFallback = false;
-
-    try {
-      await sendSubmission(formData);
-    } catch (error) {
-      const activationNeeded = /activation/i.test(String(error?.message || ''));
-      if (activationNeeded) throw error;
-      await sendSubmissionNoCorsFallback(formData);
-      usedFallback = true;
-    }
+    const { usedFallback } = await sendSubmissionWithFallback(formData, serviceOrderForm);
 
     setOrderHint(
       usedFallback
@@ -2557,9 +2660,13 @@ form?.addEventListener('submit', async (e) => {
       payload.append('attachment', fileInput.files[0]);
     }
 
-    await sendSubmission(payload);
+    const { usedFallback } = await sendSubmissionWithFallback(payload, form);
 
-    setHint(t('formSent', 'Sent! We will contact you soon.'));
+    setHint(
+      usedFallback
+        ? `${t('formSent', 'Sent! We will contact you soon.')} ${MAILBOX_EMAIL}`
+        : t('formSent', 'Sent! We will contact you soon.')
+    );
     form.reset();
     hasInvalidAttachment = false;
     clearFileError();
