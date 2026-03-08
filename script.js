@@ -190,7 +190,6 @@ const SERVICE_CATALOG_I18N = {
       kind: 'monthly',
       defaultFormId: 'ou',
       title: 'Raamatupidamise tugi',
-      badgeLabel: 'Täielik arvestus',
       cardText: 'Täielik igakuine teenus: dokumendid, jooksev raamatupidamine, deklaratsioonid ja palgaarvestus.',
       cardPriceText: 'alates 119€',
       cardPriceSuffix: '/kuu',
@@ -259,7 +258,6 @@ const SERVICE_CATALOG_I18N = {
       kind: 'monthly',
       defaultFormId: 'ou',
       title: 'Maksutugi ja aruandlus',
-      badgeLabel: 'Maksuplokk',
       cardText: 'Eraldi teenus deklaratsioonide, tähtaegade ja kohustusliku aruandluse jaoks.',
       cardPriceText: 'alates 149€',
       cardPriceSuffix: '/kuu',
@@ -395,7 +393,6 @@ const SERVICE_CATALOG_I18N = {
       kind: 'monthly',
       defaultFormId: 'ou',
       title: 'Бухгалтерское сопровождение',
-      badgeLabel: 'Полный учёт',
       cardText: 'Полное ежемесячное ведение: документы, бухгалтерия, декларации и зарплата.',
       cardPriceText: 'от 119€',
       cardPriceSuffix: '/месяц',
@@ -464,7 +461,6 @@ const SERVICE_CATALOG_I18N = {
       kind: 'monthly',
       defaultFormId: 'ou',
       title: 'Налоговое сопровождение',
-      badgeLabel: 'Налоговый блок',
       cardText: 'Отдельный блок деклараций, сроков и обязательной отчётности для компании.',
       cardPriceText: 'от 149€',
       cardPriceSuffix: '/месяц',
@@ -600,7 +596,6 @@ const SERVICE_CATALOG_I18N = {
       kind: 'monthly',
       defaultFormId: 'ou',
       title: 'Accounting Support',
-      badgeLabel: 'Full bookkeeping',
       cardText: 'Complete monthly service: documents, daily bookkeeping, filings, and payroll.',
       cardPriceText: 'from 119€',
       cardPriceSuffix: '/month',
@@ -669,7 +664,6 @@ const SERVICE_CATALOG_I18N = {
       kind: 'monthly',
       defaultFormId: 'ou',
       title: 'Tax Support',
-      badgeLabel: 'Tax layer',
       cardText: 'A separate service for declarations, deadlines, and mandatory reporting.',
       cardPriceText: 'from 149€',
       cardPriceSuffix: '/month',
@@ -1085,22 +1079,12 @@ function renderServiceCards() {
     const subtitle = card.querySelector('p');
     const link = card.querySelector('.price-card__link');
     const btn = card.querySelector('.btn--card');
-    const badge = card.querySelector('.price-card__badge');
     const priceValue = card.querySelector('.price span');
     const priceSuffix = card.querySelector('.price small');
     const list = card.querySelector('ul');
 
     if (title) title.textContent = service.title;
     if (subtitle) subtitle.textContent = service.cardText;
-    if (badge) {
-      if (service.badgeLabel) {
-        badge.textContent = service.badgeLabel;
-        badge.removeAttribute('hidden');
-      } else {
-        badge.textContent = '';
-        badge.setAttribute('hidden', '');
-      }
-    }
     if (link) link.textContent = t('serviceView', 'View');
     if (btn) btn.textContent = t('serviceView', 'View');
     if (priceValue) {
@@ -1755,6 +1739,14 @@ const ASSOCIATION_REPORTING_FEES = {
   annual: 10
 };
 
+const ASSOCIATION_DOCUMENT_PACKAGES = [
+  { id: 'up_to_20', labelKey: 'associationDocumentsUpTo20', fallbackLabel: 'up to 20 documents', price: 15 },
+  { id: 'from_21_to_50', labelKey: 'associationDocumentsFrom21To50', fallbackLabel: '21-50 documents', price: 30 },
+  { id: 'from_51_to_100', labelKey: 'associationDocumentsFrom51To100', fallbackLabel: '51-100 documents', price: 55 },
+  { id: 'from_101_to_160', labelKey: 'associationDocumentsFrom101To160', fallbackLabel: '101-160 documents', price: 85 },
+  { id: 'from_161_plus', labelKey: 'associationDocumentsFrom161Plus', fallbackLabel: '161+ documents', price: 120 }
+];
+
 function normalizeInteger(value, min, max, fallback) {
   const parsed = Number.parseInt(String(value || '').trim(), 10);
   if (!Number.isFinite(parsed)) return fallback;
@@ -1771,6 +1763,25 @@ function getAssociationSelectValue(name, fallback) {
   return Object.prototype.hasOwnProperty.call(ASSOCIATION_REPORTING_FEES, field.value)
     ? field.value
     : fallback;
+}
+
+function getAssociationDocumentPackage(packageId) {
+  return ASSOCIATION_DOCUMENT_PACKAGES.find((item) => item.id === packageId) || ASSOCIATION_DOCUMENT_PACKAGES[0];
+}
+
+function getAssociationDocumentPackageValue(name, fallbackId = 'up_to_20') {
+  const field = getAssociationField(name);
+  if (!(field instanceof HTMLSelectElement)) return fallbackId;
+  const selectedPackage = getAssociationDocumentPackage(field.value);
+  if (field.value !== selectedPackage.id) {
+    field.value = selectedPackage.id;
+  }
+  return selectedPackage.id;
+}
+
+function getAssociationDocumentPackageLabel(packageId) {
+  const selectedPackage = getAssociationDocumentPackage(packageId);
+  return t(selectedPackage.labelKey, selectedPackage.fallbackLabel);
 }
 
 function getAssociationNumberValue(name, min, max, fallback) {
@@ -1793,13 +1804,15 @@ function calculateAssociationEstimate() {
   if (!associationCalculator) return null;
   const units = getAssociationNumberValue('association_units', 1, 500, 12);
   const invoices = getAssociationNumberValue('association_invoices', 0, 500, 10);
-  const documents = getAssociationNumberValue('association_documents', 0, 1000, 20);
+  const documentsPackageId = getAssociationDocumentPackageValue('association_documents', 'up_to_20');
+  const documentsPackage = getAssociationDocumentPackage(documentsPackageId);
   const employees = getAssociationNumberValue('association_employees', 0, 100, 0);
   const reportMode = getAssociationSelectValue('association_reports', 'quarterly');
 
   const base = 70;
   const unitsFeeAmount = units * 1.5;
-  const docsFeeAmount = invoices * 1.2 + documents * 0.65;
+  const documentsPackageFee = documentsPackage.price;
+  const docsFeeAmount = invoices * 1.2 + documentsPackageFee;
   const payrollFeeAmount = employees * 18;
   const reportsFeeAmount = ASSOCIATION_REPORTING_FEES[reportMode] || ASSOCIATION_REPORTING_FEES.quarterly;
   const total = base + unitsFeeAmount + docsFeeAmount + payrollFeeAmount + reportsFeeAmount;
@@ -1807,7 +1820,9 @@ function calculateAssociationEstimate() {
   return {
     units,
     invoices,
-    documents,
+    documentsPackageId,
+    documentsLabel: getAssociationDocumentPackageLabel(documentsPackageId),
+    documentsPackageFee,
     employees,
     reportMode,
     reportLabel: getAssociationReportLabel(reportMode),
@@ -1825,7 +1840,7 @@ function getAssociationQuoteSummaryRows(data) {
   return [
     [t('associationUnitsLabel', 'Number of apartments'), String(data.units)],
     [t('associationInvoicesLabel', 'Monthly purchase and sales invoices'), String(data.invoices)],
-    [t('associationDocumentsLabel', 'Source documents per month'), String(data.documents)],
+    [t('associationDocumentsLabel', 'Document package per month'), data.documentsLabel],
     [t('associationEmployeesLabel', 'Number of employees'), String(data.employees)],
     [t('associationReportsLabel', 'Reporting frequency'), data.reportLabel],
     [t('associationTotalFeeLabel', 'Indicative monthly fee'), formatEuro(data.total)]
@@ -2358,7 +2373,9 @@ form?.addEventListener('submit', async (e) => {
       payload.append('quote_source', 'apartment_association_calculator');
       payload.append('association_units', String(associationQuote.units));
       payload.append('association_invoices', String(associationQuote.invoices));
-      payload.append('association_documents', String(associationQuote.documents));
+      payload.append('association_documents', associationQuote.documentsLabel);
+      payload.append('association_documents_package', associationQuote.documentsPackageId);
+      payload.append('association_documents_package_fee', formatEuro(associationQuote.documentsPackageFee));
       payload.append('association_employees', String(associationQuote.employees));
       payload.append('association_report_mode', associationQuote.reportMode);
       payload.append('association_report_label', associationQuote.reportLabel);

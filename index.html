@@ -297,7 +297,6 @@ teenused</span>
           <div class="pricing-cards">
             <article class="price-card price-card--interactive" data-service-id="registration" tabindex="0">
               <img class="price-card__icon" src="assets/icons/service-1.png" alt="" aria-hidden="true" />
-              <span class="price-card__badge" hidden></span>
               <h3>Регистрация бизнеса</h3>
               <p>Помощь с регистрацией разных форм бизнеса в Эстонии.</p>
               <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
@@ -313,7 +312,6 @@ teenused</span>
 
             <article class="price-card price-card--interactive" data-service-id="accounting" tabindex="0">
               <img class="price-card__icon" src="assets/icons/service-2.png" alt="" aria-hidden="true" />
-              <span class="price-card__badge">Полный учёт</span>
               <h3>Бухгалтерское сопровождение</h3>
               <p>Полное ежемесячное ведение: документы, бухгалтерия, декларации и зарплата.</p>
               <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
@@ -329,7 +327,6 @@ teenused</span>
 
             <article class="price-card price-card--interactive" data-service-id="taxes" tabindex="0">
               <img class="price-card__icon" src="assets/icons/service-3.png" alt="" aria-hidden="true" />
-              <span class="price-card__badge">Налоговый блок</span>
               <h3>Налоговое сопровождение</h3>
               <p>Отдельный блок деклараций, сроков и обязательной отчётности для компании.</p>
               <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
@@ -526,8 +523,14 @@ teenused</span>
               </label>
 
               <label class="association-field">
-                <span data-i18n="associationDocumentsLabel">Первичные документы в месяц</span>
-                <input type="number" name="association_documents" min="0" max="1000" step="1" value="20" />
+                <span data-i18n="associationDocumentsLabel">Пакет документов в месяц</span>
+                <select name="association_documents">
+                  <option value="up_to_20" data-i18n="associationDocumentsUpTo20">до 20 документов</option>
+                  <option value="from_21_to_50" data-i18n="associationDocumentsFrom21To50">21-50 документов</option>
+                  <option value="from_51_to_100" data-i18n="associationDocumentsFrom51To100">51-100 документов</option>
+                  <option value="from_101_to_160" data-i18n="associationDocumentsFrom101To160">101-160 документов</option>
+                  <option value="from_161_plus" data-i18n="associationDocumentsFrom161Plus">161+ документов</option>
+                </select>
               </label>
 
               <label class="association-field">
