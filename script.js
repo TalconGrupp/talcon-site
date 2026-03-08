@@ -180,7 +180,7 @@ const SERVICE_CATALOG_I18N = {
         'abi registreerimisel'
       ],
       extras: [
-        { id: 'vat-registration', title: 'KMKR (VAT) registreerimine', price: 80, billing: 'one-time' },
+        { id: 'vat-registration', title: 'KMKR (VAT) registreerimine', price: 25, billing: 'one-time' },
         { id: 'bookkeeping-after-registration', title: 'Raamatupidamine pärast registreerimist', price: 99, billing: 'monthly' },
         { id: 'annual-report', title: 'Aastaaruanne', price: 150, billing: 'one-time' },
         { id: 'bank-support', title: 'Abi panga või makselahendusega', price: 50, billing: 'one-time' }
@@ -249,7 +249,7 @@ const SERVICE_CATALOG_I18N = {
       ],
       extras: [
         { id: 'annual-report', title: 'Aastaaruanne', price: 150, billing: 'one-time' },
-        { id: 'vat-registration', title: 'KMKR (VAT) registreerimine', price: 80, billing: 'one-time' },
+        { id: 'vat-registration', title: 'KMKR (VAT) registreerimine', price: 25, billing: 'one-time' },
         { id: 'statistics', title: 'Statistilised aruanded', price: 15, billing: 'monthly' },
         { id: 'extra-employee', title: 'Lisatöötaja', price: 10, billing: 'monthly', quantity: true, quantityLabel: 'inim.' }
       ]
@@ -383,7 +383,7 @@ const SERVICE_CATALOG_I18N = {
         'помощь с регистрацией'
       ],
       extras: [
-        { id: 'vat-registration', title: 'VAT регистрация', price: 80, billing: 'one-time' },
+        { id: 'vat-registration', title: 'VAT регистрация', price: 25, billing: 'one-time' },
         { id: 'bookkeeping-after-registration', title: 'Бухгалтерия после регистрации', price: 99, billing: 'monthly' },
         { id: 'annual-report', title: 'Годовой отчёт', price: 150, billing: 'one-time' },
         { id: 'bank-support', title: 'Помощь с банком или платёжной системой', price: 50, billing: 'one-time' }
@@ -452,7 +452,7 @@ const SERVICE_CATALOG_I18N = {
       ],
       extras: [
         { id: 'annual-report', title: 'Годовой отчёт', price: 150, billing: 'one-time' },
-        { id: 'vat-registration', title: 'VAT регистрация', price: 80, billing: 'one-time' },
+        { id: 'vat-registration', title: 'VAT регистрация', price: 25, billing: 'one-time' },
         { id: 'statistics', title: 'Статистические отчёты', price: 15, billing: 'monthly' },
         { id: 'extra-employee', title: 'Дополнительный сотрудник', price: 10, billing: 'monthly', quantity: true, quantityLabel: 'чел.' }
       ]
@@ -586,7 +586,7 @@ const SERVICE_CATALOG_I18N = {
         'registration assistance'
       ],
       extras: [
-        { id: 'vat-registration', title: 'VAT registration', price: 80, billing: 'one-time' },
+        { id: 'vat-registration', title: 'VAT registration', price: 25, billing: 'one-time' },
         { id: 'bookkeeping-after-registration', title: 'Bookkeeping after registration', price: 99, billing: 'monthly' },
         { id: 'annual-report', title: 'Annual report', price: 150, billing: 'one-time' },
         { id: 'bank-support', title: 'Bank or payment system support', price: 50, billing: 'one-time' }
@@ -655,7 +655,7 @@ const SERVICE_CATALOG_I18N = {
       ],
       extras: [
         { id: 'annual-report', title: 'Annual report', price: 150, billing: 'one-time' },
-        { id: 'vat-registration', title: 'VAT registration', price: 80, billing: 'one-time' },
+        { id: 'vat-registration', title: 'VAT registration', price: 25, billing: 'one-time' },
         { id: 'statistics', title: 'Statistical reports', price: 15, billing: 'monthly' },
         { id: 'extra-employee', title: 'Additional employee', price: 10, billing: 'monthly', quantity: true, quantityLabel: 'person' }
       ]
@@ -774,7 +774,8 @@ const serviceOrderHint = document.getElementById('serviceOrderHint');
 const associationCalculator = document.getElementById('associationCalculator');
 const associationBaseFee = document.getElementById('associationBaseFee');
 const associationUnitsFee = document.getElementById('associationUnitsFee');
-const associationDocsFee = document.getElementById('associationDocsFee');
+const associationInvoicesFee = document.getElementById('associationInvoicesFee');
+const associationDocumentsPackageFee = document.getElementById('associationDocumentsPackageFee');
 const associationPayrollFee = document.getElementById('associationPayrollFee');
 const associationReportsFee = document.getElementById('associationReportsFee');
 const associationTotalFee = document.getElementById('associationTotalFee');
@@ -1932,8 +1933,9 @@ function calculateAssociationEstimate() {
 
   const base = 70;
   const unitsFeeAmount = units * 1.5;
+  const invoicesFeeAmount = invoices * 1.2;
   const documentsPackageFee = documentsPackage.price;
-  const docsFeeAmount = invoices * 1.2 + documentsPackageFee;
+  const docsFeeAmount = invoicesFeeAmount + documentsPackageFee;
   const payrollFeeAmount = employees * 18;
   const reportsFeeAmount = ASSOCIATION_REPORTING_FEES[reportMode] || ASSOCIATION_REPORTING_FEES.quarterly;
   const total = base + unitsFeeAmount + docsFeeAmount + payrollFeeAmount + reportsFeeAmount;
@@ -1949,6 +1951,7 @@ function calculateAssociationEstimate() {
     reportLabel: getAssociationReportLabel(reportMode),
     base,
     unitsFeeAmount,
+    invoicesFeeAmount,
     docsFeeAmount,
     payrollFeeAmount,
     reportsFeeAmount,
@@ -2003,7 +2006,8 @@ function renderAssociationEstimate() {
 
   if (associationBaseFee) associationBaseFee.textContent = formatEuro(data.base);
   if (associationUnitsFee) associationUnitsFee.textContent = formatEuro(data.unitsFeeAmount);
-  if (associationDocsFee) associationDocsFee.textContent = formatEuro(data.docsFeeAmount);
+  if (associationInvoicesFee) associationInvoicesFee.textContent = formatEuro(data.invoicesFeeAmount);
+  if (associationDocumentsPackageFee) associationDocumentsPackageFee.textContent = formatEuro(data.documentsPackageFee);
   if (associationPayrollFee) associationPayrollFee.textContent = formatEuro(data.payrollFeeAmount);
   if (associationReportsFee) associationReportsFee.textContent = formatEuro(data.reportsFeeAmount);
   if (associationTotalFee) associationTotalFee.textContent = formatEuro(data.total);
@@ -2502,6 +2506,8 @@ form?.addEventListener('submit', async (e) => {
       payload.append('association_report_label', associationQuote.reportLabel);
       payload.append('association_base_fee', formatEuro(associationQuote.base));
       payload.append('association_units_fee', formatEuro(associationQuote.unitsFeeAmount));
+      payload.append('association_invoices_fee', formatEuro(associationQuote.invoicesFeeAmount));
+      payload.append('association_documents_package_fee', formatEuro(associationQuote.documentsPackageFee));
       payload.append('association_docs_fee', formatEuro(associationQuote.docsFeeAmount));
       payload.append('association_payroll_fee', formatEuro(associationQuote.payrollFeeAmount));
       payload.append('association_reports_fee', formatEuro(associationQuote.reportsFeeAmount));

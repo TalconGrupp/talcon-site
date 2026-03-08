@@ -259,11 +259,15 @@ teenused</span>
               Стоимость услуг зависит от количества первичных документов, ежемесячных счетов купли-продажи,
               работников, количества и частоты предоставляемых отчётов.
             </p>
+            <p class="pricing__vat-note" data-i18n="pricingVatNote">
+              Все цены на сайте указаны с KM (эстонский налог с оборота).
+            </p>
           </div>
 
           <article class="consult-card">
             <p class="consult-card__label" data-i18n="consultationCardLabel">Получить консультацию</p>
             <strong class="consult-card__price" data-i18n="consultationCardPrice">50€/час</strong>
+            <p class="consult-card__vat" data-i18n="priceVatIncluded">цена с KM</p>
             <p class="consult-card__text" data-i18n="consultationCardText">
               Отдельные бухгалтерские и налоговые консультации оплачиваются почасово.
             </p>
@@ -300,7 +304,7 @@ teenused</span>
               <h3>Регистрация бизнеса</h3>
               <p>Помощь с регистрацией разных форм бизнеса в Эстонии.</p>
               <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
-              <div class="price"><span>от 99€</span><small>разово</small></div>
+              <div class="price"><span>от 99€</span><small>разово</small><em class="price__vat" data-i18n="priceVatIncluded">цена с KM</em></div>
               <ul>
                 <li>Консультация и выбор формы</li>
                 <li>Подготовка документов</li>
@@ -315,7 +319,7 @@ teenused</span>
               <h3>Бухгалтерское сопровождение</h3>
               <p>Полное ежемесячное ведение: документы, бухгалтерия, декларации и зарплата.</p>
               <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
-              <div class="price"><span>от 119€</span><small>/месяц</small></div>
+              <div class="price"><span>от 119€</span><small>/месяц</small><em class="price__vat" data-i18n="priceVatIncluded">цена с KM</em></div>
               <ul>
                 <li>Полный ежемесячный учёт</li>
                 <li>Обработка первичных документов</li>
@@ -330,7 +334,7 @@ teenused</span>
               <h3>Налоговое сопровождение</h3>
               <p>Отдельный блок деклараций, сроков и обязательной отчётности для компании.</p>
               <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
-              <div class="price"><span>от 149€</span><small>/месяц</small></div>
+              <div class="price"><span>от 149€</span><small>/месяц</small><em class="price__vat" data-i18n="priceVatIncluded">цена с KM</em></div>
               <ul>
                 <li>Налоговые декларации</li>
                 <li>Контроль сроков и обязательств</li>
@@ -452,6 +456,7 @@ teenused</span>
                   <span data-i18n="orderTotalLabel">Итоговая сумма</span>
                   <strong id="orderTotalPrice">0€</strong>
                 </div>
+                <p class="service-order__vat" data-i18n="serviceVatNote">Все суммы в этом расчёте указаны с KM.</p>
                 <button class="btn service-order__btn" type="button" id="openOrderForm" data-i18n="orderApplyBtn">Оформить заявку</button>
               </aside>
             </div>
@@ -506,7 +511,7 @@ teenused</span>
           <div class="pricing-panel__heading">
             <h3 data-i18n="associationPricingTitle">Калькулятор для квартирных товариществ</h3>
             <p data-i18n="associationPricingText">
-              Укажите основные параметры нагрузки, чтобы получить ориентировочную ежемесячную стоимость обслуживания.
+              На цену влияют количество квартир, ежемесячные счета, пакет документов, работники и частота отчётности.
             </p>
           </div>
 
@@ -563,8 +568,12 @@ teenused</span>
                 <strong id="associationUnitsFee">0€</strong>
               </div>
               <div class="association-result__row">
-                <span data-i18n="associationDocsFeeLabel">Документы и счета</span>
-                <strong id="associationDocsFee">0€</strong>
+                <span data-i18n="associationInvoicesFeeLabel">Счета купли-продажи</span>
+                <strong id="associationInvoicesFee">0€</strong>
+              </div>
+              <div class="association-result__row">
+                <span data-i18n="associationDocumentsPackageFeeLabel">Пакет документов</span>
+                <strong id="associationDocumentsPackageFee">0€</strong>
               </div>
               <div class="association-result__row">
                 <span data-i18n="associationPayrollFeeLabel">Сотрудники и зарплата</span>
@@ -578,6 +587,7 @@ teenused</span>
                 <span data-i18n="associationTotalFeeLabel">Ориентировочная стоимость в месяц</span>
                 <strong id="associationTotalFee">0€</strong>
               </div>
+              <p class="association-result__vat" data-i18n="associationVatNote">Ориентировочная сумма указана с KM.</p>
               <p class="association-result__note" data-i18n="associationResultNote">
                 Расчёт является ориентировочным и помогает понять порядок стоимости до подготовки точного предложения.
               </p>

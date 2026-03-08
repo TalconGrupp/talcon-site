@@ -951,6 +951,26 @@ a {
   line-height: 1.05;
 }
 
+.pricing__vat-note,
+.consult-card__vat,
+.price__vat,
+.service-order__vat,
+.association-result__vat {
+  color: #8defff;
+  font-size: clamp(12px, 0.98vw, 14px);
+  line-height: 1.4;
+}
+
+.pricing__vat-note {
+  margin: 10px 0 0;
+}
+
+.consult-card__vat {
+  margin: 8px 0 0;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .consult-card__text {
   margin: 12px 0 18px;
   color: #d3e4f8;
@@ -1094,6 +1114,10 @@ a {
   color: #f2f9ff;
   font-size: clamp(16px, 1.2vw, 18px);
   font-weight: 600;
+}
+
+.association-result__vat {
+  margin: 10px 0 0;
 }
 
 .association-result__note {
@@ -1273,6 +1297,12 @@ a {
   line-height: 1.1;
   max-width: 100%;
   text-wrap: balance;
+}
+
+.price__vat {
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .price-card ul {
@@ -1768,6 +1798,10 @@ a {
   color: #eaf6ff;
   font-weight: 600;
   font-size: clamp(16px, 1.35vw, 20px);
+}
+
+.service-order__vat {
+  margin: 8px 0 0;
 }
 
 .service-order__btn {
