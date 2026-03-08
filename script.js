@@ -316,7 +316,7 @@ const SERVICE_CATALOG_I18N = {
         'maksuküsimuste tugi'
       ],
       extras: [
-        { id: 'vat', title: 'VAT', price: 80, billing: 'monthly' },
+        { id: 'vat', title: 'VAT', price: 30, billing: 'monthly' },
         { id: 'tsd', title: 'TSD', price: 20, billing: 'monthly' },
         { id: 'statistics', title: 'Statistika', price: 15, billing: 'monthly' },
         { id: 'tax-office-answers', title: 'Vastused Maksu- ja Tolliametile', price: 50, billing: 'monthly' }
@@ -519,7 +519,7 @@ const SERVICE_CATALOG_I18N = {
         'ответы по налоговым вопросам'
       ],
       extras: [
-        { id: 'vat', title: 'VAT', price: 80, billing: 'monthly' },
+        { id: 'vat', title: 'VAT', price: 30, billing: 'monthly' },
         { id: 'tsd', title: 'TSD', price: 20, billing: 'monthly' },
         { id: 'statistics', title: 'Статистика', price: 15, billing: 'monthly' },
         { id: 'tax-office-answers', title: 'Ответы налоговой', price: 50, billing: 'monthly' }
@@ -722,7 +722,7 @@ const SERVICE_CATALOG_I18N = {
         'tax question support'
       ],
       extras: [
-        { id: 'vat', title: 'VAT', price: 80, billing: 'monthly' },
+        { id: 'vat', title: 'VAT', price: 30, billing: 'monthly' },
         { id: 'tsd', title: 'TSD', price: 20, billing: 'monthly' },
         { id: 'statistics', title: 'Statistics', price: 15, billing: 'monthly' },
         { id: 'tax-office-answers', title: 'Replies to Tax Office', price: 50, billing: 'monthly' }
