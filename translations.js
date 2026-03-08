@@ -99,6 +99,8 @@ window.I18N = {
     perMonthService: '/kuu',
     serviceQuantity: 'Kogus',
     serviceQuantityUnit: 'tk',
+    numberStepperUp: 'Suurenda väärtust',
+    numberStepperDown: 'Vähenda väärtust',
 
     configDefaultTitle: 'Valige teenus',
     configDefaultText: 'Teenuse seadistamiseks klõpsake ülal kaardil.',
@@ -313,6 +315,8 @@ window.I18N = {
     perMonthService: '/месяц',
     serviceQuantity: 'Количество',
     serviceQuantityUnit: 'шт.',
+    numberStepperUp: 'Увеличить значение',
+    numberStepperDown: 'Уменьшить значение',
 
     configDefaultTitle: 'Выберите услугу',
     configDefaultText: 'Нажмите на карточку выше, чтобы настроить услугу.',
@@ -527,6 +531,8 @@ window.I18N = {
     perMonthService: '/month',
     serviceQuantity: 'Quantity',
     serviceQuantityUnit: 'pcs',
+    numberStepperUp: 'Increase value',
+    numberStepperDown: 'Decrease value',
 
     configDefaultTitle: 'Choose a service',
     configDefaultText: 'Click a card above to configure your service.',

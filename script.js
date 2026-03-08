@@ -800,6 +800,125 @@ function formatEuro(value) {
   return `${output}€`;
 }
 
+function getNumberStepperLabel(direction) {
+  if (direction === 'down') {
+    return t('numberStepperDown', 'Decrease value');
+  }
+  return t('numberStepperUp', 'Increase value');
+}
+
+function syncNumberFieldState(input) {
+  if (!(input instanceof HTMLInputElement)) return;
+  const wrapper = input.closest('.number-field');
+  if (!wrapper) return;
+  const controls = wrapper.querySelectorAll('.number-field__btn');
+  controls.forEach((button) => {
+    if (!(button instanceof HTMLButtonElement)) return;
+    button.disabled = input.disabled;
+    button.setAttribute(
+      'aria-label',
+      button.classList.contains('number-field__btn--down')
+        ? getNumberStepperLabel('down')
+        : getNumberStepperLabel('up')
+    );
+  });
+}
+
+function dispatchNumberFieldEvents(input) {
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+  input.dispatchEvent(new Event('change', { bubbles: true }));
+  syncNumberFieldState(input);
+}
+
+function getStepPrecision(stepValue) {
+  const stepString = String(stepValue || '');
+  const decimalPart = stepString.split('.')[1] || '';
+  return decimalPart.length;
+}
+
+function stepNumberFieldValue(input, direction) {
+  if (!(input instanceof HTMLInputElement) || input.disabled || input.readOnly) return;
+
+  try {
+    if (direction > 0) {
+      input.stepUp();
+    } else {
+      input.stepDown();
+    }
+  } catch {
+    const stepRaw = Number.parseFloat(String(input.step || '1'));
+    const step = Number.isFinite(stepRaw) && stepRaw > 0 ? stepRaw : 1;
+    const minRaw = Number.parseFloat(String(input.min || ''));
+    const maxRaw = Number.parseFloat(String(input.max || ''));
+    const currentRaw = Number.parseFloat(String(input.value || '').replace(',', '.'));
+    const fallback = Number.isFinite(currentRaw)
+      ? currentRaw
+      : (Number.isFinite(minRaw) ? minRaw : 0);
+    let next = fallback + direction * step;
+
+    if (Number.isFinite(minRaw)) next = Math.max(minRaw, next);
+    if (Number.isFinite(maxRaw)) next = Math.min(maxRaw, next);
+
+    const precision = getStepPrecision(input.step);
+    input.value = precision > 0 ? next.toFixed(precision) : String(Math.round(next));
+  }
+
+  dispatchNumberFieldEvents(input);
+  input.focus({ preventScroll: true });
+}
+
+function enhanceNumberInput(input) {
+  if (!(input instanceof HTMLInputElement) || input.type !== 'number') return;
+  if (input.closest('.number-field')) {
+    syncNumberFieldState(input);
+    return;
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'number-field';
+
+  const controls = document.createElement('div');
+  controls.className = 'number-field__controls';
+
+  const upButton = document.createElement('button');
+  upButton.type = 'button';
+  upButton.className = 'number-field__btn number-field__btn--up';
+  upButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    stepNumberFieldValue(input, 1);
+  });
+
+  const downButton = document.createElement('button');
+  downButton.type = 'button';
+  downButton.className = 'number-field__btn number-field__btn--down';
+  downButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    stepNumberFieldValue(input, -1);
+  });
+
+  controls.append(upButton, downButton);
+
+  input.parentNode?.insertBefore(wrapper, input);
+  wrapper.append(input, controls);
+
+  syncNumberFieldState(input);
+}
+
+function enhanceNumberInputs(root = document) {
+  if (!root) return;
+  root.querySelectorAll?.('input[type="number"]').forEach((input) => {
+    enhanceNumberInput(input);
+  });
+}
+
+function refreshNumberStepperLabels() {
+  document.querySelectorAll('.number-field input[type="number"]').forEach((input) => {
+    if (input instanceof HTMLInputElement) {
+      syncNumberFieldState(input);
+    }
+  });
+}
+
 function isEmailValue(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
 }
@@ -1320,9 +1439,11 @@ function renderExtraServices(service) {
 
       checkbox.addEventListener('change', () => {
         qtyInput.disabled = !checkbox.checked;
+        syncNumberFieldState(qtyInput);
       });
 
       qtyWrap.append(qtyLabel, qtyInput);
+      enhanceNumberInput(qtyInput);
       wrapper.append(qtyWrap);
     }
 
@@ -2468,6 +2589,7 @@ function applyTranslations(lang) {
 
   renderAssociationEstimate();
   updateFileHint();
+  refreshNumberStepperLabels();
   localStorage.setItem(LANG_KEY, lang);
 }
 
@@ -2488,6 +2610,7 @@ updateTrustBadgesAlignment();
 updateFileHint();
 renderServiceCards();
 renderAssociationEstimate();
+enhanceNumberInputs();
 
 window.addEventListener('load', () => {
   updateTrustBadgesAlignment();
