@@ -122,24 +122,57 @@ langSelect?.addEventListener('change', () => {
 const SERVICE_CATALOG_I18N = {
   et: {
     registration: {
+      kind: 'registration',
+      defaultFormId: 'ou',
       title: 'Ettevõtte registreerimine',
-      cardText: 'Abi erinevate ärivormide registreerimisel Eestis.',
+      cardText: 'Abi sobiva ärivormi registreerimisel Eestis.',
       cardPriceText: 'alates 99€',
       cardPriceSuffix: 'ühekordne',
       cardFeatures: [
-        'Konsultatsioon ja vormi valik',
+        'Ärivormi valik',
         'Dokumentide ettevalmistus',
         'Esitamise tugi',
         'Abi registreerimisel'
       ],
-      description: 'Aitame registreerida erinevaid ärivorme Eestis. Riigilõiv registrikande eest lisandub teenuse hinnale.',
-      baseBilling: 'one-time',
+      description: 'Valige ärivorm ja näete kohe teenuse hinda ning riigilõivu. Lõplikult sõltub registreerimine valitud vormist ja registrikande viisist.',
       forms: [
-        { id: 'fie', title: 'FIE', price: 99, stateFee: 20 },
-        { id: 'ou', title: 'OÜ', price: 149, stateFee: 200, stateFeeFast: 265 },
-        { id: 'mtu', title: 'MTÜ', price: 129, stateFee: 30 },
-        { id: 'as', title: 'AS', price: 299, from: true, stateFee: 200, stateFeeFast: 265 }
+        {
+          id: 'fie',
+          title: 'FIE',
+          fullTitle: 'Füüsilisest isikust ettevõtja',
+          hint: 'Sobib siis, kui tegutsete oma nime all ja vajate lihtsamat ettevõtlusvormi.',
+          price: 99,
+          stateFee: 20
+        },
+        {
+          id: 'ou',
+          title: 'OÜ',
+          fullTitle: 'Osaühing',
+          hint: 'Kõige tavalisem vorm väikesele ja keskmisele ettevõttele Eestis.',
+          price: 149,
+          stateFee: 200,
+          stateFeeFast: 265
+        },
+        {
+          id: 'mtu',
+          title: 'MTÜ',
+          fullTitle: 'Mittetulundusühing',
+          hint: 'Sobib ühingutele, kogukondlikele projektidele ja mittetulunduslikule tegevusele.',
+          price: 129,
+          stateFee: 30
+        },
+        {
+          id: 'as',
+          title: 'AS',
+          fullTitle: 'Aktsiaselts',
+          hint: 'Sobib suurema kapitali või keerukama juhtimisstruktuuriga ettevõttele.',
+          price: 299,
+          from: true,
+          stateFee: 200,
+          stateFeeFast: 265
+        }
       ],
+      baseBilling: 'one-time',
       includes: [
         'konsultatsioon',
         'dokumentide ettevalmistus',
@@ -154,18 +187,59 @@ const SERVICE_CATALOG_I18N = {
       ]
     },
     accounting: {
+      kind: 'monthly',
+      defaultFormId: 'ou',
       title: 'Raamatupidamise tugi',
-      cardText: 'Igakuine raamatupidamine ja aruandlus ettevõtetele Eestis.',
-      cardPriceText: '159€',
+      cardText: 'Igakuine raamatupidamine hinnapaketiga vastavalt dokumentide mahule.',
+      cardPriceText: 'alates 119€',
       cardPriceSuffix: '/kuu',
       cardFeatures: [
+        'Paketid dokumentide mahu järgi',
         'Igakuine raamatupidamine',
         'Maksudeklaratsioonide esitamine',
-        'Palgaarvestus',
-        'Käibedeklaratsioonid'
+        'Palgaarvestuse tugi'
       ],
-      description: 'Baashind: 159€/kuu.',
-      basePrice: 159,
+      description: 'Valige ärivorm, hinnake dokumentide mahtu kuus ja märkige teenuse periood. Hinnang muutub automaatselt.',
+      forms: [
+        {
+          id: 'fie',
+          title: 'FIE',
+          fullTitle: 'Füüsilisest isikust ettevõtja',
+          hint: 'Lihtsama struktuuriga tegevus ja väiksem aruandluskoormus.',
+          monthlyAdjustment: -20
+        },
+        {
+          id: 'ou',
+          title: 'OÜ',
+          fullTitle: 'Osaühing',
+          hint: 'Standardne valik enamiku Eesti väikeettevõtete jaoks.',
+          monthlyAdjustment: 0
+        },
+        {
+          id: 'mtu',
+          title: 'MTÜ',
+          fullTitle: 'Mittetulundusühing',
+          hint: 'Sobib mittetulunduslikele organisatsioonidele ja ühingutele.',
+          monthlyAdjustment: 10
+        },
+        {
+          id: 'as',
+          title: 'AS',
+          fullTitle: 'Aktsiaselts',
+          hint: 'Keerukam juriidiline vorm, mis vajab tavaliselt põhjalikumat aruandlust.',
+          monthlyAdjustment: 60
+        }
+      ],
+      workloadPricing: {
+        defaultDocuments: 20,
+        packages: [
+          { id: 'starter', title: 'Start', min: 1, max: 15, price: 119, rangeLabel: 'kuni 15 dokumenti kuus' },
+          { id: 'standard', title: 'Standard', min: 16, max: 40, price: 159, rangeLabel: '16-40 dokumenti kuus' },
+          { id: 'growth', title: 'Kasv', min: 41, max: 80, price: 239, rangeLabel: '41-80 dokumenti kuus' },
+          { id: 'scale', title: 'Maht', min: 81, max: 140, price: 339, rangeLabel: '81-140 dokumenti kuus' },
+          { id: 'custom', title: 'Individuaalne', min: 141, max: null, price: 459, rangeLabel: '141+ dokumenti kuus' }
+        ]
+      },
       baseBilling: 'monthly',
       includes: [
         'igakuine raamatupidamine',
@@ -181,18 +255,59 @@ const SERVICE_CATALOG_I18N = {
       ]
     },
     taxes: {
+      kind: 'monthly',
+      defaultFormId: 'ou',
       title: 'Maksud ja aruandlus',
-      cardText: 'Maksuteenused koos tähtaegade kontrolli ja konsultatsiooniga.',
-      cardPriceText: '249€',
+      cardText: 'Maksu- ja aruandlustugi hinnapaketiga vastavalt dokumentide mahule.',
+      cardPriceText: 'alates 149€',
       cardPriceSuffix: '/kuu',
       cardFeatures: [
+        'Paketid dokumentide mahu järgi',
         'Maksudeklaratsioonid',
         'Tähtaegade kontroll',
-        'Baaskonsultatsioon',
         'Aruandluse tugi'
       ],
-      description: 'Baashind: 249€/kuu.',
-      basePrice: 249,
+      description: 'Sobib siis, kui vajate maksudeklaratsioone, aruandlust ja tähtpäevade jälgimist. Hind sõltub dokumentide mahust ja ettevõtte vormist.',
+      forms: [
+        {
+          id: 'fie',
+          title: 'FIE',
+          fullTitle: 'Füüsilisest isikust ettevõtja',
+          hint: 'Sobib lihtsama maksuarvestuse ja väiksema töömahuga ettevõtjale.',
+          monthlyAdjustment: -10
+        },
+        {
+          id: 'ou',
+          title: 'OÜ',
+          fullTitle: 'Osaühing',
+          hint: 'Standardne vorm regulaarse maksuarvestuse ja deklaratsioonide jaoks.',
+          monthlyAdjustment: 0
+        },
+        {
+          id: 'mtu',
+          title: 'MTÜ',
+          fullTitle: 'Mittetulundusühing',
+          hint: 'Vajab tihti täiendavat aruandlust ja eraldi nüansse maksuküsimustes.',
+          monthlyAdjustment: 20
+        },
+        {
+          id: 'as',
+          title: 'AS',
+          fullTitle: 'Aktsiaselts',
+          hint: 'Suurema mahuga ja keerukama aruandlusega ettevõtlusvorm.',
+          monthlyAdjustment: 80
+        }
+      ],
+      workloadPricing: {
+        defaultDocuments: 25,
+        packages: [
+          { id: 'starter', title: 'Start', min: 1, max: 20, price: 149, rangeLabel: 'kuni 20 dokumenti kuus' },
+          { id: 'standard', title: 'Standard', min: 21, max: 50, price: 249, rangeLabel: '21-50 dokumenti kuus' },
+          { id: 'growth', title: 'Kasv', min: 51, max: 100, price: 349, rangeLabel: '51-100 dokumenti kuus' },
+          { id: 'scale', title: 'Maht', min: 101, max: 160, price: 469, rangeLabel: '101-160 dokumenti kuus' },
+          { id: 'custom', title: 'Individuaalne', min: 161, max: null, price: 589, rangeLabel: '161+ dokumenti kuus' }
+        ]
+      },
       baseBilling: 'monthly',
       includes: [
         'maksudeklaratsioonid',
@@ -209,24 +324,57 @@ const SERVICE_CATALOG_I18N = {
   },
   ru: {
     registration: {
+      kind: 'registration',
+      defaultFormId: 'ou',
       title: 'Регистрация бизнеса',
-      cardText: 'Помощь с регистрацией разных форм бизнеса в Эстонии.',
+      cardText: 'Помощь с регистрацией подходящей формы бизнеса в Эстонии.',
       cardPriceText: 'от 99€',
       cardPriceSuffix: 'разово',
       cardFeatures: [
-        'Консультация и выбор формы',
+        'Выбор формы предприятия',
         'Подготовка документов',
         'Сопровождение подачи',
         'Помощь с регистрацией'
       ],
-      description: 'Помощь с регистрацией разных форм бизнеса в Эстонии. Госпошлина за внесение в регистр добавляется к стоимости.',
-      baseBilling: 'one-time',
+      description: 'Выберите форму предприятия и сразу увидите стоимость услуги и государственную пошлину. Итог зависит от выбранной формы и способа подачи.',
       forms: [
-        { id: 'fie', title: 'FIE', price: 99, stateFee: 20 },
-        { id: 'ou', title: 'OÜ', price: 149, stateFee: 200, stateFeeFast: 265 },
-        { id: 'mtu', title: 'MTÜ', price: 129, stateFee: 30 },
-        { id: 'as', title: 'AS', price: 299, from: true, stateFee: 200, stateFeeFast: 265 }
+        {
+          id: 'fie',
+          title: 'FIE',
+          fullTitle: 'Физическое лицо-предприниматель',
+          hint: 'Подходит, если вы ведёте деятельность от собственного имени и хотите простую форму бизнеса.',
+          price: 99,
+          stateFee: 20
+        },
+        {
+          id: 'ou',
+          title: 'OÜ',
+          fullTitle: 'Общество с ограниченной ответственностью',
+          hint: 'Самая распространённая форма для малого и среднего бизнеса в Эстонии.',
+          price: 149,
+          stateFee: 200,
+          stateFeeFast: 265
+        },
+        {
+          id: 'mtu',
+          title: 'MTÜ',
+          fullTitle: 'Некоммерческое объединение',
+          hint: 'Подходит для объединений, проектов сообщества и некоммерческой деятельности.',
+          price: 129,
+          stateFee: 30
+        },
+        {
+          id: 'as',
+          title: 'AS',
+          fullTitle: 'Акционерное общество',
+          hint: 'Подходит для более крупного бизнеса с капиталом и более сложной структурой управления.',
+          price: 299,
+          from: true,
+          stateFee: 200,
+          stateFeeFast: 265
+        }
       ],
+      baseBilling: 'one-time',
       includes: [
         'консультация',
         'подготовка документов',
@@ -241,18 +389,59 @@ const SERVICE_CATALOG_I18N = {
       ]
     },
     accounting: {
+      kind: 'monthly',
+      defaultFormId: 'ou',
       title: 'Бухгалтерское сопровождение',
-      cardText: 'Ежемесячная бухгалтерия и отчётность для компаний в Эстонии.',
-      cardPriceText: '159€',
+      cardText: 'Ежемесячная бухгалтерия с пакетной ценой по количеству документов.',
+      cardPriceText: 'от 119€',
       cardPriceSuffix: '/месяц',
       cardFeatures: [
+        'Пакеты по объёму документов',
         'Ежемесячная бухгалтерия',
-        'Подача налоговых деклараций',
-        'Расчёт зарплаты',
-        'Декларации по НДС'
+        'Подача деклараций',
+        'Поддержка по зарплате'
       ],
-      description: 'Базовая цена: 159€/месяц.',
-      basePrice: 159,
+      description: 'Выберите форму предприятия, примерное количество документов в месяц и период обслуживания. Стоимость пересчитывается автоматически.',
+      forms: [
+        {
+          id: 'fie',
+          title: 'FIE',
+          fullTitle: 'Физическое лицо-предприниматель',
+          hint: 'Обычно подходит при более простой структуре бизнеса и меньшем объёме отчётности.',
+          monthlyAdjustment: -20
+        },
+        {
+          id: 'ou',
+          title: 'OÜ',
+          fullTitle: 'Общество с ограниченной ответственностью',
+          hint: 'Базовый вариант для большинства компаний малого бизнеса.',
+          monthlyAdjustment: 0
+        },
+        {
+          id: 'mtu',
+          title: 'MTÜ',
+          fullTitle: 'Некоммерческое объединение',
+          hint: 'Подходит для НКО и объединений, где часто требуется отдельная специфика отчётности.',
+          monthlyAdjustment: 10
+        },
+        {
+          id: 'as',
+          title: 'AS',
+          fullTitle: 'Акционерное общество',
+          hint: 'Более сложная форма предприятия, которая обычно требует более детального сопровождения.',
+          monthlyAdjustment: 60
+        }
+      ],
+      workloadPricing: {
+        defaultDocuments: 20,
+        packages: [
+          { id: 'starter', title: 'Старт', min: 1, max: 15, price: 119, rangeLabel: 'до 15 документов в месяц' },
+          { id: 'standard', title: 'Стандарт', min: 16, max: 40, price: 159, rangeLabel: '16-40 документов в месяц' },
+          { id: 'growth', title: 'Рост', min: 41, max: 80, price: 239, rangeLabel: '41-80 документов в месяц' },
+          { id: 'scale', title: 'Поток', min: 81, max: 140, price: 339, rangeLabel: '81-140 документов в месяц' },
+          { id: 'custom', title: 'Индивидуально', min: 141, max: null, price: 459, rangeLabel: '141+ документов в месяц' }
+        ]
+      },
       baseBilling: 'monthly',
       includes: [
         'ежемесячная бухгалтерия',
@@ -268,18 +457,59 @@ const SERVICE_CATALOG_I18N = {
       ]
     },
     taxes: {
+      kind: 'monthly',
+      defaultFormId: 'ou',
       title: 'Налоги и отчётность',
-      cardText: 'Налоговое сопровождение с контролем сроков и консультацией.',
-      cardPriceText: '249€',
+      cardText: 'Налоговое сопровождение и отчётность с расчётом по количеству документов.',
+      cardPriceText: 'от 149€',
       cardPriceSuffix: '/месяц',
       cardFeatures: [
+        'Пакеты по объёму документов',
         'Налоговые декларации',
         'Контроль сроков',
-        'Базовая консультация',
         'Поддержка по отчётности'
       ],
-      description: 'Базовая цена: 249€/месяц.',
-      basePrice: 249,
+      description: 'Подходит, если вам нужны декларации, контроль сроков и сопровождение отчётности. Цена зависит от формы предприятия и количества документов.',
+      forms: [
+        {
+          id: 'fie',
+          title: 'FIE',
+          fullTitle: 'Физическое лицо-предприниматель',
+          hint: 'Подходит для более простой налоговой структуры и меньшего объёма документов.',
+          monthlyAdjustment: -10
+        },
+        {
+          id: 'ou',
+          title: 'OÜ',
+          fullTitle: 'Общество с ограниченной ответственностью',
+          hint: 'Стандартный вариант для большинства компаний с регулярной налоговой отчётностью.',
+          monthlyAdjustment: 0
+        },
+        {
+          id: 'mtu',
+          title: 'MTÜ',
+          fullTitle: 'Некоммерческое объединение',
+          hint: 'Обычно требует более специфической отчётности и дополнительных нюансов по налогам.',
+          monthlyAdjustment: 20
+        },
+        {
+          id: 'as',
+          title: 'AS',
+          fullTitle: 'Акционерное общество',
+          hint: 'Подходит для более объёмной и сложной налоговой отчётности.',
+          monthlyAdjustment: 80
+        }
+      ],
+      workloadPricing: {
+        defaultDocuments: 25,
+        packages: [
+          { id: 'starter', title: 'Старт', min: 1, max: 20, price: 149, rangeLabel: 'до 20 документов в месяц' },
+          { id: 'standard', title: 'Стандарт', min: 21, max: 50, price: 249, rangeLabel: '21-50 документов в месяц' },
+          { id: 'growth', title: 'Рост', min: 51, max: 100, price: 349, rangeLabel: '51-100 документов в месяц' },
+          { id: 'scale', title: 'Поток', min: 101, max: 160, price: 469, rangeLabel: '101-160 документов в месяц' },
+          { id: 'custom', title: 'Индивидуально', min: 161, max: null, price: 589, rangeLabel: '161+ документов в месяц' }
+        ]
+      },
       baseBilling: 'monthly',
       includes: [
         'налоговые декларации',
@@ -296,24 +526,57 @@ const SERVICE_CATALOG_I18N = {
   },
   en: {
     registration: {
+      kind: 'registration',
+      defaultFormId: 'ou',
       title: 'Business Registration',
-      cardText: 'Help with registering different business forms in Estonia.',
+      cardText: 'Help with registering the right business form in Estonia.',
       cardPriceText: 'from 99€',
       cardPriceSuffix: 'one-time',
       cardFeatures: [
-        'Consultation and form selection',
+        'Business form selection',
         'Document preparation',
         'Filing support',
         'Registration assistance'
       ],
-      description: 'Help with registering different business forms in Estonia. State fee for legal-entity register entry is added to the service cost.',
-      baseBilling: 'one-time',
+      description: 'Choose the business form and immediately see the service fee and state fee. Final registration cost depends on the selected form and filing route.',
       forms: [
-        { id: 'fie', title: 'FIE', price: 99, stateFee: 20 },
-        { id: 'ou', title: 'OÜ', price: 149, stateFee: 200, stateFeeFast: 265 },
-        { id: 'mtu', title: 'MTÜ', price: 129, stateFee: 30 },
-        { id: 'as', title: 'AS', price: 299, from: true, stateFee: 200, stateFeeFast: 265 }
+        {
+          id: 'fie',
+          title: 'FIE',
+          fullTitle: 'Sole proprietor',
+          hint: 'Suitable if you operate under your own name and want a simpler business structure.',
+          price: 99,
+          stateFee: 20
+        },
+        {
+          id: 'ou',
+          title: 'OÜ',
+          fullTitle: 'Private limited company',
+          hint: 'The most common legal form for small and medium-sized businesses in Estonia.',
+          price: 149,
+          stateFee: 200,
+          stateFeeFast: 265
+        },
+        {
+          id: 'mtu',
+          title: 'MTÜ',
+          fullTitle: 'Non-profit association',
+          hint: 'Suitable for associations, community projects, and non-profit activity.',
+          price: 129,
+          stateFee: 30
+        },
+        {
+          id: 'as',
+          title: 'AS',
+          fullTitle: 'Public limited company',
+          hint: 'Suitable for companies with larger capital needs or a more complex governance structure.',
+          price: 299,
+          from: true,
+          stateFee: 200,
+          stateFeeFast: 265
+        }
       ],
+      baseBilling: 'one-time',
       includes: [
         'consultation',
         'document preparation',
@@ -328,18 +591,59 @@ const SERVICE_CATALOG_I18N = {
       ]
     },
     accounting: {
+      kind: 'monthly',
+      defaultFormId: 'ou',
       title: 'Accounting Support',
-      cardText: 'Monthly bookkeeping and reporting for companies in Estonia.',
-      cardPriceText: '159€',
+      cardText: 'Monthly bookkeeping with package pricing based on document volume.',
+      cardPriceText: 'from 119€',
       cardPriceSuffix: '/month',
       cardFeatures: [
+        'Packages by document volume',
         'Monthly bookkeeping',
         'Tax declaration filing',
-        'Payroll calculation',
-        'VAT declarations'
+        'Payroll support'
       ],
-      description: 'Base price: 159€/month.',
-      basePrice: 159,
+      description: 'Choose the business form, estimate how many documents are processed each month, and select the service period. The estimate updates automatically.',
+      forms: [
+        {
+          id: 'fie',
+          title: 'FIE',
+          fullTitle: 'Sole proprietor',
+          hint: 'Usually suitable for a simpler setup and lighter reporting workload.',
+          monthlyAdjustment: -20
+        },
+        {
+          id: 'ou',
+          title: 'OÜ',
+          fullTitle: 'Private limited company',
+          hint: 'The standard choice for most small businesses in Estonia.',
+          monthlyAdjustment: 0
+        },
+        {
+          id: 'mtu',
+          title: 'MTÜ',
+          fullTitle: 'Non-profit association',
+          hint: 'Suitable for non-profit organisations and associations with specific reporting needs.',
+          monthlyAdjustment: 10
+        },
+        {
+          id: 'as',
+          title: 'AS',
+          fullTitle: 'Public limited company',
+          hint: 'A more complex legal form that typically requires more detailed support.',
+          monthlyAdjustment: 60
+        }
+      ],
+      workloadPricing: {
+        defaultDocuments: 20,
+        packages: [
+          { id: 'starter', title: 'Starter', min: 1, max: 15, price: 119, rangeLabel: 'up to 15 documents per month' },
+          { id: 'standard', title: 'Standard', min: 16, max: 40, price: 159, rangeLabel: '16-40 documents per month' },
+          { id: 'growth', title: 'Growth', min: 41, max: 80, price: 239, rangeLabel: '41-80 documents per month' },
+          { id: 'scale', title: 'Scale', min: 81, max: 140, price: 339, rangeLabel: '81-140 documents per month' },
+          { id: 'custom', title: 'Custom', min: 141, max: null, price: 459, rangeLabel: '141+ documents per month' }
+        ]
+      },
       baseBilling: 'monthly',
       includes: [
         'monthly bookkeeping',
@@ -355,18 +659,59 @@ const SERVICE_CATALOG_I18N = {
       ]
     },
     taxes: {
+      kind: 'monthly',
+      defaultFormId: 'ou',
       title: 'Taxes and Reporting',
-      cardText: 'Tax support with deadline control and consultation.',
-      cardPriceText: '249€',
+      cardText: 'Tax support and reporting with pricing based on document volume.',
+      cardPriceText: 'from 149€',
       cardPriceSuffix: '/month',
       cardFeatures: [
+        'Packages by document volume',
         'Tax declarations',
         'Deadline control',
-        'Basic consultation',
         'Reporting support'
       ],
-      description: 'Base price: 249€/month.',
-      basePrice: 249,
+      description: 'Best if you need tax returns, deadline control, and reporting support. Pricing depends on business form and monthly document volume.',
+      forms: [
+        {
+          id: 'fie',
+          title: 'FIE',
+          fullTitle: 'Sole proprietor',
+          hint: 'Suitable for a simpler tax structure and a lower volume of documents.',
+          monthlyAdjustment: -10
+        },
+        {
+          id: 'ou',
+          title: 'OÜ',
+          fullTitle: 'Private limited company',
+          hint: 'A standard legal form for companies with regular tax reporting.',
+          monthlyAdjustment: 0
+        },
+        {
+          id: 'mtu',
+          title: 'MTÜ',
+          fullTitle: 'Non-profit association',
+          hint: 'Often needs more specific reporting and additional tax nuances.',
+          monthlyAdjustment: 20
+        },
+        {
+          id: 'as',
+          title: 'AS',
+          fullTitle: 'Public limited company',
+          hint: 'Suitable for a larger and more complex tax-reporting workload.',
+          monthlyAdjustment: 80
+        }
+      ],
+      workloadPricing: {
+        defaultDocuments: 25,
+        packages: [
+          { id: 'starter', title: 'Starter', min: 1, max: 20, price: 149, rangeLabel: 'up to 20 documents per month' },
+          { id: 'standard', title: 'Standard', min: 21, max: 50, price: 249, rangeLabel: '21-50 documents per month' },
+          { id: 'growth', title: 'Growth', min: 51, max: 100, price: 349, rangeLabel: '51-100 documents per month' },
+          { id: 'scale', title: 'Scale', min: 101, max: 160, price: 469, rangeLabel: '101-160 documents per month' },
+          { id: 'custom', title: 'Custom', min: 161, max: null, price: 589, rangeLabel: '161+ documents per month' }
+        ]
+      },
       baseBilling: 'monthly',
       includes: [
         'tax declarations',
@@ -393,6 +738,13 @@ const configServiceTitle = document.getElementById('configServiceTitle');
 const configServiceText = document.getElementById('configServiceText');
 const businessTypeBlock = document.getElementById('businessTypeBlock');
 const businessTypeOptions = document.getElementById('businessTypeOptions');
+const businessTypeHint = document.getElementById('businessTypeHint');
+const workloadBlock = document.getElementById('workloadBlock');
+const workloadIntro = document.getElementById('workloadIntro');
+const serviceDocumentsInput = document.getElementById('serviceDocumentsInput');
+const servicePackageTitle = document.getElementById('servicePackageTitle');
+const servicePackageHint = document.getElementById('servicePackageHint');
+const servicePackageList = document.getElementById('servicePackageList');
 const servicePeriodWrap = document.querySelector('.service-period');
 const servicePeriodSelect = document.getElementById('servicePeriodSelect');
 const servicePeriodHint = document.getElementById('servicePeriodHint');
@@ -404,6 +756,10 @@ const serviceExtras = document.getElementById('serviceExtras');
 const orderService = document.getElementById('orderService');
 const orderBusinessRow = document.getElementById('orderBusinessRow');
 const orderBusinessType = document.getElementById('orderBusinessType');
+const orderPackageRow = document.getElementById('orderPackageRow');
+const orderPackage = document.getElementById('orderPackage');
+const orderDocumentsRow = document.getElementById('orderDocumentsRow');
+const orderDocuments = document.getElementById('orderDocuments');
 const orderBasePrice = document.getElementById('orderBasePrice');
 const orderRegFeeRow = document.getElementById('orderRegFeeRow');
 const orderRegFee = document.getElementById('orderRegFee');
@@ -415,13 +771,25 @@ const orderTotalPrice = document.getElementById('orderTotalPrice');
 const openOrderFormBtn = document.getElementById('openOrderForm');
 const serviceOrderForm = document.getElementById('serviceOrderForm');
 const serviceOrderHint = document.getElementById('serviceOrderHint');
+const associationCalculator = document.getElementById('associationCalculator');
+const associationBaseFee = document.getElementById('associationBaseFee');
+const associationUnitsFee = document.getElementById('associationUnitsFee');
+const associationDocsFee = document.getElementById('associationDocsFee');
+const associationPayrollFee = document.getElementById('associationPayrollFee');
+const associationReportsFee = document.getElementById('associationReportsFee');
+const associationTotalFee = document.getElementById('associationTotalFee');
+const associationQuoteBtn = document.getElementById('associationQuoteBtn');
+const quoteContext = document.getElementById('quoteContext');
+const quoteContextList = document.getElementById('quoteContextList');
+const quoteContextEdit = document.getElementById('quoteContextEdit');
 
 const serviceState = {
   serviceId: null,
   businessFormId: null,
   selectedExtras: new Set(),
   extraQuantities: {},
-  periodMonths: null
+  periodMonths: null,
+  documentCount: null
 };
 
 function formatEuro(value) {
@@ -481,6 +849,31 @@ function getSelectedForm(service) {
   return service.forms.find((form) => form.id === serviceState.businessFormId) || service.forms[0];
 }
 
+function hasRegistrationFee(service) {
+  return Boolean(service?.forms?.some((form) => Number.isFinite(form.stateFee)));
+}
+
+function hasWorkloadPricing(service) {
+  return Boolean(service?.workloadPricing?.packages?.length);
+}
+
+function getDocumentCount(service = getSelectedService()) {
+  const fallback = service?.workloadPricing?.defaultDocuments || 20;
+  const value = Number.parseInt(String(serviceState.documentCount || ''), 10);
+  if (!Number.isFinite(value) || value < 1) return fallback;
+  return Math.min(1000, value);
+}
+
+function getSelectedPackage(service = getSelectedService()) {
+  if (!hasWorkloadPricing(service)) return null;
+  const documents = getDocumentCount(service);
+  return service.workloadPricing.packages.find((pkg) => {
+    const min = Number.isFinite(pkg.min) ? pkg.min : 1;
+    const max = Number.isFinite(pkg.max) ? pkg.max : Number.POSITIVE_INFINITY;
+    return documents >= min && documents <= max;
+  }) || service.workloadPricing.packages[service.workloadPricing.packages.length - 1];
+}
+
 function getPeriodMonths() {
   const value = Number.parseInt(String(serviceState.periodMonths || ''), 10);
   if (!Number.isFinite(value) || value < 1) return null;
@@ -521,6 +914,22 @@ function getMonthLabel(months) {
 }
 
 function getBasePriceSummary(service) {
+  if (hasWorkloadPricing(service)) {
+    const selectedPackage = getSelectedPackage(service);
+    const form = getSelectedForm(service);
+    const adjustment = Number(form?.monthlyAdjustment || 0);
+    const monthly = Math.max(0, Number(selectedPackage?.price || 0) + adjustment);
+    return {
+      oneTime: 0,
+      monthly,
+      label: `${formatEuro(monthly)}${t('perMonthService', '/month')}`,
+      packageTitle: selectedPackage?.title || '-',
+      packageRangeLabel: selectedPackage?.rangeLabel || '',
+      documents: getDocumentCount(service),
+      formAdjustment: adjustment
+    };
+  }
+
   if (service.forms) {
     const form = getSelectedForm(service);
     const label = form?.from
@@ -577,6 +986,19 @@ function formatStateFeeLabel(form) {
   return base;
 }
 
+function formatMonthlyAdjustment(value) {
+  const amount = Number(value || 0);
+  if (!Number.isFinite(amount) || amount === 0) return '0€';
+  const sign = amount > 0 ? '+' : '-';
+  return `${sign}${formatEuro(Math.abs(amount))}`;
+}
+
+function getNeutralPackageAdjustmentLabel() {
+  if (currentLang === 'ru') return 'без надбавки к пакету';
+  if (currentLang === 'en') return 'base package price';
+  return 'paketi baashind';
+}
+
 function renderPeriodHint(service) {
   if (!servicePeriodHint) return;
   const required = isPeriodRequired(service);
@@ -590,7 +1012,7 @@ function renderPeriodHint(service) {
 function renderRegistrationFeeBlock(service) {
   if (!registrationFeeBlock || !registrationFeeList || !registrationFeeNote) return;
 
-  if (serviceState.serviceId !== 'registration' || !service?.forms?.length) {
+  if (!hasRegistrationFee(service)) {
     registrationFeeBlock.setAttribute('hidden', '');
     registrationFeeList.innerHTML = '';
     return;
@@ -619,7 +1041,7 @@ function renderRegistrationFeeBlock(service) {
 }
 
 function getSelectedRegistrationFee(service) {
-  if (serviceState.serviceId !== 'registration' || !service?.forms?.length) return null;
+  if (!hasRegistrationFee(service)) return null;
   const form = getSelectedForm(service);
   if (!form || !Number.isFinite(form.stateFee)) return null;
   return {
@@ -678,18 +1100,19 @@ function renderServiceCards() {
 }
 
 function renderBusinessTypes(service) {
-  if (!businessTypeBlock || !businessTypeOptions) return;
+  if (!businessTypeBlock || !businessTypeOptions || !businessTypeHint) return;
 
   if (!service.forms || service.forms.length === 0) {
     businessTypeBlock.setAttribute('hidden', '');
     businessTypeOptions.innerHTML = '';
+    businessTypeHint.textContent = '';
     return;
   }
 
   businessTypeBlock.removeAttribute('hidden');
 
   if (!serviceState.businessFormId || !service.forms.some((item) => item.id === serviceState.businessFormId)) {
-    serviceState.businessFormId = service.forms[0].id;
+    serviceState.businessFormId = service.defaultFormId || service.forms[0].id;
   }
 
   businessTypeOptions.innerHTML = '';
@@ -698,14 +1121,102 @@ function renderBusinessTypes(service) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = `service-type-btn${form.id === serviceState.businessFormId ? ' is-active' : ''}`;
-    const fromLabel = form.from ? `${t('fromLabel', 'from')} ` : '';
-    button.textContent = `${form.title} - ${fromLabel}${formatEuro(form.price)}`;
+
+    const title = document.createElement('strong');
+    title.className = 'service-type-btn__title';
+    title.textContent = form.title;
+
+    const subtitle = document.createElement('span');
+    subtitle.className = 'service-type-btn__subtitle';
+    subtitle.textContent = form.fullTitle || form.title;
+
+    const note = document.createElement('small');
+    note.className = 'service-type-btn__note';
+
+    if (hasWorkloadPricing(service)) {
+      const adjustment = Number(form.monthlyAdjustment || 0);
+      note.textContent = adjustment === 0
+        ? getNeutralPackageAdjustmentLabel()
+        : `${formatMonthlyAdjustment(adjustment)} ${t('perMonthService', '/month')}`;
+    } else {
+      const fromLabel = form.from ? `${t('fromLabel', 'from')} ` : '';
+      note.textContent = `${fromLabel}${formatEuro(form.price)}`;
+    }
+
+    button.append(title, subtitle, note);
     button.addEventListener('click', () => {
       serviceState.businessFormId = form.id;
-      renderServiceOrder();
-      renderBusinessTypes(service);
+      renderServiceConfigurator();
     });
     businessTypeOptions.append(button);
+  });
+
+  const selectedForm = getSelectedForm(service);
+  businessTypeHint.textContent = selectedForm?.hint || '';
+}
+
+function renderWorkloadPricing(service) {
+  if (
+    !workloadBlock
+    || !workloadIntro
+    || !serviceDocumentsInput
+    || !servicePackageTitle
+    || !servicePackageHint
+    || !servicePackageList
+  ) {
+    return;
+  }
+
+  if (!hasWorkloadPricing(service)) {
+    workloadBlock.setAttribute('hidden', '');
+    servicePackageList.innerHTML = '';
+    servicePackageTitle.textContent = '-';
+    servicePackageHint.textContent = '';
+    return;
+  }
+
+  workloadBlock.removeAttribute('hidden');
+
+  const documents = getDocumentCount(service);
+  const selectedPackage = getSelectedPackage(service);
+  const selectedForm = getSelectedForm(service);
+  const adjustment = Number(selectedForm?.monthlyAdjustment || 0);
+  const selectedPrice = Math.max(0, Number(selectedPackage?.price || 0) + adjustment);
+
+  serviceDocumentsInput.value = String(documents);
+  workloadIntro.textContent = t(
+    'configWorkloadText',
+    'Monthly service pricing depends on how many documents are processed each month.'
+  );
+  servicePackageTitle.textContent = `${selectedPackage?.title || '-'} · ${formatEuro(selectedPrice)}${t('perMonthService', '/month')}`;
+
+  if (adjustment === 0) {
+    servicePackageHint.textContent = `${selectedPackage?.rangeLabel || ''}.`;
+  } else {
+    servicePackageHint.textContent = `${selectedPackage?.rangeLabel || ''}. ${selectedForm?.title || ''}: ${formatMonthlyAdjustment(adjustment)}${t('perMonthService', '/month')}.`;
+  }
+
+  servicePackageList.innerHTML = '';
+  service.workloadPricing.packages.forEach((pkg) => {
+    const item = document.createElement('li');
+    item.className = `service-package-item${pkg.id === selectedPackage?.id ? ' is-active' : ''}`;
+
+    const info = document.createElement('div');
+    info.className = 'service-package-item__info';
+
+    const title = document.createElement('strong');
+    title.textContent = pkg.title;
+
+    const range = document.createElement('span');
+    range.textContent = pkg.rangeLabel;
+
+    const price = document.createElement('strong');
+    price.className = 'service-package-item__price';
+    price.textContent = `${formatEuro(Math.max(0, Number(pkg.price || 0) + adjustment))}${t('perMonthService', '/month')}`;
+
+    info.append(title, range);
+    item.append(info, price);
+    servicePackageList.append(item);
   });
 }
 
@@ -801,6 +1312,7 @@ function renderServiceOrder() {
   const periodMonths = getPeriodMonths();
   const periodRequired = isPeriodRequired(service);
   const hasPeriod = Number.isFinite(periodMonths);
+  const selectedPackage = getSelectedPackage(service);
 
   if (orderService) orderService.textContent = service.title;
   if (orderBasePrice) orderBasePrice.textContent = base.label;
@@ -813,10 +1325,26 @@ function renderServiceOrder() {
   if (service.forms) {
     const selectedForm = getSelectedForm(service);
     orderBusinessRow?.removeAttribute('hidden');
-    if (orderBusinessType) orderBusinessType.textContent = selectedForm?.title || '-';
+    if (orderBusinessType) {
+      orderBusinessType.textContent = selectedForm
+        ? `${selectedForm.title} · ${selectedForm.fullTitle || selectedForm.title}`
+        : '-';
+    }
   } else {
     orderBusinessRow?.setAttribute('hidden', '');
     if (orderBusinessType) orderBusinessType.textContent = '-';
+  }
+
+  if (hasWorkloadPricing(service) && selectedPackage) {
+    orderPackageRow?.removeAttribute('hidden');
+    orderDocumentsRow?.removeAttribute('hidden');
+    if (orderPackage) orderPackage.textContent = `${selectedPackage.title} · ${selectedPackage.rangeLabel}`;
+    if (orderDocuments) orderDocuments.textContent = `${getDocumentCount(service)}`;
+  } else {
+    orderPackageRow?.setAttribute('hidden', '');
+    orderDocumentsRow?.setAttribute('hidden', '');
+    if (orderPackage) orderPackage.textContent = '-';
+    if (orderDocuments) orderDocuments.textContent = '-';
   }
 
   if (!orderExtrasList || !orderTotalPrice) return;
@@ -910,6 +1438,14 @@ function getOrderSummaryText(service) {
     lines.push(`${t('orderBusinessLabel', 'Business form')}: ${orderBusinessType?.textContent?.trim() || '-'}`);
   }
 
+  if (orderPackageRow && !orderPackageRow.hasAttribute('hidden')) {
+    lines.push(`${t('orderPackageLabel', 'Package')}: ${orderPackage?.textContent?.trim() || '-'}`);
+  }
+
+  if (orderDocumentsRow && !orderDocumentsRow.hasAttribute('hidden')) {
+    lines.push(`${t('orderDocumentsLabel', 'Documents per month')}: ${orderDocuments?.textContent?.trim() || '-'}`);
+  }
+
   lines.push(`${t('orderBaseLabel', 'Base price')}: ${orderBasePrice?.textContent?.trim() || '-'}`);
 
   if (orderRegFeeRow && !orderRegFeeRow.hasAttribute('hidden')) {
@@ -942,10 +1478,15 @@ function renderServiceConfigurator() {
     servicePeriodSelect.value = Number.isFinite(periodMonths) ? String(periodMonths) : '';
   }
 
+  if (serviceDocumentsInput && hasWorkloadPricing(service)) {
+    serviceDocumentsInput.value = String(getDocumentCount(service));
+  }
+
   if (configServiceTitle) configServiceTitle.textContent = service.title;
   if (configServiceText) configServiceText.textContent = service.description;
 
   renderBusinessTypes(service);
+  renderWorkloadPricing(service);
   renderIncludedServices(service);
   renderExtraServices(service);
   renderServiceOrder();
@@ -961,8 +1502,9 @@ function selectService(serviceId, shouldScroll = false) {
   if (isNewService) {
     serviceState.selectedExtras = new Set();
     serviceState.extraQuantities = {};
-    serviceState.businessFormId = service.forms?.[0]?.id || null;
+    serviceState.businessFormId = service.defaultFormId || service.forms?.[0]?.id || null;
     serviceState.periodMonths = null;
+    serviceState.documentCount = service.workloadPricing?.defaultDocuments || null;
   }
 
   if (serviceConfigurator?.hasAttribute('hidden')) {
@@ -1027,6 +1569,15 @@ servicePeriodSelect?.addEventListener('change', () => {
   serviceState.periodMonths = Number.isFinite(value) && value >= 1 && value <= 12 ? value : null;
   if (hasValidPeriod()) clearPeriodError();
   renderServiceOrder();
+});
+
+serviceDocumentsInput?.addEventListener('input', () => {
+  const service = getSelectedService();
+  if (!service || !hasWorkloadPricing(service)) return;
+  const value = Number.parseInt(serviceDocumentsInput.value, 10);
+  serviceState.documentCount = Number.isFinite(value) && value >= 1 ? Math.min(1000, value) : service.workloadPricing.defaultDocuments || 20;
+  serviceDocumentsInput.value = String(serviceState.documentCount);
+  renderServiceConfigurator();
 });
 
 openOrderFormBtn?.addEventListener('click', () => {
@@ -1126,6 +1677,8 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
   try {
     const selectedForm = getSelectedForm(service);
     const periodMonths = getPeriodMonths();
+    const selectedPackage = getSelectedPackage(service);
+    const documentCount = hasWorkloadPricing(service) ? getDocumentCount(service) : null;
     const formData = new FormData();
     appendSubmissionMeta(
       formData,
@@ -1138,6 +1691,9 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     formData.append('email', email);
     formData.append('service', service.title);
     formData.append('business_form', selectedForm?.title || '-');
+    formData.append('business_form_full', selectedForm?.fullTitle || selectedForm?.title || '-');
+    formData.append('service_package', selectedPackage?.title || '-');
+    formData.append('documents_monthly', Number.isFinite(documentCount) ? String(documentCount) : '-');
     formData.append('period_months', Number.isFinite(periodMonths) ? String(periodMonths) : '-');
     formData.append('company_name', company);
     formData.append('contact_name', person);
@@ -1152,6 +1708,7 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     serviceState.periodMonths = null;
     serviceState.selectedExtras = new Set();
     serviceState.extraQuantities = {};
+    serviceState.documentCount = service.workloadPricing?.defaultDocuments || null;
     renderServiceConfigurator();
   } catch (error) {
     console.error(error);
@@ -1164,6 +1721,146 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     submitBtn?.removeAttribute('disabled');
     submitBtn?.removeAttribute('aria-busy');
   }
+});
+
+// =======================
+// Apartment association calculator
+// =======================
+const ASSOCIATION_REPORTING_FEES = {
+  monthly: 45,
+  quarterly: 25,
+  annual: 10
+};
+
+function normalizeInteger(value, min, max, fallback) {
+  const parsed = Number.parseInt(String(value || '').trim(), 10);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.max(min, Math.min(max, parsed));
+}
+
+function getAssociationField(name) {
+  return associationCalculator?.elements?.namedItem(name) || null;
+}
+
+function getAssociationSelectValue(name, fallback) {
+  const field = getAssociationField(name);
+  if (!(field instanceof HTMLSelectElement)) return fallback;
+  return Object.prototype.hasOwnProperty.call(ASSOCIATION_REPORTING_FEES, field.value)
+    ? field.value
+    : fallback;
+}
+
+function getAssociationNumberValue(name, min, max, fallback) {
+  const field = getAssociationField(name);
+  if (!(field instanceof HTMLInputElement)) return fallback;
+  const normalized = normalizeInteger(field.value, min, max, fallback);
+  if (field.value !== String(normalized)) {
+    field.value = String(normalized);
+  }
+  return normalized;
+}
+
+function getAssociationReportLabel(reportMode) {
+  if (reportMode === 'monthly') return t('associationReportsMonthly', 'Monthly');
+  if (reportMode === 'annual') return t('associationReportsAnnual', 'Annual only');
+  return t('associationReportsQuarterly', 'Quarterly');
+}
+
+function calculateAssociationEstimate() {
+  if (!associationCalculator) return null;
+  const units = getAssociationNumberValue('association_units', 1, 500, 12);
+  const invoices = getAssociationNumberValue('association_invoices', 0, 500, 10);
+  const documents = getAssociationNumberValue('association_documents', 0, 1000, 20);
+  const employees = getAssociationNumberValue('association_employees', 0, 100, 0);
+  const reportMode = getAssociationSelectValue('association_reports', 'quarterly');
+
+  const base = 70;
+  const unitsFeeAmount = units * 1.5;
+  const docsFeeAmount = invoices * 1.2 + documents * 0.65;
+  const payrollFeeAmount = employees * 18;
+  const reportsFeeAmount = ASSOCIATION_REPORTING_FEES[reportMode] || ASSOCIATION_REPORTING_FEES.quarterly;
+  const total = base + unitsFeeAmount + docsFeeAmount + payrollFeeAmount + reportsFeeAmount;
+
+  return {
+    units,
+    invoices,
+    documents,
+    employees,
+    reportMode,
+    reportLabel: getAssociationReportLabel(reportMode),
+    base,
+    unitsFeeAmount,
+    docsFeeAmount,
+    payrollFeeAmount,
+    reportsFeeAmount,
+    total
+  };
+}
+
+function getAssociationQuoteSummaryRows(data) {
+  if (!data) return [];
+  return [
+    [t('associationUnitsLabel', 'Number of apartments'), String(data.units)],
+    [t('associationInvoicesLabel', 'Monthly purchase and sales invoices'), String(data.invoices)],
+    [t('associationDocumentsLabel', 'Source documents per month'), String(data.documents)],
+    [t('associationEmployeesLabel', 'Number of employees'), String(data.employees)],
+    [t('associationReportsLabel', 'Reporting frequency'), data.reportLabel],
+    [t('associationTotalFeeLabel', 'Indicative monthly fee'), formatEuro(data.total)]
+  ];
+}
+
+function getAssociationQuoteEmailSummary(data) {
+  return getAssociationQuoteSummaryRows(data)
+    .map(([label, value]) => `${label}: ${value}`)
+    .join('\n');
+}
+
+function renderAssociationQuoteContext() {
+  if (!quoteContext || !quoteContextList) return;
+
+  if (!pendingAssociationQuote) {
+    quoteContext.setAttribute('hidden', '');
+    quoteContextList.innerHTML = '';
+    return;
+  }
+
+  quoteContext.removeAttribute('hidden');
+  quoteContextList.innerHTML = '';
+
+  getAssociationQuoteSummaryRows(pendingAssociationQuote).forEach(([label, value]) => {
+    const item = document.createElement('li');
+    const title = document.createElement('span');
+    const amount = document.createElement('strong');
+    title.textContent = label;
+    amount.textContent = value;
+    item.append(title, amount);
+    quoteContextList.append(item);
+  });
+}
+
+function renderAssociationEstimate() {
+  const data = calculateAssociationEstimate();
+  if (!data) return;
+
+  if (associationBaseFee) associationBaseFee.textContent = formatEuro(data.base);
+  if (associationUnitsFee) associationUnitsFee.textContent = formatEuro(data.unitsFeeAmount);
+  if (associationDocsFee) associationDocsFee.textContent = formatEuro(data.docsFeeAmount);
+  if (associationPayrollFee) associationPayrollFee.textContent = formatEuro(data.payrollFeeAmount);
+  if (associationReportsFee) associationReportsFee.textContent = formatEuro(data.reportsFeeAmount);
+  if (associationTotalFee) associationTotalFee.textContent = formatEuro(data.total);
+
+  if (pendingAssociationQuote) {
+    pendingAssociationQuote = data;
+    renderAssociationQuoteContext();
+  }
+}
+
+associationCalculator?.addEventListener('input', () => {
+  renderAssociationEstimate();
+});
+
+associationCalculator?.addEventListener('change', () => {
+  renderAssociationEstimate();
 });
 
 // =======================
@@ -1187,6 +1884,7 @@ const PAYROLL_RATES = {
 
 let payrollCloseTimer = null;
 let payrollLastResult = null;
+let pendingAssociationQuote = null;
 
 function formatPayrollEuro(value) {
   const safeValue = Number.isFinite(value) ? value : 0;
@@ -1440,6 +2138,29 @@ let hasInvalidAttachment = false;
 
 let hintTimer = null;
 
+function activateAssociationQuoteRequest() {
+  const data = calculateAssociationEstimate();
+  if (!data) return;
+
+  pendingAssociationQuote = data;
+  renderAssociationQuoteContext();
+  setHint(
+    t(
+      'associationQuoteContactHint',
+      'The apartment association calculator data will be attached to the email automatically. Name/company and email are enough.'
+    ),
+    false,
+    false
+  );
+  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  nameInput?.focus();
+}
+
+function clearAssociationQuoteRequest() {
+  pendingAssociationQuote = null;
+  renderAssociationQuoteContext();
+}
+
 function setHint(message, isError = false, autoClear = true) {
   if (!hint) return;
   hint.textContent = message;
@@ -1519,6 +2240,14 @@ fileChooseBtn?.addEventListener('click', () => {
   fileInput?.click();
 });
 
+associationQuoteBtn?.addEventListener('click', () => {
+  activateAssociationQuoteRequest();
+});
+
+quoteContextEdit?.addEventListener('click', () => {
+  associationCalculator?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
 function clearFieldError(field) {
   field?.classList.remove('is-error');
 }
@@ -1570,8 +2299,9 @@ form?.addEventListener('submit', async (e) => {
   const messageField = form.querySelector('textarea[name="message"]');
   const hasMessage = Boolean(messageField?.value.trim());
   const hasFile = Boolean(fileInput?.files && fileInput.files.length > 0);
+  const hasAttachedQuote = Boolean(pendingAssociationQuote);
 
-  if (!hasMessage && !hasFile) {
+  if (!hasMessage && !hasFile && !hasAttachedQuote) {
     setHint(t('formNeedMsgOrFile', 'Please add a message or attach a file.'), true, false);
     messageField?.focus();
     return;
@@ -1585,17 +2315,38 @@ form?.addEventListener('submit', async (e) => {
 
   try {
     const payload = new FormData();
+    const isAssociationQuote = Boolean(pendingAssociationQuote);
+    const associationQuote = pendingAssociationQuote;
     appendSubmissionMeta(
       payload,
-      `Talcon.ee | Quick contact | ${nameValue}`,
+      isAssociationQuote
+        ? `Talcon.ee | Apartment association quote | ${nameValue}`
+        : `Talcon.ee | Quick contact | ${nameValue}`,
       emailValue
     );
-    payload.append('request_type', 'quick_contact');
+    payload.append('request_type', isAssociationQuote ? 'association_quote' : 'quick_contact');
     payload.append('name', nameValue);
     payload.append('email', emailValue);
     payload.append('name_or_company', nameValue);
     payload.append('contact_email', emailValue);
     payload.append('message', messageField?.value.trim() || '-');
+
+    if (associationQuote) {
+      payload.append('quote_source', 'apartment_association_calculator');
+      payload.append('association_units', String(associationQuote.units));
+      payload.append('association_invoices', String(associationQuote.invoices));
+      payload.append('association_documents', String(associationQuote.documents));
+      payload.append('association_employees', String(associationQuote.employees));
+      payload.append('association_report_mode', associationQuote.reportMode);
+      payload.append('association_report_label', associationQuote.reportLabel);
+      payload.append('association_base_fee', formatEuro(associationQuote.base));
+      payload.append('association_units_fee', formatEuro(associationQuote.unitsFeeAmount));
+      payload.append('association_docs_fee', formatEuro(associationQuote.docsFeeAmount));
+      payload.append('association_payroll_fee', formatEuro(associationQuote.payrollFeeAmount));
+      payload.append('association_reports_fee', formatEuro(associationQuote.reportsFeeAmount));
+      payload.append('association_estimated_total', formatEuro(associationQuote.total));
+      payload.append('association_quote_summary', getAssociationQuoteEmailSummary(associationQuote));
+    }
 
     if (fileInput?.files && fileInput.files.length > 0) {
       payload.append('attachment', fileInput.files[0]);
@@ -1607,6 +2358,7 @@ form?.addEventListener('submit', async (e) => {
     form.reset();
     hasInvalidAttachment = false;
     clearFileError();
+    clearAssociationQuoteRequest();
     updateFileHint();
   } catch (err) {
     console.error(err);
@@ -1674,6 +2426,7 @@ function applyTranslations(lang) {
     renderPayrollRows(payrollLastResult.mode, payrollLastResult.data, payrollLastResult.useTaxFree);
   }
 
+  renderAssociationEstimate();
   updateFileHint();
   localStorage.setItem(LANG_KEY, lang);
 }
@@ -1694,6 +2447,7 @@ updateLangSelectLabels();
 updateTrustBadgesAlignment();
 updateFileHint();
 renderServiceCards();
+renderAssociationEstimate();
 
 window.addEventListener('load', () => {
   updateTrustBadgesAlignment();

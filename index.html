@@ -43,6 +43,7 @@
       </a>
 
       <nav class="nav">
+        <a href="#about" data-i18n="navAbout">О компании</a>
         <a href="#services" data-i18n="navServices">Teenused</a>
         <a href="#pricing" data-i18n="navPricing">Hinnad</a>
         <a href="#contact" data-i18n="navContact">Kontakt</a>
@@ -78,6 +79,7 @@
 
     <div class="mobile-nav" id="mobileMenu" hidden>
       <div class="container mobile-nav__inner">
+        <a href="#about" data-i18n="navAbout">О компании</a>
         <a href="#services" data-i18n="navServices">Teenused</a>
         <a href="#pricing" data-i18n="navPricing">Hinnad</a>
         <a href="#contact" data-i18n="navContact">Kontakt</a>
@@ -156,201 +158,428 @@ teenused</span>
             Usaldusväärsed raamatupidamis- ja ettevõtlusteenused Eestis. Aitame teil asutada ettevõtet,
             pidada raamatupidamist ning esitada maksuaruandeid.
           </p>
-          <a class="btn" href="#contact" data-i18n="heroCta">Küsi tasuta konsultatsiooni</a>
+          <div class="hero__actions">
+            <a class="btn" href="#contact" data-i18n="heroCta">Küsi konsultatsiooni</a>
+            <a class="hero__secondary-link" href="#about" data-i18n="heroSecondaryLink">О компании</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about section" id="about">
+      <div class="container">
+        <div class="section-heading">
+          <span class="section__eyebrow" data-i18n="aboutEyebrow">О компании</span>
+          <h2 class="section__title section__title--left" data-i18n="aboutHeading">О компании</h2>
+          <p class="section__lead about__lead" data-i18n="aboutLead">
+            Talcon Grupp OÜ специализируется на бухгалтерских услугах для компаний, некоммерческих
+            организаций и квартирных товариществ, работающих в Эстонии.
+          </p>
+        </div>
+
+        <div class="about__grid">
+          <article class="about-card about-card--wide">
+            <h3 data-i18n="aboutAccountingTitle">Бухгалтерский учёт</h3>
+            <p data-i18n="aboutAccountingP1">
+              Talcon Grupp OÜ специализируется на оказании бухгалтерских услуг. Наш офис и бухгалтеры
+              расположены в Таллине, а команда имеет большой опыт в профессиональном сопровождении клиентов.
+            </p>
+            <p data-i18n="aboutAccountingP2">
+              Благодаря безбумажному формату наши услуги доступны везде, где есть интернет, а при
+              необходимости клиент может пользоваться и программным обеспечением нашей фирмы.
+            </p>
+            <p data-i18n="aboutAccountingP3">
+              Мы используем онлайн-инструменты для совместной работы, чтобы обеспечить безопасное и
+              прозрачное взаимодействие как внутри команды, так и с клиентами.
+            </p>
+            <p data-i18n="aboutAccountingP4">
+              Также мы помогаем с изменениями в Коммерческом регистре: созданием новых фирм, внесением
+              и увеличением капитала, а также добавлением или удалением членов правления.
+            </p>
+          </article>
+
+          <article class="about-card">
+            <h3 data-i18n="aboutPricingTitle">Ценообразование</h3>
+            <p data-i18n="aboutPricingP1">
+              Ежемесячная стоимость бухгалтерских услуг опирается на средние объёмы документов за
+              длительный период и зависит от фактической нагрузки.
+            </p>
+            <p data-i18n="aboutPricingP2">
+              Наша цель - долгосрочное и взаимовыгодное сотрудничество, поэтому мы стремимся держать
+              цены справедливыми и понятными.
+            </p>
+          </article>
+
+          <article class="about-card">
+            <h3 data-i18n="aboutSoftwareTitle">Программное обеспечение</h3>
+            <p data-i18n="aboutSoftwareP1">
+              Мы используем разное программное обеспечение в зависимости от задач клиента и при
+              необходимости работаем с системой клиента или связываем её с нашей.
+            </p>
+          </article>
         </div>
       </div>
     </section>
 
     <section class="services section" id="services">
       <div class="container">
-        <h2 class="section__title" data-i18n="servicesHeading">Наши услуги</h2>
+        <div class="section-heading">
+          <span class="section__eyebrow" data-i18n="servicesEyebrow">Услуги</span>
+          <h2 class="section__title section__title--left" data-i18n="servicesHeading">Наши услуги</h2>
+          <p class="section__lead" data-i18n="servicesIntro">
+            В этом блоке показываем сам перечень услуг без цен, чтобы клиенту было проще ориентироваться.
+          </p>
+        </div>
 
-        <div class="pricing-cards" id="pricing">
-          <article class="price-card price-card--interactive" data-service-id="registration" tabindex="0">
-            <img class="price-card__icon" src="assets/icons/service-1.png" alt="" aria-hidden="true" />
-            <h3>Регистрация бизнеса</h3>
-            <p>Помощь с регистрацией разных форм бизнеса в Эстонии.</p>
-            <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
-            <div class="price"><span>от 99€</span><small>разово</small></div>
-            <ul>
-              <li>Консультация и выбор формы</li>
-              <li>Подготовка документов</li>
-              <li>Сопровождение подачи</li>
-              <li>Помощь с регистрацией</li>
-            </ul>
-            <button class="btn btn--card js-service-open" type="button">Смотреть</button>
-          </article>
+        <article class="service-list-card">
+          <p class="service-list-card__lead" data-i18n="servicesListLead">Мы предлагаем следующие услуги:</p>
+          <ul class="service-overview">
+            <li data-i18n="servicesItem1">Ведение ежемесячного бухгалтерского учёта</li>
+            <li data-i18n="servicesItem2">Ведение делопроизводства и расчёт заработной платы</li>
+            <li data-i18n="servicesItem3">
+              Составление и подача годового отчёта, налоговых деклараций, балансов, отчётов о прибыли,
+              отчётов по командировкам и статистической отчётности
+            </li>
+            <li data-i18n="servicesItem4">Сопровождение налоговых проверок</li>
+            <li data-i18n="servicesItem5">Бухгалтерские и налоговые консультации</li>
+            <li data-i18n="servicesItem6">Восстановление бухгалтерского учёта</li>
+            <li data-i18n="servicesItem7">Открытие новых фирм в Коммерческом регистре</li>
+          </ul>
+        </article>
+      </div>
+    </section>
 
-          <article class="price-card price-card--interactive" data-service-id="accounting" tabindex="0">
-            <img class="price-card__icon" src="assets/icons/service-2.png" alt="" aria-hidden="true" />
-            <h3>Бухгалтерское сопровождение</h3>
-            <p>Ежемесячная бухгалтерия и отчётность для компаний в Эстонии.</p>
-            <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
-            <div class="price"><span>159€</span><small>/месяц</small></div>
-            <ul>
-              <li>Ежемесячная бухгалтерия</li>
-              <li>Подача налоговых деклараций</li>
-              <li>Расчёт зарплаты</li>
-              <li>Декларации по НДС</li>
-            </ul>
-            <button class="btn btn--card js-service-open" type="button">Смотреть</button>
-          </article>
+    <section class="pricing section" id="pricing">
+      <div class="container">
+        <div class="pricing__header">
+          <div class="section-heading">
+            <span class="section__eyebrow" data-i18n="pricingEyebrow">Цены</span>
+            <h2 class="section__title section__title--left" data-i18n="pricingHeading">Цены и калькуляторы</h2>
+            <p class="section__lead" data-i18n="pricingLead">
+              Стоимость услуг зависит от количества первичных документов, ежемесячных счетов купли-продажи,
+              работников, количества и частоты предоставляемых отчётов.
+            </p>
+          </div>
 
-          <article class="price-card price-card--interactive" data-service-id="taxes" tabindex="0">
-            <img class="price-card__icon" src="assets/icons/service-3.png" alt="" aria-hidden="true" />
-            <h3>Налоги и отчётность</h3>
-            <p>Налоговое сопровождение с контролем сроков и консультацией.</p>
-            <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
-            <div class="price"><span>249€</span><small>/месяц</small></div>
-            <ul>
-              <li>Налоговые декларации</li>
-              <li>Контроль сроков</li>
-              <li>Базовая консультация</li>
-              <li>Поддержка по отчётности</li>
-            </ul>
-            <button class="btn btn--card js-service-open" type="button">Смотреть</button>
+          <article class="consult-card">
+            <p class="consult-card__label" data-i18n="consultationCardLabel">Получить консультацию</p>
+            <strong class="consult-card__price" data-i18n="consultationCardPrice">50€/час</strong>
+            <p class="consult-card__text" data-i18n="consultationCardText">
+              Отдельные бухгалтерские и налоговые консультации оплачиваются почасово.
+            </p>
+            <a class="btn btn--small" href="#contact" data-i18n="consultationCardCta">Записаться</a>
           </article>
         </div>
 
-        <section class="service-configurator" id="service-configurator" hidden>
-          <div class="service-configurator__layout">
-            <div class="service-configurator__panel">
-              <h3 class="service-configurator__title" id="configServiceTitle" data-i18n="configDefaultTitle">Выберите услугу</h3>
-              <p class="service-configurator__text" id="configServiceText" data-i18n="configDefaultText">Нажмите на карточку выше, чтобы настроить услугу.</p>
+        <div class="pricing-panel">
+          <div class="pricing-panel__heading">
+            <h3 data-i18n="businessPricingTitle">Калькулятор для бизнес-клиентов</h3>
+          </div>
 
-              <div class="service-configurator__block" id="businessTypeBlock" hidden>
-                <h4 data-i18n="configBusinessType">Форма бизнеса</h4>
-                <div class="service-types" id="businessTypeOptions"></div>
-              </div>
+          <div class="pricing-cards">
+            <article class="price-card price-card--interactive" data-service-id="registration" tabindex="0">
+              <img class="price-card__icon" src="assets/icons/service-1.png" alt="" aria-hidden="true" />
+              <h3>Регистрация бизнеса</h3>
+              <p>Помощь с регистрацией разных форм бизнеса в Эстонии.</p>
+              <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
+              <div class="price"><span>от 99€</span><small>разово</small></div>
+              <ul>
+                <li>Консультация и выбор формы</li>
+                <li>Подготовка документов</li>
+                <li>Сопровождение подачи</li>
+                <li>Помощь с регистрацией</li>
+              </ul>
+              <button class="btn btn--card js-service-open" type="button">Смотреть</button>
+            </article>
 
-              <div class="service-configurator__block" id="servicePeriodBlock">
-                <h4 data-i18n="configPeriodTitle">Срок обслуживания</h4>
-                <div class="service-period">
-                  <label for="servicePeriodSelect" data-i18n="configPeriodLabel">Период (месяцев)</label>
-                  <select id="servicePeriodSelect" name="service_period_months">
-                    <option value="" selected data-i18n="configPeriodPlaceholder">Выберите период</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                  </select>
-                  <p class="service-period__hint" id="servicePeriodHint" data-i18n="configPeriodHintRequired">
-                    Выбор периода обязателен для ежемесячного обслуживания.
+            <article class="price-card price-card--interactive" data-service-id="accounting" tabindex="0">
+              <img class="price-card__icon" src="assets/icons/service-2.png" alt="" aria-hidden="true" />
+              <h3>Бухгалтерское сопровождение</h3>
+              <p>Ежемесячная бухгалтерия и отчётность для компаний в Эстонии.</p>
+              <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
+              <div class="price"><span>159€</span><small>/месяц</small></div>
+              <ul>
+                <li>Ежемесячная бухгалтерия</li>
+                <li>Подача налоговых деклараций</li>
+                <li>Расчёт зарплаты</li>
+                <li>Декларации по НДС</li>
+              </ul>
+              <button class="btn btn--card js-service-open" type="button">Смотреть</button>
+            </article>
+
+            <article class="price-card price-card--interactive" data-service-id="taxes" tabindex="0">
+              <img class="price-card__icon" src="assets/icons/service-3.png" alt="" aria-hidden="true" />
+              <h3>Налоги и отчётность</h3>
+              <p>Налоговое сопровождение с контролем сроков и консультацией.</p>
+              <a class="price-card__link js-service-open" href="#service-configurator">Смотреть</a>
+              <div class="price"><span>249€</span><small>/месяц</small></div>
+              <ul>
+                <li>Налоговые декларации</li>
+                <li>Контроль сроков</li>
+                <li>Базовая консультация</li>
+                <li>Поддержка по отчётности</li>
+              </ul>
+              <button class="btn btn--card js-service-open" type="button">Смотреть</button>
+            </article>
+          </div>
+
+          <section class="service-configurator" id="service-configurator" hidden>
+            <div class="service-configurator__layout">
+              <div class="service-configurator__panel">
+                <h3 class="service-configurator__title" id="configServiceTitle" data-i18n="configDefaultTitle">Выберите услугу</h3>
+                <p class="service-configurator__text" id="configServiceText" data-i18n="configDefaultText">Нажмите на карточку выше, чтобы настроить услугу.</p>
+
+                <div class="service-configurator__block" id="businessTypeBlock" hidden>
+                  <h4 data-i18n="configBusinessType">Форма бизнеса</h4>
+                  <div class="service-types" id="businessTypeOptions"></div>
+                  <p class="service-types__hint" id="businessTypeHint"></p>
+                </div>
+
+                <div class="service-configurator__block service-workload" id="workloadBlock" hidden>
+                  <h4 data-i18n="configWorkloadTitle">Пакет по документам</h4>
+                  <p class="service-workload__text" id="workloadIntro" data-i18n="configWorkloadText">
+                    Стоимость ежемесячного обслуживания зависит от количества обрабатываемых документов в месяц.
                   </p>
+                  <div class="service-workload__grid">
+                    <label class="service-workload__field" for="serviceDocumentsInput">
+                      <span data-i18n="configDocumentsLabel">Документы в месяц</span>
+                      <input
+                        type="number"
+                        id="serviceDocumentsInput"
+                        name="service_documents_monthly"
+                        min="1"
+                        max="1000"
+                        step="1"
+                        value="20"
+                      />
+                    </label>
+
+                    <div class="service-workload__selected">
+                      <span data-i18n="configPackageLabel">Выбранный пакет</span>
+                      <strong id="servicePackageTitle">-</strong>
+                      <p id="servicePackageHint"></p>
+                    </div>
+                  </div>
+                  <ul class="service-package-list" id="servicePackageList"></ul>
+                </div>
+
+                <div class="service-configurator__block" id="servicePeriodBlock">
+                  <h4 data-i18n="configPeriodTitle">Срок обслуживания</h4>
+                  <div class="service-period">
+                    <label for="servicePeriodSelect" data-i18n="configPeriodLabel">Период (месяцев)</label>
+                    <select id="servicePeriodSelect" name="service_period_months">
+                      <option value="" selected data-i18n="configPeriodPlaceholder">Выберите период</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <p class="service-period__hint" id="servicePeriodHint" data-i18n="configPeriodHintRequired">
+                      Выбор периода обязателен для ежемесячного обслуживания.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="service-configurator__block service-regfee" id="registrationFeeBlock" hidden>
+                  <h4 data-i18n="configRegFeeTitle">Госпошлина за внесение в регистр</h4>
+                  <ul class="service-list service-regfee__list" id="registrationFeeList"></ul>
+                  <p class="service-regfee__note" id="registrationFeeNote" data-i18n="configRegFeeNote">
+                    Госпошлина оплачивается отдельно в государственном регистре и добавляется к стоимости услуги.
+                  </p>
+                </div>
+
+                <div class="service-configurator__block">
+                  <h4 data-i18n="configIncludedTitle">Что входит</h4>
+                  <ul class="service-list" id="serviceIncludedList"></ul>
+                </div>
+
+                <div class="service-configurator__block">
+                  <h4 data-i18n="configExtrasTitle">Дополнительные услуги</h4>
+                  <div class="service-extras" id="serviceExtras"></div>
                 </div>
               </div>
 
-              <div class="service-configurator__block service-regfee" id="registrationFeeBlock" hidden>
-                <h4 data-i18n="configRegFeeTitle">Госпошлина за внесение в регистр</h4>
-                <ul class="service-list service-regfee__list" id="registrationFeeList"></ul>
-                <p class="service-regfee__note" id="registrationFeeNote" data-i18n="configRegFeeNote">
-                  Госпошлина оплачивается отдельно в государственном регистре и добавляется к стоимости услуги.
-                </p>
-              </div>
-
-              <div class="service-configurator__block">
-                <h4 data-i18n="configIncludedTitle">Что входит</h4>
-                <ul class="service-list" id="serviceIncludedList"></ul>
-              </div>
-
-              <div class="service-configurator__block">
-                <h4 data-i18n="configExtrasTitle">Дополнительные услуги</h4>
-                <div class="service-extras" id="serviceExtras"></div>
-              </div>
+              <aside class="service-order">
+                <h3 data-i18n="orderTitle">Ваш заказ</h3>
+                <div class="service-order__line">
+                  <span data-i18n="orderServiceLabel">Услуга</span>
+                  <strong id="orderService">-</strong>
+                </div>
+                <div class="service-order__line" id="orderBusinessRow" hidden>
+                  <span data-i18n="orderBusinessLabel">Форма бизнеса</span>
+                  <strong id="orderBusinessType">-</strong>
+                </div>
+                <div class="service-order__line" id="orderPackageRow" hidden>
+                  <span data-i18n="orderPackageLabel">Пакет</span>
+                  <strong id="orderPackage">-</strong>
+                </div>
+                <div class="service-order__line" id="orderDocumentsRow" hidden>
+                  <span data-i18n="orderDocumentsLabel">Документы в месяц</span>
+                  <strong id="orderDocuments">-</strong>
+                </div>
+                <div class="service-order__line">
+                  <span data-i18n="orderBaseLabel">Базовая цена</span>
+                  <strong id="orderBasePrice">-</strong>
+                </div>
+                <div class="service-order__line" id="orderRegFeeRow" hidden>
+                  <span data-i18n="orderRegFeeLabel">Госпошлина</span>
+                  <strong id="orderRegFee">-</strong>
+                </div>
+                <div class="service-order__line">
+                  <span data-i18n="orderPeriodLabel">Период</span>
+                  <strong id="orderPeriod">Не выбран</strong>
+                </div>
+                <div class="service-order__line" id="orderMonthlyRow" hidden>
+                  <span data-i18n="orderMonthlyLabel">Обслуживание за период</span>
+                  <strong id="orderMonthlyTotal">0€</strong>
+                </div>
+                <div class="service-order__extras">
+                  <p data-i18n="orderExtrasLabel">Дополнительные услуги</p>
+                  <ul id="orderExtrasList">
+                    <li data-i18n="orderNoExtras">Без дополнительных услуг</li>
+                  </ul>
+                </div>
+                <div class="service-order__total">
+                  <span data-i18n="orderTotalLabel">Итоговая сумма</span>
+                  <strong id="orderTotalPrice">0€</strong>
+                </div>
+                <button class="btn service-order__btn" type="button" id="openOrderForm" data-i18n="orderApplyBtn">Оформить заявку</button>
+              </aside>
             </div>
 
-            <aside class="service-order">
-              <h3 data-i18n="orderTitle">Ваш заказ</h3>
-              <div class="service-order__line">
-                <span data-i18n="orderServiceLabel">Услуга</span>
-                <strong id="orderService">-</strong>
+            <form class="service-order-form" id="serviceOrderForm" autocomplete="off" novalidate hidden>
+              <h3 data-i18n="orderFormTitle">Заявка на услугу</h3>
+              <div class="service-order-form__grid">
+                <input
+                  type="text"
+                  name="order_company"
+                  required
+                  data-i18n-placeholder="orderCompanyPlaceholder"
+                  placeholder="Название фирмы"
+                />
+                <input
+                  type="text"
+                  name="order_name"
+                  required
+                  data-i18n-placeholder="orderPersonPlaceholder"
+                  placeholder="Имя"
+                />
+                <input
+                  type="text"
+                  name="order_email"
+                  inputmode="email"
+                  required
+                  autocapitalize="off"
+                  spellcheck="false"
+                  data-i18n-placeholder="orderEmailPlaceholder"
+                  placeholder="Email"
+                />
+                <input
+                  type="tel"
+                  name="order_phone"
+                  data-i18n-placeholder="orderPhonePlaceholder"
+                  placeholder="Телефон"
+                />
+                <textarea
+                  name="order_comment"
+                  rows="4"
+                  data-i18n-placeholder="orderCommentPlaceholder"
+                  placeholder="Комментарий"
+                ></textarea>
               </div>
-              <div class="service-order__line" id="orderBusinessRow" hidden>
-                <span data-i18n="orderBusinessLabel">Форма бизнеса</span>
-                <strong id="orderBusinessType">-</strong>
-              </div>
-              <div class="service-order__line">
-                <span data-i18n="orderBaseLabel">Базовая цена</span>
-                <strong id="orderBasePrice">-</strong>
-              </div>
-              <div class="service-order__line" id="orderRegFeeRow" hidden>
-                <span data-i18n="orderRegFeeLabel">Госпошлина</span>
-                <strong id="orderRegFee">-</strong>
-              </div>
-              <div class="service-order__line">
-                <span data-i18n="orderPeriodLabel">Период</span>
-                <strong id="orderPeriod">Не выбран</strong>
-              </div>
-              <div class="service-order__line" id="orderMonthlyRow" hidden>
-                <span data-i18n="orderMonthlyLabel">Обслуживание за период</span>
-                <strong id="orderMonthlyTotal">0€</strong>
-              </div>
-              <div class="service-order__extras">
-                <p data-i18n="orderExtrasLabel">Дополнительные услуги</p>
-                <ul id="orderExtrasList">
-                  <li data-i18n="orderNoExtras">Без дополнительных услуг</li>
-                </ul>
-              </div>
-              <div class="service-order__total">
-                <span data-i18n="orderTotalLabel">Итоговая сумма</span>
-                <strong id="orderTotalPrice">0€</strong>
-              </div>
-              <button class="btn service-order__btn" type="button" id="openOrderForm" data-i18n="orderApplyBtn">Оформить заявку</button>
-            </aside>
+              <button class="btn service-order-form__submit" type="submit" data-i18n="orderSubmitBtn">Отправить заявку</button>
+              <p class="form__hint" id="serviceOrderHint" aria-live="polite"></p>
+            </form>
+          </section>
+        </div>
+
+        <div class="pricing-panel pricing-panel--secondary">
+          <div class="pricing-panel__heading">
+            <h3 data-i18n="associationPricingTitle">Калькулятор для квартирных товариществ</h3>
+            <p data-i18n="associationPricingText">
+              Укажите основные параметры нагрузки, чтобы получить ориентировочную ежемесячную стоимость обслуживания.
+            </p>
           </div>
 
-          <form class="service-order-form" id="serviceOrderForm" autocomplete="off" novalidate hidden>
-            <h3 data-i18n="orderFormTitle">Заявка на услугу</h3>
-            <div class="service-order-form__grid">
-              <input
-                type="text"
-                name="order_company"
-                required
-                data-i18n-placeholder="orderCompanyPlaceholder"
-                placeholder="Название фирмы"
-              />
-              <input
-                type="text"
-                name="order_name"
-                required
-                data-i18n-placeholder="orderPersonPlaceholder"
-                placeholder="Имя"
-              />
-              <input
-                type="text"
-                name="order_email"
-                inputmode="email"
-                required
-                autocapitalize="off"
-                spellcheck="false"
-                data-i18n-placeholder="orderEmailPlaceholder"
-                placeholder="Email"
-              />
-              <input
-                type="tel"
-                name="order_phone"
-                data-i18n-placeholder="orderPhonePlaceholder"
-                placeholder="Телефон"
-              />
-              <textarea
-                name="order_comment"
-                rows="4"
-                data-i18n-placeholder="orderCommentPlaceholder"
-                placeholder="Комментарий"
-              ></textarea>
-            </div>
-            <button class="btn service-order-form__submit" type="submit" data-i18n="orderSubmitBtn">Отправить заявку</button>
-            <p class="form__hint" id="serviceOrderHint" aria-live="polite"></p>
-          </form>
-        </section>
+          <div class="association-calculator">
+            <form class="association-calculator__form" id="associationCalculator" autocomplete="off" novalidate>
+              <label class="association-field">
+                <span data-i18n="associationUnitsLabel">Количество квартир</span>
+                <input type="number" name="association_units" min="1" max="500" step="1" value="12" />
+              </label>
+
+              <label class="association-field">
+                <span data-i18n="associationInvoicesLabel">Ежемесячные счета купли-продажи</span>
+                <input type="number" name="association_invoices" min="0" max="500" step="1" value="10" />
+              </label>
+
+              <label class="association-field">
+                <span data-i18n="associationDocumentsLabel">Первичные документы в месяц</span>
+                <input type="number" name="association_documents" min="0" max="1000" step="1" value="20" />
+              </label>
+
+              <label class="association-field">
+                <span data-i18n="associationEmployeesLabel">Количество работников</span>
+                <input type="number" name="association_employees" min="0" max="100" step="1" value="0" />
+              </label>
+
+              <label class="association-field">
+                <span data-i18n="associationReportsLabel">Частота отчётности</span>
+                <select name="association_reports">
+                  <option value="monthly" data-i18n="associationReportsMonthly">Ежемесячно</option>
+                  <option value="quarterly" data-i18n="associationReportsQuarterly">Ежеквартально</option>
+                  <option value="annual" data-i18n="associationReportsAnnual">Только годовая</option>
+                </select>
+              </label>
+
+              <p class="association-calculator__hint" data-i18n="associationFormHint">
+                Калькулятор показывает ориентировочную нагрузку. Для точной цены лучше отправить запрос.
+              </p>
+            </form>
+
+            <aside class="association-result" id="associationResult" aria-live="polite">
+              <h4 data-i18n="associationResultTitle">Ориентировочный расчёт</h4>
+              <div class="association-result__row">
+                <span data-i18n="associationBaseFeeLabel">Базовое сопровождение</span>
+                <strong id="associationBaseFee">0€</strong>
+              </div>
+              <div class="association-result__row">
+                <span data-i18n="associationUnitsFeeLabel">Квартиры и начисления</span>
+                <strong id="associationUnitsFee">0€</strong>
+              </div>
+              <div class="association-result__row">
+                <span data-i18n="associationDocsFeeLabel">Документы и счета</span>
+                <strong id="associationDocsFee">0€</strong>
+              </div>
+              <div class="association-result__row">
+                <span data-i18n="associationPayrollFeeLabel">Сотрудники и зарплата</span>
+                <strong id="associationPayrollFee">0€</strong>
+              </div>
+              <div class="association-result__row">
+                <span data-i18n="associationReportsFeeLabel">Отчётность</span>
+                <strong id="associationReportsFee">0€</strong>
+              </div>
+              <div class="association-result__total">
+                <span data-i18n="associationTotalFeeLabel">Ориентировочная стоимость в месяц</span>
+                <strong id="associationTotalFee">0€</strong>
+              </div>
+              <p class="association-result__note" data-i18n="associationResultNote">
+                Расчёт является ориентировочным и помогает понять порядок стоимости до подготовки точного предложения.
+              </p>
+              <button class="btn association-result__cta" type="button" id="associationQuoteBtn" data-i18n="associationResultCta">
+                Запросить точный расчёт
+              </button>
+            </aside>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -394,6 +623,17 @@ teenused</span>
         <aside class="quick-contact">
           <h2 data-i18n="quickContactTitle">Kiire kontakt</h2>
           <p data-i18n="quickContactText">Täida vorm ja võtame teiega ühendust 24 tunni jooksul.</p>
+
+          <div class="quote-context" id="quoteContext" hidden>
+            <h3 data-i18n="associationQuoteReadyTitle">Расчёт уже будет отправлен</h3>
+            <p data-i18n="associationQuoteReadyText">
+              Данные из калькулятора прикрепятся автоматически. Укажите имя или название фирмы, email и при желании комментарий.
+            </p>
+            <ul class="quote-context__list" id="quoteContextList"></ul>
+            <button class="quote-context__edit" type="button" id="quoteContextEdit" data-i18n="associationQuoteEditBtn">
+              Изменить расчёт
+            </button>
+          </div>
 
           <form id="contactForm" class="quick-contact__form" autocomplete="off">
             <input
