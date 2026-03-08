@@ -75,7 +75,9 @@ function t(key, fallback) {
 const langSelect = document.getElementById('langSelect');
 const langSwitch = document.getElementById('langSwitch');
 const trustBadgesPanel = document.querySelector('.trust-badges');
-const MAILBOX_ENDPOINT = 'https://formsubmit.co/ajax/talcon.grupp@gmail.com';
+const MAILBOX_EMAIL = 'talcon.grupp@gmail.com';
+const MAILBOX_ENDPOINT = `https://formsubmit.co/ajax/${MAILBOX_EMAIL}`;
+const MAILBOX_FALLBACK_ENDPOINT = `https://formsubmit.co/${MAILBOX_EMAIL}`;
 
 function updateLangSelectLabels() {
   if (!langSelect) return;
@@ -959,6 +961,24 @@ async function sendSubmission(formData) {
   return payload;
 }
 
+async function sendSubmissionNoCorsFallback(formData) {
+  const fallbackBody = new URLSearchParams();
+
+  formData.forEach((value, key) => {
+    if (value instanceof File) return;
+    fallbackBody.append(key, String(value));
+  });
+
+  await fetch(MAILBOX_FALLBACK_ENDPOINT, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    body: fallbackBody
+  });
+}
+
 function getSelectedService() {
   if (!serviceState.serviceId) return null;
   return getServiceCatalog()[serviceState.serviceId] || null;
@@ -1808,6 +1828,8 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     const selectedForm = getSelectedForm(service);
     const periodMonths = getPeriodMonths();
     const selectedPackage = getSelectedPackage(service);
+    const comment = commentInput?.value.trim() || '-';
+    const orderSummary = getOrderSummaryText(service);
     const formData = new FormData();
     appendSubmissionMeta(
       formData,
@@ -1825,14 +1847,30 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     formData.append('service_package_range', selectedPackage?.rangeLabel || '-');
     formData.append('period_months', Number.isFinite(periodMonths) ? String(periodMonths) : '-');
     formData.append('company_name', company);
+    formData.append('name_or_company', company);
     formData.append('contact_name', person);
     formData.append('contact_email', email);
     formData.append('contact_phone', phoneInput?.value.trim() || '-');
-    formData.append('comment', commentInput?.value.trim() || '-');
-    formData.append('order_summary', getOrderSummaryText(service));
+    formData.append('comment', comment);
+    formData.append('message', `${comment === '-' ? '' : `${comment}\n\n`}${orderSummary}`.trim() || orderSummary);
+    formData.append('order_summary', orderSummary);
 
-    await sendSubmission(formData);
-    setOrderHint(t('orderSent', 'Request sent. We will contact you soon.'));
+    let usedFallback = false;
+
+    try {
+      await sendSubmission(formData);
+    } catch (error) {
+      const activationNeeded = /activation/i.test(String(error?.message || ''));
+      if (activationNeeded) throw error;
+      await sendSubmissionNoCorsFallback(formData);
+      usedFallback = true;
+    }
+
+    setOrderHint(
+      usedFallback
+        ? `${t('orderSent', 'Request sent. We will contact you soon.')} ${MAILBOX_EMAIL}`
+        : t('orderSent', 'Request sent. We will contact you soon.')
+    );
     serviceOrderForm.reset();
     serviceState.periodMonths = null;
     serviceState.selectedExtras = new Set();

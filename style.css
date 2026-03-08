@@ -1818,6 +1818,13 @@ a {
   padding: 16px;
 }
 
+.service-order-form__note {
+  margin: 8px 0 0;
+  color: #8defff;
+  line-height: 1.42;
+  font-size: clamp(12px, 0.98vw, 14px);
+}
+
 .service-order-form__grid {
   margin-top: 12px;
   display: grid;
