@@ -803,6 +803,16 @@ function formatEuro(value) {
   return `${output}€`;
 }
 
+function formatAssociationEuro(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return '0€';
+  const normalized = Math.round(n * 100) / 100;
+  if (Number.isInteger(normalized)) {
+    return `${String(normalized)}€`;
+  }
+  return `${normalized.toFixed(2).replace('.', ',')}€`;
+}
+
 function getNumberStepperLabel(direction) {
   if (direction === 'down') {
     return t('numberStepperDown', 'Decrease value');
@@ -1996,18 +2006,18 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
 // =======================
 // Apartment association calculator
 // =======================
-const ASSOCIATION_REPORTING_FEES = {
-  monthly: 45,
-  quarterly: 25,
-  annual: 10
-};
+const ASSOCIATION_BASE_FEE = 30;
+const ASSOCIATION_MIN_UNITS = 8;
+const ASSOCIATION_MIN_INVOICES = 5;
+const ASSOCIATION_MIN_DOCUMENTS = 5;
+const ASSOCIATION_UNIT_FEE = 2;
+const ASSOCIATION_INVOICE_FEE = 1;
+const ASSOCIATION_DOCUMENT_FEE = 1;
+const ASSOCIATION_ANNUAL_REPORT_RESERVE_RATE = 0.1;
 
-const ASSOCIATION_DOCUMENT_PACKAGES = [
-  { id: 'up_to_20', labelKey: 'associationDocumentsUpTo20', fallbackLabel: 'up to 20 documents', price: 15 },
-  { id: 'from_21_to_50', labelKey: 'associationDocumentsFrom21To50', fallbackLabel: '21-50 documents', price: 30 },
-  { id: 'from_51_to_100', labelKey: 'associationDocumentsFrom51To100', fallbackLabel: '51-100 documents', price: 55 },
-  { id: 'from_101_to_160', labelKey: 'associationDocumentsFrom101To160', fallbackLabel: '101-160 documents', price: 85 },
-  { id: 'from_161_plus', labelKey: 'associationDocumentsFrom161Plus', fallbackLabel: '161+ documents', price: 120 }
+const ASSOCIATION_EMPLOYEE_PACKAGES = [
+  { id: 'none', labelKey: 'associationEmployeesNone', fallbackLabel: 'No employees', price: 0 },
+  { id: 'one_to_two', labelKey: 'associationEmployeesOneToTwo', fallbackLabel: '1-2 employees', price: 20 }
 ];
 
 function normalizeInteger(value, min, max, fallback) {
@@ -2020,31 +2030,14 @@ function getAssociationField(name) {
   return associationCalculator?.elements?.namedItem(name) || null;
 }
 
-function getAssociationSelectValue(name, fallback) {
+function getAssociationSelectValue(name, allowedValues, fallback) {
   const field = getAssociationField(name);
   if (!(field instanceof HTMLSelectElement)) return fallback;
-  return Object.prototype.hasOwnProperty.call(ASSOCIATION_REPORTING_FEES, field.value)
-    ? field.value
-    : fallback;
-}
-
-function getAssociationDocumentPackage(packageId) {
-  return ASSOCIATION_DOCUMENT_PACKAGES.find((item) => item.id === packageId) || ASSOCIATION_DOCUMENT_PACKAGES[0];
-}
-
-function getAssociationDocumentPackageValue(name, fallbackId = 'up_to_20') {
-  const field = getAssociationField(name);
-  if (!(field instanceof HTMLSelectElement)) return fallbackId;
-  const selectedPackage = getAssociationDocumentPackage(field.value);
-  if (field.value !== selectedPackage.id) {
-    field.value = selectedPackage.id;
+  const normalized = allowedValues.includes(field.value) ? field.value : fallback;
+  if (field.value !== normalized) {
+    field.value = normalized;
   }
-  return selectedPackage.id;
-}
-
-function getAssociationDocumentPackageLabel(packageId) {
-  const selectedPackage = getAssociationDocumentPackage(packageId);
-  return t(selectedPackage.labelKey, selectedPackage.fallbackLabel);
+  return normalized;
 }
 
 function getAssociationNumberValue(name, min, max, fallback) {
@@ -2057,44 +2050,52 @@ function getAssociationNumberValue(name, min, max, fallback) {
   return normalized;
 }
 
-function getAssociationReportLabel(reportMode) {
-  if (reportMode === 'monthly') return t('associationReportsMonthly', 'Monthly');
-  if (reportMode === 'annual') return t('associationReportsAnnual', 'Annual only');
-  return t('associationReportsQuarterly', 'Quarterly');
+function getAssociationEmployeePackage(packageId) {
+  return ASSOCIATION_EMPLOYEE_PACKAGES.find((item) => item.id === packageId) || ASSOCIATION_EMPLOYEE_PACKAGES[0];
+}
+
+function getAssociationEmployeePackageValue(name, fallbackId = 'none') {
+  return getAssociationSelectValue(
+    name,
+    ASSOCIATION_EMPLOYEE_PACKAGES.map((item) => item.id),
+    fallbackId
+  );
+}
+
+function getAssociationEmployeePackageLabel(packageId) {
+  const employeePackage = getAssociationEmployeePackage(packageId);
+  return t(employeePackage.labelKey, employeePackage.fallbackLabel);
 }
 
 function calculateAssociationEstimate() {
   if (!associationCalculator) return null;
-  const units = getAssociationNumberValue('association_units', 1, 500, 12);
-  const invoices = getAssociationNumberValue('association_invoices', 0, 500, 10);
-  const documentsPackageId = getAssociationDocumentPackageValue('association_documents', 'up_to_20');
-  const documentsPackage = getAssociationDocumentPackage(documentsPackageId);
-  const employees = getAssociationNumberValue('association_employees', 0, 100, 0);
-  const reportMode = getAssociationSelectValue('association_reports', 'quarterly');
+  const units = getAssociationNumberValue('association_units', ASSOCIATION_MIN_UNITS, 500, ASSOCIATION_MIN_UNITS);
+  const invoices = getAssociationNumberValue('association_invoices', ASSOCIATION_MIN_INVOICES, 500, ASSOCIATION_MIN_INVOICES);
+  const documents = getAssociationNumberValue('association_documents', ASSOCIATION_MIN_DOCUMENTS, 500, ASSOCIATION_MIN_DOCUMENTS);
+  const employeePackageId = getAssociationEmployeePackageValue('association_employees', 'none');
+  const employeePackage = getAssociationEmployeePackage(employeePackageId);
 
-  const base = 70;
-  const unitsFeeAmount = units * 1.5;
-  const invoicesFeeAmount = invoices * 1.2;
-  const documentsPackageFee = documentsPackage.price;
-  const docsFeeAmount = invoicesFeeAmount + documentsPackageFee;
-  const payrollFeeAmount = employees * 18;
-  const reportsFeeAmount = ASSOCIATION_REPORTING_FEES[reportMode] || ASSOCIATION_REPORTING_FEES.quarterly;
-  const total = base + unitsFeeAmount + docsFeeAmount + payrollFeeAmount + reportsFeeAmount;
+  const base = ASSOCIATION_BASE_FEE;
+  const unitsFeeAmount = units * ASSOCIATION_UNIT_FEE;
+  const invoicesFeeAmount = invoices * ASSOCIATION_INVOICE_FEE;
+  const documentsFeeAmount = documents * ASSOCIATION_DOCUMENT_FEE;
+  const payrollFeeAmount = employeePackage.price;
+  const monthlyServiceAmount = base + unitsFeeAmount + invoicesFeeAmount + documentsFeeAmount + payrollFeeAmount;
+  const reportsFeeAmount = monthlyServiceAmount * ASSOCIATION_ANNUAL_REPORT_RESERVE_RATE;
+  const total = monthlyServiceAmount + reportsFeeAmount;
 
   return {
     units,
     invoices,
-    documentsPackageId,
-    documentsLabel: getAssociationDocumentPackageLabel(documentsPackageId),
-    documentsPackageFee,
-    employees,
-    reportMode,
-    reportLabel: getAssociationReportLabel(reportMode),
+    documents,
+    employeePackageId,
+    employeeLabel: getAssociationEmployeePackageLabel(employeePackageId),
     base,
     unitsFeeAmount,
     invoicesFeeAmount,
-    docsFeeAmount,
+    documentsFeeAmount,
     payrollFeeAmount,
+    monthlyServiceAmount,
     reportsFeeAmount,
     total
   };
@@ -2103,19 +2104,27 @@ function calculateAssociationEstimate() {
 function getAssociationQuoteSummaryRows(data) {
   if (!data) return [];
   return [
-    [t('associationUnitsLabel', 'Number of apartments'), String(data.units)],
-    [t('associationInvoicesLabel', 'Monthly purchase and sales invoices'), String(data.invoices)],
-    [t('associationDocumentsLabel', 'Document package per month'), data.documentsLabel],
-    [t('associationEmployeesLabel', 'Number of employees'), String(data.employees)],
-    [t('associationReportsLabel', 'Reporting frequency'), data.reportLabel],
-    [t('associationTotalFeeLabel', 'Indicative monthly fee'), formatEuro(data.total)]
+    [t('associationUnitsLabel', 'Apartments'), String(data.units)],
+    [t('associationInvoicesLabel', 'Purchase and sales invoices'), String(data.invoices)],
+    [t('associationDocumentsLabel', 'Documents per month'), String(data.documents)],
+    [t('associationEmployeesLabel', 'Employees'), data.employeeLabel],
+    [t('associationReportsFeeLabel', 'Annual report reserve'), formatAssociationEuro(data.reportsFeeAmount)],
+    [t('associationTotalFeeLabel', 'Approximate monthly fee'), formatAssociationEuro(data.total)]
   ];
 }
 
 function getAssociationQuoteEmailSummary(data) {
-  return getAssociationQuoteSummaryRows(data)
-    .map(([label, value]) => `${label}: ${value}`)
-    .join('\n');
+  if (!data) return '';
+
+  return [
+    `${t('associationBaseFeeLabel', 'Monthly service base')}: ${formatAssociationEuro(data.base)}`,
+    `${t('associationUnitsFeeLabel', 'Apartments')}: ${data.units} × ${formatAssociationEuro(ASSOCIATION_UNIT_FEE)} = ${formatAssociationEuro(data.unitsFeeAmount)}`,
+    `${t('associationInvoicesFeeLabel', 'Purchase and sales invoices')}: ${data.invoices} × ${formatAssociationEuro(ASSOCIATION_INVOICE_FEE)} = ${formatAssociationEuro(data.invoicesFeeAmount)}`,
+    `${t('associationDocumentsPackageFeeLabel', 'Documents')}: ${data.documents} × ${formatAssociationEuro(ASSOCIATION_DOCUMENT_FEE)} = ${formatAssociationEuro(data.documentsFeeAmount)}`,
+    `${t('associationPayrollFeeLabel', 'Employees')}: ${data.employeeLabel} = ${formatAssociationEuro(data.payrollFeeAmount)}`,
+    `${t('associationReportsFeeLabel', 'Annual report reserve')}: ${formatAssociationEuro(data.monthlyServiceAmount)} × 10% = ${formatAssociationEuro(data.reportsFeeAmount)}`,
+    `${t('associationTotalFeeLabel', 'Approximate monthly fee')}: ${formatAssociationEuro(data.total)}`
+  ].join('\n');
 }
 
 function renderAssociationQuoteContext() {
@@ -2145,13 +2154,13 @@ function renderAssociationEstimate() {
   const data = calculateAssociationEstimate();
   if (!data) return;
 
-  if (associationBaseFee) associationBaseFee.textContent = formatEuro(data.base);
-  if (associationUnitsFee) associationUnitsFee.textContent = formatEuro(data.unitsFeeAmount);
-  if (associationInvoicesFee) associationInvoicesFee.textContent = formatEuro(data.invoicesFeeAmount);
-  if (associationDocumentsPackageFee) associationDocumentsPackageFee.textContent = formatEuro(data.documentsPackageFee);
-  if (associationPayrollFee) associationPayrollFee.textContent = formatEuro(data.payrollFeeAmount);
-  if (associationReportsFee) associationReportsFee.textContent = formatEuro(data.reportsFeeAmount);
-  if (associationTotalFee) associationTotalFee.textContent = formatEuro(data.total);
+  if (associationBaseFee) associationBaseFee.textContent = formatAssociationEuro(data.base);
+  if (associationUnitsFee) associationUnitsFee.textContent = formatAssociationEuro(data.unitsFeeAmount);
+  if (associationInvoicesFee) associationInvoicesFee.textContent = formatAssociationEuro(data.invoicesFeeAmount);
+  if (associationDocumentsPackageFee) associationDocumentsPackageFee.textContent = formatAssociationEuro(data.documentsFeeAmount);
+  if (associationPayrollFee) associationPayrollFee.textContent = formatAssociationEuro(data.payrollFeeAmount);
+  if (associationReportsFee) associationReportsFee.textContent = formatAssociationEuro(data.reportsFeeAmount);
+  if (associationTotalFee) associationTotalFee.textContent = formatAssociationEuro(data.total);
 
   if (pendingAssociationQuote) {
     pendingAssociationQuote = data;
@@ -2639,20 +2648,17 @@ form?.addEventListener('submit', async (e) => {
       payload.append('quote_source', 'apartment_association_calculator');
       payload.append('association_units', String(associationQuote.units));
       payload.append('association_invoices', String(associationQuote.invoices));
-      payload.append('association_documents', associationQuote.documentsLabel);
-      payload.append('association_documents_package', associationQuote.documentsPackageId);
-      payload.append('association_documents_package_fee', formatEuro(associationQuote.documentsPackageFee));
-      payload.append('association_employees', String(associationQuote.employees));
-      payload.append('association_report_mode', associationQuote.reportMode);
-      payload.append('association_report_label', associationQuote.reportLabel);
-      payload.append('association_base_fee', formatEuro(associationQuote.base));
-      payload.append('association_units_fee', formatEuro(associationQuote.unitsFeeAmount));
-      payload.append('association_invoices_fee', formatEuro(associationQuote.invoicesFeeAmount));
-      payload.append('association_documents_package_fee', formatEuro(associationQuote.documentsPackageFee));
-      payload.append('association_docs_fee', formatEuro(associationQuote.docsFeeAmount));
-      payload.append('association_payroll_fee', formatEuro(associationQuote.payrollFeeAmount));
-      payload.append('association_reports_fee', formatEuro(associationQuote.reportsFeeAmount));
-      payload.append('association_estimated_total', formatEuro(associationQuote.total));
+      payload.append('association_documents', String(associationQuote.documents));
+      payload.append('association_employee_package', associationQuote.employeePackageId);
+      payload.append('association_employee_label', associationQuote.employeeLabel);
+      payload.append('association_base_fee', formatAssociationEuro(associationQuote.base));
+      payload.append('association_units_fee', formatAssociationEuro(associationQuote.unitsFeeAmount));
+      payload.append('association_invoices_fee', formatAssociationEuro(associationQuote.invoicesFeeAmount));
+      payload.append('association_documents_fee', formatAssociationEuro(associationQuote.documentsFeeAmount));
+      payload.append('association_payroll_fee', formatAssociationEuro(associationQuote.payrollFeeAmount));
+      payload.append('association_annual_report_fee', formatAssociationEuro(associationQuote.reportsFeeAmount));
+      payload.append('association_monthly_service_fee', formatAssociationEuro(associationQuote.monthlyServiceAmount));
+      payload.append('association_estimated_total', formatAssociationEuro(associationQuote.total));
       payload.append('association_quote_summary', getAssociationQuoteEmailSummary(associationQuote));
     }
 

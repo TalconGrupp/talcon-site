@@ -1042,6 +1042,9 @@ a {
 .association-field span {
   color: #d7e9fb;
   font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.35;
+  hyphens: none;
+  word-break: normal;
 }
 
 .association-field input,
@@ -1089,11 +1092,20 @@ a {
 .association-result__row,
 .association-result__total {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
   color: #d8ebff;
   font-size: clamp(14px, 1.05vw, 16px);
+}
+
+.association-result__row span,
+.association-result__total span {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.35;
+  hyphens: none;
+  word-break: normal;
 }
 
 .association-result__row + .association-result__row {

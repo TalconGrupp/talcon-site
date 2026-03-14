@@ -514,60 +514,48 @@ teenused</span>
           <div class="pricing-panel__heading">
             <h3 data-i18n="associationPricingTitle">Калькулятор для квартирных товариществ</h3>
             <p data-i18n="associationPricingText">
-              На цену влияют количество квартир, ежемесячные счета, пакет документов, работники и частота отчётности.
+              Базовая ежемесячная плата составляет 30€ с KM. Расчёт начинается от 8 квартир, а документы и счета считаются от 5 шт.
             </p>
           </div>
 
           <div class="association-calculator">
             <form class="association-calculator__form" id="associationCalculator" autocomplete="off" novalidate>
               <label class="association-field">
-                <span data-i18n="associationUnitsLabel">Количество квартир</span>
-                <input type="number" name="association_units" min="1" max="500" step="1" value="12" />
+                <span data-i18n="associationUnitsLabel">Квартиры</span>
+                <input type="number" name="association_units" min="8" max="500" step="1" value="8" />
               </label>
 
               <label class="association-field">
-                <span data-i18n="associationInvoicesLabel">Ежемесячные счета купли-продажи</span>
-                <input type="number" name="association_invoices" min="0" max="500" step="1" value="10" />
+                <span data-i18n="associationInvoicesLabel">Счета купли-продажи</span>
+                <input type="number" name="association_invoices" min="5" max="500" step="1" value="5" />
               </label>
 
               <label class="association-field">
-                <span data-i18n="associationDocumentsLabel">Пакет документов в месяц</span>
-                <select name="association_documents">
-                  <option value="up_to_20" data-i18n="associationDocumentsUpTo20">до 20 документов</option>
-                  <option value="from_21_to_50" data-i18n="associationDocumentsFrom21To50">21-50 документов</option>
-                  <option value="from_51_to_100" data-i18n="associationDocumentsFrom51To100">51-100 документов</option>
-                  <option value="from_101_to_160" data-i18n="associationDocumentsFrom101To160">101-160 документов</option>
-                  <option value="from_161_plus" data-i18n="associationDocumentsFrom161Plus">161+ документов</option>
-                </select>
+                <span data-i18n="associationDocumentsLabel">Документы в месяц</span>
+                <input type="number" name="association_documents" min="5" max="500" step="1" value="5" />
               </label>
 
               <label class="association-field">
-                <span data-i18n="associationEmployeesLabel">Количество работников</span>
-                <input type="number" name="association_employees" min="0" max="100" step="1" value="0" />
-              </label>
-
-              <label class="association-field">
-                <span data-i18n="associationReportsLabel">Частота отчётности</span>
-                <select name="association_reports">
-                  <option value="monthly" data-i18n="associationReportsMonthly">Ежемесячно</option>
-                  <option value="quarterly" data-i18n="associationReportsQuarterly">Ежеквартально</option>
-                  <option value="annual" data-i18n="associationReportsAnnual">Только годовая</option>
+                <span data-i18n="associationEmployeesLabel">Работники</span>
+                <select name="association_employees">
+                  <option value="none" data-i18n="associationEmployeesNone">Нет работников</option>
+                  <option value="one_to_two" data-i18n="associationEmployeesOneToTwo" selected>1-2 работника</option>
                 </select>
               </label>
 
               <p class="association-calculator__hint" data-i18n="associationFormHint">
-                Калькулятор показывает ориентировочную нагрузку. Для точной цены лучше отправить запрос.
+                Базовая ежемесячная плата составляет 30€ с KM. Расчёт начинается от 8 квартир, а документы и счета считаются от 5 шт.
               </p>
             </form>
 
             <aside class="association-result" id="associationResult" aria-live="polite">
               <h4 data-i18n="associationResultTitle">Ориентировочный расчёт</h4>
               <div class="association-result__row">
-                <span data-i18n="associationBaseFeeLabel">Базовое сопровождение</span>
+                <span data-i18n="associationBaseFeeLabel">Ежемесячная база</span>
                 <strong id="associationBaseFee">0€</strong>
               </div>
               <div class="association-result__row">
-                <span data-i18n="associationUnitsFeeLabel">Квартиры и начисления</span>
+                <span data-i18n="associationUnitsFeeLabel">Квартиры</span>
                 <strong id="associationUnitsFee">0€</strong>
               </div>
               <div class="association-result__row">
@@ -575,24 +563,24 @@ teenused</span>
                 <strong id="associationInvoicesFee">0€</strong>
               </div>
               <div class="association-result__row">
-                <span data-i18n="associationDocumentsPackageFeeLabel">Пакет документов</span>
+                <span data-i18n="associationDocumentsPackageFeeLabel">Документы</span>
                 <strong id="associationDocumentsPackageFee">0€</strong>
               </div>
               <div class="association-result__row">
-                <span data-i18n="associationPayrollFeeLabel">Сотрудники и зарплата</span>
+                <span data-i18n="associationPayrollFeeLabel">Работники</span>
                 <strong id="associationPayrollFee">0€</strong>
               </div>
               <div class="association-result__row">
-                <span data-i18n="associationReportsFeeLabel">Отчётность</span>
+                <span data-i18n="associationReportsFeeLabel">Резерв на годовой отчёт</span>
                 <strong id="associationReportsFee">0€</strong>
               </div>
               <div class="association-result__total">
-                <span data-i18n="associationTotalFeeLabel">Ориентировочная стоимость в месяц</span>
+                <span data-i18n="associationTotalFeeLabel">Примерная ежемесячная плата</span>
                 <strong id="associationTotalFee">0€</strong>
               </div>
               <p class="association-result__vat" data-i18n="associationVatNote">Ориентировочная сумма указана с KM.</p>
               <p class="association-result__note" data-i18n="associationResultNote">
-                Расчёт является ориентировочным и помогает понять порядок стоимости до подготовки точного предложения.
+                Расчёт уже включает KM и ежемесячный резерв на годовой отчёт.
               </p>
               <button class="btn association-result__cta" type="button" id="associationQuoteBtn" data-i18n="associationResultCta">
                 Запросить точный расчёт
