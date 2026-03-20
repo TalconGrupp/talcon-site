@@ -76,8 +76,10 @@ const langSelect = document.getElementById('langSelect');
 const langSwitch = document.getElementById('langSwitch');
 const trustBadgesPanel = document.querySelector('.trust-badges');
 const MAILBOX_EMAIL = 'talcon.grupp@gmail.com';
-const MAILBOX_ENDPOINT = `https://formsubmit.co/ajax/${MAILBOX_EMAIL}`;
-const MAILBOX_FALLBACK_ENDPOINT = `https://formsubmit.co/${MAILBOX_EMAIL}`;
+const EMAILJS_SERVICE_ID = 'service_7aj5q7v';
+const EMAILJS_TEMPLATE_ID = '4ykeest';
+const EMAILJS_PUBLIC_KEY = 'OngiIrAn9d_2-sGmW';
+const EMAILJS_ENDPOINT = 'https://api.emailjs.com/api/v1.0/email/send-form';
 
 function updateLangSelectLabels() {
   if (!langSelect) return;
@@ -936,169 +938,29 @@ function isEmailValue(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
 }
 
-function appendSubmissionMeta(formData, subject, replyTo = '') {
-  formData.append('_subject', subject);
-  formData.append('_captcha', 'false');
-  formData.append('_template', 'table');
+function appendSubmissionMeta(formData, subject) {
+  formData.append('service_id', EMAILJS_SERVICE_ID);
+  formData.append('template_id', EMAILJS_TEMPLATE_ID);
+  formData.append('user_id', EMAILJS_PUBLIC_KEY);
+  formData.append('title', subject);
   formData.append('site', 'talcon.ee');
   formData.append('page_url', window.location.href);
   formData.append('language', currentLang);
   formData.append('submitted_at', new Date().toISOString());
-  if (replyTo) formData.append('_replyto', replyTo);
 }
 
 async function sendSubmission(formData) {
-  const response = await fetch(MAILBOX_ENDPOINT, {
+  const response = await fetch(EMAILJS_ENDPOINT, {
     method: 'POST',
-    headers: {
-      Accept: 'application/json'
-    },
     body: formData
   });
 
-  let payload = null;
-  try {
-    payload = await response.json();
-  } catch {
-    payload = null;
+  const responseText = await response.text().catch(() => '');
+  if (!response.ok) {
+    throw new Error(responseText || `Submission failed with status ${response.status}`);
   }
 
-  const isSuccess = payload?.success === true || payload?.success === 'true';
-  if (!response.ok || !isSuccess) {
-    throw new Error(payload?.message || `Submission failed with status ${response.status}`);
-  }
-
-  return payload;
-}
-
-async function sendSubmissionNoCorsFallback(formData) {
-  const fallbackBody = new FormData();
-  formData.forEach((value, key) => {
-    fallbackBody.append(key, value);
-  });
-
-  await fetch(MAILBOX_FALLBACK_ENDPOINT, {
-    method: 'POST',
-    mode: 'no-cors',
-    body: fallbackBody
-  });
-}
-
-function appendHiddenFallbackFields(formElement, formData) {
-  const existingNames = new Set(
-    [...(formElement?.elements || [])]
-      .map((field) => String(field?.name || '').trim())
-      .filter(Boolean)
-  );
-
-  const appendedFields = [];
-  formData.forEach((value, key) => {
-    if (value instanceof File || existingNames.has(key)) return;
-    const hiddenField = document.createElement('input');
-    hiddenField.type = 'hidden';
-    hiddenField.name = key;
-    hiddenField.value = String(value);
-    hiddenField.dataset.fallbackField = 'true';
-    formElement.appendChild(hiddenField);
-    appendedFields.push(hiddenField);
-  });
-
-  return appendedFields;
-}
-
-async function sendSubmissionIframeFallback(formElement, formData) {
-  if (!formElement) {
-    throw new Error('Missing form element for iframe fallback.');
-  }
-
-  const iframe = document.createElement('iframe');
-  iframe.name = `submission_fallback_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-  iframe.hidden = true;
-  iframe.setAttribute('aria-hidden', 'true');
-  iframe.setAttribute('tabindex', '-1');
-
-  const appendedFields = appendHiddenFallbackFields(formElement, formData);
-  const originalAttrs = {
-    action: formElement.getAttribute('action'),
-    method: formElement.getAttribute('method'),
-    enctype: formElement.getAttribute('enctype'),
-    target: formElement.getAttribute('target'),
-    acceptCharset: formElement.getAttribute('accept-charset')
-  };
-
-  const cleanup = () => {
-    appendedFields.forEach((field) => field.remove());
-
-    if (originalAttrs.action === null) formElement.removeAttribute('action');
-    else formElement.setAttribute('action', originalAttrs.action);
-
-    if (originalAttrs.method === null) formElement.removeAttribute('method');
-    else formElement.setAttribute('method', originalAttrs.method);
-
-    if (originalAttrs.enctype === null) formElement.removeAttribute('enctype');
-    else formElement.setAttribute('enctype', originalAttrs.enctype);
-
-    if (originalAttrs.target === null) formElement.removeAttribute('target');
-    else formElement.setAttribute('target', originalAttrs.target);
-
-    if (originalAttrs.acceptCharset === null) formElement.removeAttribute('accept-charset');
-    else formElement.setAttribute('accept-charset', originalAttrs.acceptCharset);
-
-    iframe.remove();
-  };
-
-  document.body.appendChild(iframe);
-
-  formElement.setAttribute('action', MAILBOX_FALLBACK_ENDPOINT);
-  formElement.setAttribute('method', 'POST');
-  formElement.setAttribute('enctype', 'multipart/form-data');
-  formElement.setAttribute('target', iframe.name);
-  formElement.setAttribute('accept-charset', 'UTF-8');
-
-  return new Promise((resolve) => {
-    let settled = false;
-    let hasSubmitted = false;
-
-    const finish = () => {
-      if (settled) return;
-      settled = true;
-      cleanup();
-      resolve();
-    };
-
-    const timeoutId = window.setTimeout(finish, 2500);
-
-    iframe.addEventListener('load', () => {
-      if (!hasSubmitted) return;
-      window.clearTimeout(timeoutId);
-      window.setTimeout(finish, 150);
-    });
-
-    hasSubmitted = true;
-    formElement.submit();
-  });
-}
-
-async function sendSubmissionWithFallback(formData, formElement = null) {
-  try {
-    await sendSubmission(formData);
-    return { usedFallback: false };
-  } catch (error) {
-    const activationNeeded = /activation/i.test(String(error?.message || ''));
-    if (activationNeeded) throw error;
-
-    try {
-      if (formElement) {
-        await sendSubmissionIframeFallback(formElement, formData);
-      } else {
-        await sendSubmissionNoCorsFallback(formData);
-      }
-    } catch {
-      await sendSubmissionNoCorsFallback(formData);
-    }
-
-    return { usedFallback: true };
-  }
+  return responseText;
 }
 
 function getSelectedService() {
@@ -1952,12 +1814,17 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     const selectedPackage = getSelectedPackage(service);
     const comment = commentInput?.value.trim() || '-';
     const orderSummary = getOrderSummaryText(service);
+    const phone = phoneInput?.value.trim() || '-';
+    const orderMessage = buildServiceOrderMessage({
+      company,
+      person,
+      email,
+      phone,
+      comment,
+      orderSummary
+    });
     const formData = new FormData();
-    appendSubmissionMeta(
-      formData,
-      `Talcon.ee | ${service.title} | ${company}`,
-      email
-    );
+    appendSubmissionMeta(formData, `Talcon.ee | ${service.title} | ${company}`);
 
     formData.append('request_type', 'service_order');
     formData.append('name', person);
@@ -1972,18 +1839,13 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     formData.append('name_or_company', company);
     formData.append('contact_name', person);
     formData.append('contact_email', email);
-    formData.append('contact_phone', phoneInput?.value.trim() || '-');
+    formData.append('contact_phone', phone);
     formData.append('comment', comment);
-    formData.append('message', `${comment === '-' ? '' : `${comment}\n\n`}${orderSummary}`.trim() || orderSummary);
+    formData.append('message', orderMessage);
     formData.append('order_summary', orderSummary);
 
-    const { usedFallback } = await sendSubmissionWithFallback(formData, serviceOrderForm);
-
-    setOrderHint(
-      usedFallback
-        ? `${t('orderSent', 'Request sent. We will contact you soon.')} ${MAILBOX_EMAIL}`
-        : t('orderSent', 'Request sent. We will contact you soon.')
-    );
+    await sendSubmission(formData);
+    setOrderHint(t('orderSent', 'Request sent. We will contact you soon.'));
     serviceOrderForm.reset();
     serviceState.periodMonths = null;
     serviceState.selectedExtras = new Set();
@@ -1992,11 +1854,7 @@ serviceOrderForm?.addEventListener('submit', async (event) => {
     renderServiceConfigurator();
   } catch (error) {
     console.error(error);
-    const activationNeeded = /activation/i.test(String(error?.message || ''));
-    const message = activationNeeded
-      ? t('mailActivationNeeded', 'For first-time sending, open the FormSubmit activation link from your email inbox.')
-      : t('orderError', 'Request sending failed. Please try again.');
-    setOrderHint(message, true);
+    setOrderHint(t('orderError', 'Request sending failed. Please try again.'), true);
   } finally {
     submitBtn?.removeAttribute('disabled');
     submitBtn?.removeAttribute('aria-busy');
@@ -2569,6 +2427,47 @@ function markFieldError(field) {
   field?.classList.add('is-error');
 }
 
+function buildServiceOrderMessage({ company, person, email, phone, comment, orderSummary }) {
+  const parts = [
+    `Company: ${company}`,
+    `Contact person: ${person}`,
+    `Email: ${email}`
+  ];
+
+  if (phone && phone !== '-') {
+    parts.push(`Phone: ${phone}`);
+  }
+
+  if (comment && comment !== '-') {
+    parts.push(`Comment: ${comment}`);
+  }
+
+  if (orderSummary) {
+    parts.push(orderSummary);
+  }
+
+  return parts.join('\n\n').trim();
+}
+
+function buildQuickContactMessage(messageValue, hasFile, associationQuote) {
+  const parts = [];
+  const normalizedMessage = String(messageValue || '').trim();
+
+  if (normalizedMessage) {
+    parts.push(normalizedMessage);
+  }
+
+  if (associationQuote) {
+    parts.push(getAssociationQuoteEmailSummary(associationQuote));
+  }
+
+  if (hasFile) {
+    parts.push('Attachment included by client.');
+  }
+
+  return parts.join('\n\n').trim() || '-';
+}
+
 nameInput?.addEventListener('input', () => clearFieldError(nameInput));
 emailInput?.addEventListener('input', () => clearFieldError(emailInput));
 
@@ -2634,15 +2533,19 @@ form?.addEventListener('submit', async (e) => {
       payload,
       isAssociationQuote
         ? `Talcon.ee | Apartment association quote | ${nameValue}`
-        : `Talcon.ee | Quick contact | ${nameValue}`,
-      emailValue
+        : `Talcon.ee | Quick contact | ${nameValue}`
     );
     payload.append('request_type', isAssociationQuote ? 'association_quote' : 'quick_contact');
     payload.append('name', nameValue);
     payload.append('email', emailValue);
     payload.append('name_or_company', nameValue);
     payload.append('contact_email', emailValue);
-    payload.append('message', messageField?.value.trim() || '-');
+    const messageBody = buildQuickContactMessage(
+      messageField?.value.trim() || '',
+      Boolean(fileInput?.files && fileInput.files.length > 0),
+      associationQuote
+    );
+    payload.append('message', messageBody);
 
     if (associationQuote) {
       payload.append('quote_source', 'apartment_association_calculator');
@@ -2666,13 +2569,8 @@ form?.addEventListener('submit', async (e) => {
       payload.append('attachment', fileInput.files[0]);
     }
 
-    const { usedFallback } = await sendSubmissionWithFallback(payload, form);
-
-    setHint(
-      usedFallback
-        ? `${t('formSent', 'Sent! We will contact you soon.')} ${MAILBOX_EMAIL}`
-        : t('formSent', 'Sent! We will contact you soon.')
-    );
+    await sendSubmission(payload);
+    setHint(t('formSent', 'Sent! We will contact you soon.'));
     form.reset();
     hasInvalidAttachment = false;
     clearFileError();
@@ -2680,11 +2578,7 @@ form?.addEventListener('submit', async (e) => {
     updateFileHint();
   } catch (err) {
     console.error(err);
-    const activationNeeded = /activation/i.test(String(err?.message || ''));
-    const message = activationNeeded
-      ? t('mailActivationNeeded', 'For first-time sending, open the FormSubmit activation link from your email inbox.')
-      : t('formError', 'Something went wrong. Please try again.');
-    setHint(message, true, false);
+    setHint(t('formError', 'Something went wrong. Please try again.'), true, false);
   } finally {
     submitBtn?.removeAttribute('disabled');
     submitBtn?.removeAttribute('aria-busy');
