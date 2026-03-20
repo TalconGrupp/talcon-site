@@ -77,7 +77,7 @@ const langSwitch = document.getElementById('langSwitch');
 const trustBadgesPanel = document.querySelector('.trust-badges');
 const MAILBOX_EMAIL = 'talcon.grupp@gmail.com';
 const EMAILJS_SERVICE_ID = 'service_7aj5q7v';
-const EMAILJS_TEMPLATE_ID = '4ykeest';
+const EMAILJS_TEMPLATE_ID = 'template_v401j9p';
 const EMAILJS_PUBLIC_KEY = 'OngiIrAn9d_2-sGmW';
 const EMAILJS_ENDPOINT = 'https://api.emailjs.com/api/v1.0/email/send-form';
 
